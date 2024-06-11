@@ -94,10 +94,10 @@ Arrays are a fundamental data structure in JavaScript used to store ordered coll
 
 #### Important Points to Note
 
-    - Dynamic Nature: JavaScript arrays are dynamic, allowing elements to be added or removed and resizing automatically.
-    - Sparse Arrays: Arrays can be sparse, meaning they can have "holes" with undefined values between indices.
-    - Type Flexibility: Arrays can contain elements of different types, including other arrays (multidimensional arrays).
-    - Built-in Methods: JavaScript provides a variety of built-in methods for array manipulation (e.g., map, reduce, filter, some, every, find, sort, reverse).
-    - Performance Considerations: While JavaScript arrays are versatile, some operations (like inserting/removing elements at the beginning or middle) can be slow due to the need to re-index subsequent elements.
+- Dynamic Nature: JavaScript arrays are dynamic, allowing elements to be added or removed and resizing automatically.
+- Sparse Arrays: Arrays can be sparse, meaning they can have "holes" with undefined values between indices.
+- Type Flexibility: Arrays can contain elements of different types, including other arrays (multidimensional arrays).
+- Built-in Methods: JavaScript provides a variety of built-in methods for array manipulation (e.g., map, reduce, filter, some, every, find, sort, reverse).
+- Performance Considerations: While JavaScript arrays are versatile, some operations (like inserting/removing elements at the beginning or middle) can be slow due to the need to re-index subsequent elements.
 
 Understanding these operations and their complexities helps in writing efficient and effective JavaScript code when working with arrays.
