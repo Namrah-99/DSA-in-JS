@@ -125,7 +125,7 @@ Here's a list of 50+ interview problems that can be efficiently solved using dat
     - Time Complexity: O(n)
     - Efficiency: Use a HashMap to map characters in the pattern to words in the string.
 
-26. **Subarray Sum Equals K
+26. **Subarray Sum Equals K**
     - Description: Find the total number of continuous subarrays whose sum equals a given k.
     - Time Complexity: O(n)
     - Efficiency: Use a HashMap to store prefix sums and their frequencies.
