@@ -458,3 +458,358 @@ const string = array.toString(); // "Hello,world"
 
 </p>
 </details>
+
+###### 12. How can you filter elements in an array based on a condition?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const evenNumbers = numbers.filter(num => num % 2 === 0); // [2, 4]
+
+
+const numbers = [1, 2, 3, 4, 5];
+const evenNumbers = [];
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers[i] % 2 === 0) {
+    evenNumbers.push(numbers[i]);
+  }
+}
+```
+- filter(callbackFunction): Creates a new array containing elements that pass the test implemented by the provided function.
+- The for loop in JavaScript repeats a block of code a specified number of times, based on a condition, typically used for iterating over arrays or other iterable objects.
+
+### Time Complexity
+
+#### Using filter():
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const evenNumbers = numbers.filter(num => num % 2 === 0); // [2, 4]
+```
+- Time Complexity: O(n)
+- Explanation: The filter() method iterates through each element of the array once, applying the given callback function to check if the element should be included in the resulting array. Therefore, the time complexity is O(n), where n is the number of elements in the array.
+
+#### Using a for Loop:
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const evenNumbers = [];
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers[i] % 2 === 0) {
+    evenNumbers.push(numbers[i]);
+  }
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates through each element of the array once, checking if each element is even and then adding it to the evenNumbers array if it is. This results in a time complexity of O(n), where n is the number of elements in the array.
+
+</p>
+</details>
+
+###### 13. How can you map over an array and modify its elements?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const squaredNumbers = numbers.map(num => num * num); // [1, 4, 9, 16, 25]
+
+const numbers = [1, 2, 3, 4, 5];
+const squaredNumbers = [];
+for (let i = 0; i < numbers.length; i++) {
+  squaredNumbers.push(numbers[i] * numbers[i]);
+}
+```
+
+- map is useful for transforming each element in an array based on the logic defined in the callback function. It creates a new array with the transformed elements.
+- The for loop in JavaScript repeats a block of code a specified number of times, based on a condition, typically used for iterating over arrays or other iterable objects.
+
+### Time Complexity
+
+#### Using map():
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const squaredNumbers = numbers.map(num => num * num); // [1, 4, 9, 16, 25]
+```
+- Time Complexity: O(n)
+- Explanation: The map() method iterates through each element of the array once, applying the given callback function to compute the square of each number. Therefore, the time complexity is O(n), where n is the number of elements in the array.
+#### Using a for Loop:
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const squaredNumbers = [];
+for (let i = 0; i < numbers.length; i++) {
+  squaredNumbers.push(numbers[i] * numbers[i]);
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates through each element of the array once, computing the square of each number and adding it to the squaredNumbers array. This results in a time complexity of O(n), where n is the number of elements in the array.
+
+</p>
+</details>
+
+###### 14. How can you reduce an array to a single value?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using reduce()
+const numbers = [1, 2, 3, 4, 5];
+const sum = numbers.reduce((acc, curr) => acc + curr, 0); // 15
+
+// Method 2: Using a for loop
+const numbers = [1, 2, 3, 4, 5];
+let sum = 0;
+for (let i = 0; i < numbers.length; i++) {
+  sum += numbers[i];
+}
+```
+
+- map is useful for transforming each element in an array based on the logic defined in the callback function. It creates a new array with the transformed elements.
+- The for loop in JavaScript repeats a block of code a specified number of times, based on a condition, typically used for iterating over arrays or other iterable objects.
+
+### Time Complexity
+#### Using reduce():
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const sum = numbers.reduce((acc, curr) => acc + curr, 0); // 15
+```
+- Time Complexity: O(n)
+- Explanation: The reduce() method iterates through each element of the array once, applying the given callback function to compute the sum. Therefore, the time complexity is O(n), where n is the number of elements in the array.
+#### Using a for Loop:
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+let sum = 0;
+for (let i = 0; i < numbers.length; i++) {
+  sum += numbers[i];
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates through each element of the array once, adding each element to the sum variable. This results in a time complexity of O(n), where n is the number of elements in the array.
+
+</p>
+</details>
+
+###### 15. How can you check if all elements in an array pass a certain condition?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using every()
+const numbers = [2, 4, 6, 8, 10];
+const allEven = numbers.every(num => num % 2 === 0); // true
+
+// Method 2: Using a for loop
+const numbers = [2, 4, 6, 8, 10];
+let allEven = true;
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers[i] % 2 !== 0) {
+    allEven = false;
+    break;
+  }
+}
+```
+- every performs a test on each element in the array and returns true only if all elements pass the condition defined in the callback function.
+- The for loop in JavaScript repeats a block of code a specified number of times, based on a condition, typically used for iterating over arrays or other iterable objects.
+
+### Time Complexity
+#### Using every():
+```javascript
+const numbers = [2, 4, 6, 8, 10];
+const allEven = numbers.every(num => num % 2 === 0); // true
+```
+- Time Complexity: O(n)
+- Explanation: The every() method iterates through each element of the array until it finds an element that does not satisfy the provided condition. In the worst case, it checks every element, resulting in a time complexity of O(n), where n is the number of elements in the array.
+#### Using a for Loop:
+```javascript
+const numbers = [2, 4, 6, 8, 10];
+let allEven = true;
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers[i] % 2 !== 0) {
+    allEven = false;
+    break;
+  }
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates through each element of the array until it finds an element that does not satisfy the condition. In the worst case, it checks every element, resulting in a time complexity of O(n), where n is the number of elements in the array.
+
+</p>
+</details>
+
+###### 16. How can you check if any element in an array passes a certain condition?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [1, 2, 3, 4];
+
+// Method 1: some()
+const hasEven = numbers.some(number => number % 2 === 0); // true (2 is even)
+
+// Method 2: filter().length > 0
+const hasGreaterThanThree = numbers.filter(number => number > 3).length > 0; // true (4)
+
+console.log(hasEven); // true
+console.log(hasGreaterThanThree); // true
+```
+
+- some(callbackFunction): Returns true if at least one element in the array satisfies the test implemented by the provided function. Otherwise, it returns false.
+- filter(callbackFunction).length > 0: This approach filters elements based on the condition and checks if the resulting array has any elements (length greater than 0).
+
+### Time Complexity
+#### Using some():
+```javascript
+const numbers = [1, 2, 3, 4];
+const hasEven = numbers.some(number => number % 2 === 0); // true (2 is even)
+```
+- Time Complexity: O(n)
+- Explanation: The some() method iterates through the elements of the array until it finds an element that satisfies the provided condition. In the worst case, it checks every element, resulting in a time complexity of O(n), where n is the number of elements in the array.
+#### Using filter().length > 0:
+```javascript
+const numbers = [1, 2, 3, 4];
+const hasGreaterThanThree = numbers.filter(number => number > 3).length > 0; // true (4)
+```
+- Time Complexity: O(n)
+- Explanation: The filter() method iterates through all elements of the array to apply the condition and create a new array of elements that satisfy the condition. Then, checking the length of this new array is an O(1) operation. Overall, the process results in a time complexity of O(n), where n is the number of elements in the array.
+
+</p>
+</details>
+
+###### 17. How can you find the maximum and minimum values in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [1, 5, 2, 8, 3];
+
+// Method 1: Math.max and Math.min with spread syntax
+const maxNumber = Math.max(...numbers); // 8
+const minNumber = Math.min(...numbers); // 1
+
+// Method 2: reduce() for max
+const maxWithReduce = numbers.reduce((max, number) => Math.max(max, number), -Infinity); // 8 (initial value ensures all elements are considered)
+
+console.log(maxNumber); // 8
+console.log(minNumber); // 1
+console.log(maxWithReduce); // 8
+```
+
+- Math.max(...array): Spreads the array elements and uses Math.max to find the highest value.
+- Math.min(...array): Spreads the array elements and uses Math.min to find the lowest value.
+- reduce(callbackFunction, initialValue): This method can be used with a custom callback function to find the maximum or minimum value.
+
+### Time Complexity
+#### Using Math.max and Math.min with spread syntax:
+```javascript
+const numbers = [1, 5, 2, 8, 3];
+const maxNumber = Math.max(...numbers); // 8
+const minNumber = Math.min(...numbers); // 1
+```
+- Time Complexity: O(n)
+- Explanation: The spread operator ...numbers creates a new list of arguments for Math.max and Math.min, which both iterate through the elements of the array to find the maximum and minimum values, respectively. The iteration is O(n) for both Math.max and Math.min.
+#### Using reduce() for max:
+```javascript
+const maxWithReduce = numbers.reduce((max, number) => Math.max(max, number), -Infinity); // 8
+```
+- Time Complexity: O(n)
+- Explanation: The reduce() method iterates through all elements of the array to apply the provided function, comparing each element to the current maximum value. The overall time complexity is O(n).
+
+</p>
+</details>
+
+###### 18. How can you flatten a nested array in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const nestedArray = [1, [2, 3], [4, [5, 6]]];
+
+function flattenConcat(arr) {
+  return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flattenConcat(val) : val), []);
+}
+
+const flattenedConcat = flattenConcat(nestedArray);
+console.log(flattenedConcat); // [1, 2, 3, 4, 5, 6]
+
+```
+- concat(): Recursively use concat to combine the outer array with the result of flattening its inner arrays.
+- reduce: Use reduce with a custom callback function that recursively flattens nested arrays.
+
+- Time Complexity: O(n)
+- Explanation: The flattenConcat function uses reduce() to iterate through each element of the array. For each element that is an array, it recursively calls flattenConcat. While each concat operation itself is O(n), where n is the length of the accumulator array (acc), the overall time complexity for flattening a deeply nested array still remains O(n) due to the overhead of recursion and concat operations combined.
+
+
+</p>
+</details>
+
+###### 19. How can you split an array into chunks of a certain size?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
+const chunkSize = 3;
+
+function splitIntoChunks(arr, chunkSize) {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    const chunk = arr.slice(i, i + chunkSize);
+    chunks.push(chunk);
+  }
+  return chunks;
+}
+
+const chunkedNumbers = splitIntoChunks(numbers, chunkSize);
+
+console.log(chunkedNumbers); // [[1, 2, 3], [4, 5, 6], [7, 8]]
+```
+
+- slice(startIndex, endIndex): Use a loop to iterate through the array, creating chunks of the desired size using slice.
+- Explanation:
+    - The splitIntoChunks function iterates through the array using a loop, keeping track of the starting index (i).
+    - In each iteration, it uses slice to extract a chunk of the desired size (chunkSize) from the original array starting at the current index (i).
+    - The extracted chunk is then pushed into the chunks array.
+    - Finally, the function returns the chunks array containing all the sub-arrays.
+
+- Time Complexity: O(n)
+- Explanation: The function iterates through the input array once, creating a new chunk array for each iteration. The slice operation inside the loop also has a time complexity of O(chunkSize), but since the chunk size is fixed and does not depend on the input array size, the dominant factor is the loop itself, which iterates over each element in the input array exactly once, resulting in a linear time complexity of O(n), where n is the number of elements in the input array.
+
+</p>
+</details>
+
+###### 20. How can you shuffle an array in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const letters = ["a", "b", "c", "d", "e"];
+
+function shuffleArray(arr) {
+  arr.sort(() => Math.random() - 0.5); // random sort
+}
+
+shuffleArray(letters);
+
+console.log(letters); // Shuffled order (e.g., ["c", "e", "a", "d", "b"])
+```
+
+- sort(comparisonFunction): Define a custom comparison function that randomly returns -1, 0, or 1 to shuffle the elements in place.
+- Explanation:
+    - The shuffleArray function uses sort with a custom comparison function.
+    - The comparison function uses Math.random() to generate a random number between 0 and 1.
+        - If the random number is less than 0.5, it returns -1, effectively swapping the elements.
+        - If it's greater than 0.5, it returns 1, leaving the elements in their original order.
+        - If it's exactly 0.5, it returns 0, which doesn't affect the order.
+    - This approach randomly shuffles the elements in the original array.
+
+### Time Complexity
+The time complexity of shuffling an array using the sort method with a random comparison function is O(n log n), where n is the number of elements in the array.
+
+Explanation:
+
+- The sort method in JavaScript uses an efficient sorting algorithm (usually a variation of quicksort or mergesort) with an average time complexity of O(n log n).
+- The comparison function (a, b) => Math.random() - 0.5 is called multiple times during the sorting process. Since the sorting algorithm's complexity dominates the number of comparisons, the overall time complexity is O(n log n).
+
+**Note:** While the actual sorting operation is O(n log n), the use of a random comparison function like in this case does not guarantee a perfect shuffle. For a more precise shuffle, consider using the Fisher-Yates shuffle algorithm, which has a time complexity of O(n).
+
+</p>
+</details>
