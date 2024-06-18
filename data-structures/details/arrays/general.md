@@ -2432,13 +2432,33 @@ console.log(denseArray); // [1, 4, 5]
 <p>
 
 ```javascript
+// Method 1: Using the concat method
+const mergedArray = array1.concat(array2, array3);
 
+// Method 2: Using the spread operator
+const mergedArray = [...array1, ...array2, ...array3];
 ```
 
-
+- concat(): Concatenates multiple arrays (spread syntax can be used for readability).
+- Spread syntax with ...: Uses the spread operator to expand each array into individual elements during concatenation.
 
 ### Time Complexity
-
+#### Method 1: Using the concat method
+```javascript
+const mergedArray = array1.concat(array2, array3);
+```
+- Time Complexity: O(n + m + p)
+- Explanation:
+    - The concat method creates a new array and iterates over each element of array1, array2, and array3 to copy them into the new array.
+    - If array1 has n elements, array2 has m elements, and array3 has p elements, the time complexity is O(n + m + p).
+#### Method 2: Using the spread operator
+```javascript
+const mergedArray = [...array1, ...array2, ...array3];
+```
+- Time Complexity: O(n + m + p)
+- Explanation:
+    - The spread operator ... also creates a new array and iterates over each element of array1, array2, and array3 to copy them into the new array.
+    - Similar to the concat method, if array1 has n elements, array2 has m elements, and array3 has p elements, the time complexity is O(n + m + p).
 </p>
 </details>
 
@@ -2447,12 +2467,61 @@ console.log(denseArray); // [1, 4, 5]
 <p>
 
 ```javascript
+// Method 1: filter and comparison: Filters elements from the second array that are not present in the first array.
+const array1 = [1, 2, 3, 4];
+const array2 = [2, 3, 5, 6];
 
+const difference = array2.filter(num => !array1.includes(num)); // [5, 6]
+
+console.log(difference); // [5, 6]
+
+// Method 2: Set difference: Utilizes the Set data structure to efficiently remove duplicates and find the difference.
+JavaScript
+const set1 = new Set(array1);
+const difference = array2.filter(num => !set1.has(num)); // [5, 6]
+
+console.log(difference); // [5, 6]
 ```
 
-
+- The first method iterates through the second array, keeping only elements not found (using includes) in the first array.
+- The second method leverages Sets, which don't allow duplicates. By creating a Set from the first array and filtering the second array based on the Set's membership, you get the difference.
 
 ### Time Complexity
+#### Method 1: Filter and Comparison
+```javascript
+const array1 = [1, 2, 3, 4];
+const array2 = [2, 3, 5, 6];
+
+const difference = array2.filter(num => !array1.includes(num)); // [5, 6]
+
+console.log(difference); // [5, 6]
+```
+- Time Complexity: O(m * n)
+- Explanation:
+    - The filter method iterates over array2, which has m elements.
+    - For each element in array2, the includes method checks if the element is in array1, which has n elements.
+    - The includes method itself is O(n) since it performs a linear search.
+    - Therefore, the time complexity is O(m * n).
+#### Method 2: Set Difference
+```javascript
+const array1 = [1, 2, 3, 4];
+const array2 = [2, 3, 5, 6];
+
+const set1 = new Set(array1);
+const difference = array2.filter(num => !set1.has(num)); // [5, 6]
+
+console.log(difference); // [5, 6]
+```
+- Time Complexity: O(n + m)
+- Explanation:
+    - Creating a Set from array1 takes O(n) time, where n is the number of elements in array1.
+    - The filter method iterates over array2, which has m elements.
+    - For each element in array2, the has method of the Set checks if the element is in the set. The has method is O(1) on average.
+    - Therefore, the time complexity is O(n + m).
+- Summary
+    - Method 1: Filter and Comparison has a time complexity of O(m * n).
+    - Method 2: Set Difference has a time complexity of O(n + m).
+    - The Set-based method is more efficient for finding the difference between two arrays, especially when the arrays are large.
 
 </p>
 </details>
@@ -2462,12 +2531,82 @@ console.log(denseArray); // [1, 4, 5]
 <p>
 
 ```javascript
+// Method 1: slice and indexOf(): Creates a subarray starting from the specified index and uses indexOf to find the element's index within that subarray.
+const numbers = [10, 20, 30, 10, 10];
+const startIndex = 2; // Start searching from index 2
+const element = 10;
 
+const subarray = numbers.slice(startIndex);
+const index = subarray.indexOf(element);
+
+console.log(index === -1 ? -1 : index + startIndex); // 3 (if element is found)
+// Method 2: for loop 
+function findIndexFrom(array, targetElement, startIndex) {
+  for (let i = startIndex; i < array.length; i++) {
+    if (array[i] === targetElement) {
+      return i;
+    }
+  }
+  return -1; // Return -1 if the element is not found
+}
+
+// Example usage
+const array = [1, 2, 3, 4, 5, 3, 6];
+const startIndex = 3;
+const targetElement = 3;
+const index = findIndexFrom(array, targetElement, startIndex);
+
+console.log(index); // Output: 5
 ```
 
-
+- slice extracts a portion of the array from the specified starting index (inclusive).
+- indexOf is then used on the subarray to find the element's index relative to the starting index. We add startIndex to account for the original array's starting position.
 
 ### Time Complexity
+#### Method 1: Slice and IndexOf
+```javascript
+const numbers = [10, 20, 30, 10, 10];
+const startIndex = 2; // Start searching from index 2
+const element = 10;
+
+const subarray = numbers.slice(startIndex);
+const index = subarray.indexOf(element);
+
+console.log(index === -1 ? -1 : index + startIndex); // 3 (if element is found)
+```
+- Time Complexity: O(n - startIndex)
+- Explanation:
+    - The slice method creates a subarray starting from startIndex. This takes O(n - startIndex) time.
+    - The indexOf method searches for the element in the subarray. This takes O(n - startIndex) time.
+    - Therefore, the overall time complexity is O(n - startIndex) + O(n - startIndex) = O(n - startIndex).
+#### Method 2: For Loop
+```javascript
+function findIndexFrom(array, targetElement, startIndex) {
+  for (let i = startIndex; i < array.length; i++) {
+    if (array[i] === targetElement) {
+      return i;
+    }
+  }
+  return -1; // Return -1 if the element is not found
+}
+
+// Example usage
+const array = [1, 2, 3, 4, 5, 3, 6];
+const startIndex = 3;
+const targetElement = 3;
+const index = findIndexFrom(array, targetElement, startIndex);
+
+console.log(index); // Output: 5
+```
+- Time Complexity: O(n - startIndex)
+- Explanation:
+    - The for loop iterates through the array starting from startIndex to the end of the array. This takes O(n - startIndex) time.
+    - In each iteration, it performs a constant-time comparison.
+    - Therefore, the overall time complexity is O(n - startIndex).
+- Summary
+    - Method 1: Slice and IndexOf has a time complexity of O(n - startIndex).
+    - Method 2: For Loop has a time complexity of O(n - startIndex).
+    - Both methods have the same time complexity, but the for loop method avoids creating an additional subarray and might be slightly more efficient in practice due to lower overhead.
 
 </p>
 </details>
@@ -2477,13 +2616,61 @@ console.log(denseArray); // [1, 4, 5]
 <p>
 
 ```javascript
+// Method 1: Set comparison: Creates a Set from the array and compares its size to the original array's length.
+const numbers = [1, 2, 3, 4];
+const unique = new Set(numbers).size === numbers.length; // true (no duplicates)
 
+console.log(unique); // true
+
+// method 2: indexOf with comparison: Iterates through the array, checking if the current element's index using indexOf is the same as its current position (no previous occurrences).
+const numbers = [1, 2, 3, 4];
+let unique = true;
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers.indexOf(numbers[i]) !== i) {
+    unique = false;
+    break;
+  }
+}
+
+console.log(unique); // true
 ```
 
-
+- The Set approach is generally faster and more concise, especially for larger arrays.
+- The indexOf approach might be helpful if you need to perform additional actions upon finding a duplicate element.
 
 ### Time Complexity
-
+#### Method 1: Set Comparison
+```javascript
+const numbers = [1, 2, 3, 4];
+const unique = new Set(numbers).size === numbers.length; // true (no duplicates)
+console.log(unique); // true
+```
+- Time Complexity: O(n)
+- Explanation:
+    - Creating a Set from an array involves iterating through the array and inserting each element into the set. This takes O(n) time.
+    - Checking the size of the set and comparing it to the array's length is a constant-time operation, O(1).
+    - Therefore, the overall time complexity is O(n).
+#### Method 2: IndexOf with Comparison
+```javascript
+const numbers = [1, 2, 3, 4];
+let unique = true;
+for (let i = 0; i < numbers.length; i++) {
+  if (numbers.indexOf(numbers[i]) !== i) {
+    unique = false;
+    break;
+  }
+}
+console.log(unique); // true
+```
+- Time Complexity: O(n^2)
+- Explanation:
+    - The for loop iterates through the array, taking O(n) time.
+    - Inside the loop, indexOf is called for each element. In the worst case, indexOf iterates through the entire array to find the element, which takes O(n) time.
+    - Therefore, for each of the n elements, indexOf could take O(n) time, resulting in an overall time complexity of O(n) * O(n) = O(n^2).
+- Summary
+    - Method 1: Set Comparison has a time complexity of O(n).
+    - Method 2: IndexOf with Comparison has a time complexity of O(n^2).
+Method 1 is significantly more efficient than Method 2 for checking the uniqueness of elements in an array.
 </p>
 </details>
 
@@ -2492,13 +2679,79 @@ console.log(denseArray); // [1, 4, 5]
 <p>
 
 ```javascript
+// Method 1: Loop with counters: Iterates through the array, keeping track of the current sequence length and the longest sequence found so far.
+const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
+const value = 2;
+let currentCount = 0;
+let longestCount = 0;
+for (const num of numbers) {
+  if (num === value) {
+    currentCount++;
+  } else {
+    longestCount = Math.max(longestCount, currentCount);
+    currentCount = 0;
+  }
+}
+longestCount = Math.max(longestCount, currentCount); // Account for potential sequence at the end
+console.log(longestCount); // 3 (longest sequence of 2s)
 
+// Method 2: reduce with conditional accumulation: Uses reduce to iterate through the array and build the longest sequence length based on conditions.
+const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
+const value = 2;
+
+const longestCount = numbers.reduce((longest, num) => {
+  return (num === value) ? Math.max(longest + 1, 0) : longest; // Update or reset based on value
+}, 0); // Initialize longest with 0
+
+console.log(longestCount); // 3 (longest sequence of 2s)
 ```
 
-
+- The first approach uses a loop with counters to track the current sequence length and the longest sequence encountered so far.
+- The second approach utilizes reduce to iterate and conditionally update the longest variable. If the current element matches the value, the longest is potentially extended by 1. Otherwise, it's reset to 0 to start counting a new sequence.
 
 ### Time Complexity
+#### Method 1: Loop with Counters
+```javascript
+const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
+const value = 2;
+let currentCount = 0;
+let longestCount = 0;
+for (const num of numbers) {
+  if (num === value) {
+    currentCount++;
+  } else {
+    longestCount = Math.max(longestCount, currentCount);
+    currentCount = 0;
+  }
+}
+longestCount = Math.max(longestCount, currentCount); // Account for potential sequence at the end
+console.log(longestCount); // 3 (longest sequence of 2s)
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The for loop iterates through the array once, taking O(n) time, where n is the length of the array.
+    - Inside the loop, the operations (conditional check, increment, assignment) are all O(1) constant-time operations.
+    - Therefore, the overall time complexity is O(n).
+#### Method 2: Reduce with Conditional Accumulation
+```javascript
+const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
+const value = 2;
 
+const longestCount = numbers.reduce((longest, num) => {
+  return (num === value) ? Math.max(longest + 1, 0) : longest; // Update or reset based on value
+}, 0); // Initialize longest with 0
+
+console.log(longestCount); // 3 (longest sequence of 2s)
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The reduce method iterates through the array once, taking O(n) time, where n is the length of the array.
+    - The operations inside the reduce callback (conditional check, arithmetic operations, and Math.max function) are all O(1) constant-time operations.
+    - Therefore, the overall time complexity is O(n).
+- Summary
+    - Method 1: Loop with Counters has a time complexity of O(n).
+    - Method 2: Reduce with Conditional Accumulation also has a time complexity of O(n).
+    - Both methods are efficient and have the same linear time complexity for finding the longest sequence of a specified value in an array.
 </p>
 </details>
 
