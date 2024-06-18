@@ -2760,13 +2760,96 @@ console.log(longestCount); // 3 (longest sequence of 2s)
 <p>
 
 ```javascript
+// Method 1: Using a Map
+function countOccurrences(array) {
+  const map = new Map();
+  array.forEach(item => {
+    map.set(item, (map.get(item) || 0) + 1);
+  });
+  return map;
+}
+
+// Method 2: Using an Object
+function countOccurrences(array) {
+  const counts = {};
+  array.forEach(item => {
+    counts[item] = (counts[item] || 0) + 1;
+  });
+  return counts;
+}
+
+// Example usage
+const array = [1, 2, 1, 3, 4, 2, 1, 3];
+console.log(countOccurrences(array));
+
+// Method 3: 
+const numbers = [10, 20, 30, 10, 10, 20];
+
+const frequency = numbers.reduce((acc, num) => {
+  acc[num] = (acc[num] || 0) + 1;
+  return acc;
+}, {}); // Initialize accumulator as an empty object
+
+console.log(frequency); // {10: 3, 20: 2, 30: 1}
 
 ```
 
-
+- Method 1: Using a Map: This method uses a Map to store the count of each element.
+- Method 2: Using an Object: This method uses an object to store the count of each element.
+- Method 3: reduce with object creation: Employs reduce to iterate through the array and build an object where keys are elements and values are their frequencies.
 
 ### Time Complexity
+#### Method 1: Using a Map
+```javascript
+function countOccurrences(array) {
+  const map = new Map();
+  array.forEach(item => {
+    map.set(item, (map.get(item) || 0) + 1);
+  });
+  return map;
+}
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The forEach method iterates through the array once, taking O(n) time, where n is the length of the array.
+    - The operations inside the forEach callback (getting and setting values in the Map) are O(1) on average.
+    - Therefore, the overall time complexity is O(n).
+#### Method 2: Using an Object
+```javascript
+function countOccurrences(array) {
+  const counts = {};
+  array.forEach(item => {
+    counts[item] = (counts[item] || 0) + 1;
+  });
+  return counts;
+}
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The forEach method iterates through the array once, taking O(n) time, where n is the length of the array.
+    - The operations inside the forEach callback (getting and setting properties in the object) are O(1) on average.
+    - Therefore, the overall time complexity is O(n).
+#### Method 3: Using Reduce
+```javascript
+const numbers = [10, 20, 30, 10, 10, 20];
 
+const frequency = numbers.reduce((acc, num) => {
+  acc[num] = (acc[num] || 0) + 1;
+  return acc;
+}, {}); // Initialize accumulator as an empty object
+
+console.log(frequency); // {10: 3, 20: 2, 30: 1}
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The reduce method iterates through the array once, taking O(n) time, where n is the length of the array.
+    - The operations inside the reduce callback (getting and setting properties in the object) are O(1) on average.
+    - Therefore, the overall time complexity is O(n).
+- Summary
+    - Method 1: Using a Map has a time complexity of O(n).
+    - Method 2: Using an Object has a time complexity of O(n).
+    - Method 3: Using Reduce also has a time complexity of O(n).
+All three methods are efficient and have the same linear time complexity for counting the occurrences of elements in an array.
 </p>
 </details>
 
@@ -2775,13 +2858,34 @@ console.log(longestCount); // 3 (longest sequence of 2s)
 <p>
 
 ```javascript
+// Method 1: Using the slice
+const numbers = [10, 20, 30, 40, 50];
+const n = 2;
 
+const shortenedArray = numbers.slice(0, -n); // Exclude the last n elements
+
+console.log(shortenedArray); // [10, 20, 30]
+
+// Method 2: Using the splice
+const numbers = [10, 20, 30, 40, 50];
+const n = 2;
+
+numbers.splice(-n); // Remove the last n elements
+
+console.log(numbers); // [10, 20, 30]
 ```
 
-
+- Method 1: Using slice method: This method creates a new array containing all elements except the last n elements.
+- Method 2: Using splice method: This method modifies the original array by removing elements starting from index array.length - n.
 
 ### Time Complexity
+#### Method 1: Using the slice
+- Time Complexity: O(1) (constant time complexity)
+- Explanation: The slice() method creates a new array and copies the elements from the original array, excluding the last n elements. This operation takes constant time, as it does not depend on the size of the input array.
 
+#### Method 2: Using the splice
+- Time Complexity: O(n)
+- Explanation: The splice() method modifies the original array by removing the last n elements. This operation takes linear time, as it needs to iterate through the array to find the last n elements.
 </p>
 </details>
 
@@ -2790,12 +2894,41 @@ console.log(longestCount); // 3 (longest sequence of 2s)
 <p>
 
 ```javascript
+// Method 1: Using splice method
+function addElementsAtIndex(array, index, ...elements) {
+  array.splice(index, 0, ...elements);
+  return array;
+}
 
+const numbers = [10, 20, 30];
+const index = 1; // Insert after the first element
+const elementsToAdd = [40, 50];
+
+numbers.splice(index, 0, ...elementsToAdd); // Insert at index, remove 0 elements, spread the elements to add
+
+console.log(numbers); // [10, 40, 50, 20, 30]
+
+// Method 2: Using spread operator and splice method
+function addElementsAtIndex(array, index, ...elements) {
+  return [...array.slice(0, index), ...elements, ...array.slice(index)];
+}
+
+// Example usage
+let array = [1, 2, 3, 4, 5];
+console.log(addElementsAtIndex(array, 2, 6, 7)); // Output: [1, 2, 6, 7, 3, 4, 5]
 ```
 
-
+- Method 1: Using splice method: This method modifies the original array by adding elements at the specified index.
+- Method 2: Using spread operator and splice method: This method creates a new array with the added elements without modifying the original array.
 
 ### Time Complexity
+#### Method 1: Using splice method
+  - Time Complexity: O(n)
+  - Explanation: The splice() method modifies the original array by inserting the new elements at the specified index, which takes linear time proportional to the number of elements in the array.
+
+#### Method 2: Using spread operator and slice method
+  - Time Complexity: O(n)
+  - Explanation: The slice() method creates a new array by copying elements from the original array up to the specified index, which takes linear time proportional to the number of elements in the array. The spread operator (...) creates a new array by concatenating multiple arrays, which also takes linear time proportional to the total number of elements being concatenated. Therefore, the overall time complexity is O(n)
 
 </p>
 </details>
@@ -2805,12 +2938,43 @@ console.log(longestCount); // 3 (longest sequence of 2s)
 <p>
 
 ```javascript
+// Method 1: Using filter method
+function removeElementsByIndex(array, indexes) {
+  return array.filter((_, index) => !indexes.includes(index));
+}
 
+// Method 2: Using splice method
+function removeElementsByIndex(array, indexes) {
+  indexes.sort((a, b) => b - a).forEach(index => {
+    array.splice(index, 1);
+  });
+  return array;
+}
+
+// Example usage
+let array = [1, 2, 3, 4, 5];
+console.log(removeElementsByIndex(array, [1, 3])); // Output: [1, 3, 5]
+
+const numbers = [10, 20, 30, 40, 50];
+const index = 2; // Remove starting from the second element
+const countToRemove = 2; // Remove 2 elements
+
+numbers.splice(index, countToRemove);
+
+console.log(numbers); // [10, 20, 50]
 ```
 
-
+- Method 1: Using filter method: This method creates a new array with elements that do not match the specified indexes.
+- Method 2: Using splice method: This method modifies the original array by removing elements at the specified indexes.
 
 ### Time Complexity
+#### Method 1: Using filter method
+  - Time Complexity: O(n)
+  - Explanation: The filter() method iterates through the array once, taking O(n) time, where n is the length of the array. The includes() method also takes O(n) time in the worst case (when searching for an element at the end of the array), so the overall time complexity is O(n).
+
+#### Method 2: Using splice method
+  - Time Complexity: O(n)
+  - Explanation: The splice() method modifies the original array by removing elements at specific indices, which takes linear time proportional to the number of elements being removed. In this case, we are removing multiple elements, so the overall time complexity is O(n), where n is the number of elements being removed.
 
 </p>
 </details>
@@ -2820,13 +2984,33 @@ console.log(longestCount); // 3 (longest sequence of 2s)
 <p>
 
 ```javascript
+// Method 1: Using concat and apply methods
+function flattenArray(array) {
+  return [].concat.apply([], array.map(item => Array.isArray(item) ? flattenArray(item) : item));
+}
 
+// Method 2: Using the flat method
+function flattenArray2(array) {
+  return array.flat(Infinity);
+}
+
+// Example usage
+let array = [1, [2, 3], [4, [5, 6]]];
+console.log(flattenArray(array)); // Output: [1, 2, 3, 4, 5, 6]
+console.log(flattenArray2(array));
 ```
 
-
+- Method 1: Using concat and apply methods: This method flattens the array recursively.
+- Method 2: Using the flat method: This method flattens the array up to a specified depth.
 
 ### Time Complexity
+#### Method 1: Using concat and apply methods
+  - Time Complexity: O(n)
+  - Explanation: The map() method iterates through the array once, taking O(n) time, where n is the length of the array. The concat.apply() method also takes O(n) time because it concatenates all the elements in the array. The recursion in the flattenArray function adds an additional factor of n to the time complexity, so the overall time complexity is O(n^2).
 
+#### Method 2: Using the flat method
+  - Time Complexity: O(n)
+  - Explanation: The flat() method is optimized for deeply nested arrays and uses a iterative approach to flatten the array. It has a linear time complexity of O(n), where n is the total number of elements in the array.
 </p>
 </details>
 
