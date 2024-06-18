@@ -3500,11 +3500,11 @@ console.log("Not subset:", !isSubset); // true (using negation)
 ### Time Complexity
 #### Method 1: Using every with includes
   - Time Complexity: O(nm)
-  - The every() method iterates through each element of arr2, and for each element, it checks if it exists in arr1 using the includes() method. This operation takes O(nm) time, where n is the length of arr2 and m is the length of arr1.
+  - Explanation: The every() method iterates through each element of arr2, and for each element, it checks if it exists in arr1 using the includes() method. This operation takes O(nm) time, where n is the length of arr2 and m is the length of arr1.
 
 #### Method 2: Using some with Negation
   - Time Complexity: O(n)
-  - The some() method iterates through each element of subset, and for each element, it checks if it exists in superset using the includes() method. If any element is not found, it returns true immediately. If the loop completes without finding any elements not in superset, it returns false. This operation takes O(n) time, where n is the length of subset.
+  - Explanation: The some() method iterates through each element of subset, and for each element, it checks if it exists in superset using the includes() method. If any element is not found, it returns true immediately. If the loop completes without finding any elements not in superset, it returns false. This operation takes O(n) time, where n is the length of subset.
 
 In Method 1, the time complexity is O(n*m) because it has to check each element of arr2 against all elements of arr1. In Method 2, the time complexity is O(n) because it only needs to check each element of subset once.
 </p>
@@ -3515,26 +3515,56 @@ In Method 1, the time complexity is O(n*m) because it has to check each element 
 <p>
 
 ```javascript
-// Method 1: Using every with includes:
-const isSubset = (arr1, arr2) => arr2.every(element => arr1.includes(element));
-console.log(isSubset([1, 2], [1, 2, 3, 4, 5])); // true
-console.log(isSubset([1, 2, 6], [1, 2, 3, 4, 5])); // false
+// Method 1: Using reduce() and Object
+const words = ["apple", "banana", "apple", "orange", "banana"];
+const wordFrequency = words.reduce((acc, curr) => {
+  acc[curr] = (acc[curr] || 0) + 1;
+  return acc;
+}, {});
+console.log(wordFrequency);
 
-// Method 2: Using some with Negation
-const subset = [10, 20];
-const superset = [10, 20, 30];
-const notSubset = [10, 40];
+// Method 2: Using forEach() and Map
+const wordMap = new Map();
+words.forEach(word => {
+  wordMap.set(word, (wordMap.get(word) || 0) + 1);
+});
+console.log([...wordMap]);
 
-const isSubset = !subset.some(num => !superset.includes(num));
+// Method 3: for...of Loop with Object Creation
+const stringArray = ["apple", "banana", "apple", "orange", "banana"];
 
-console.log("Is subset:", isSubset); // true
-console.log("Not subset:", !isSubset); // true (using negation)
+const wordCounts = {};
+for (const word of stringArray) {
+  if (wordCounts[word]) {
+    wordCounts[word]++;
+  } else {
+    wordCounts[word] = 1;
+  }
+}
+
+console.log(wordCounts); // { apple: 2, banana: 2, orange: 1 }
+
 ```
 
-
+- Method 1: Using reduce() and Object
+    Iterates through the string array, building an object where each key is a unique word and the value is its frequency.
+- Method 3: for...of Loop with Object Creation
+    Iterates through the string array, creating or updating an object to store word frequencies.
 
 ### Time Complexity
+#### Method 1: Using reduce() and Object
+  - Time Complexity: O(n)
+  - Explanation: The reduce() method iterates through the array, and for each element, it updates the accumulator object by incrementing the value for the corresponding key. This operation takes O(n) time, where n is the length of the array.
 
+#### Method 2: Using forEach() and Map
+  - Time Complexity: O(n)
+  - Explanation: The forEach() method iterates through the array, and for each element, it updates the Map by incrementing the value for the corresponding key. This operation takes O(n) time, where n is the length of the array.
+
+#### Method 3: for...of Loop with Object Creation
+  - Time Complexity: O(n)
+  - Explanation: The for...of loop iterates through the array, and for each element, it updates the object by incrementing the value for the corresponding key. This operation takes O(n) time, where n is the length of the array.
+
+All three methods have a time complexity of O(n), where n is the length of the input array. This is because they all iterate through the array once to count the frequency of each word.
 </p>
 </details>
 
@@ -3543,13 +3573,52 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1: slice and concat
+const numbers = [10, 20, 30, 40, 50];
+const positions = 2; // Rotate right by 2 positions
 
+const rotatedArray = numbers.slice(numbers.length - positions).concat(numbers.slice(0, numbers.length - positions));
+
+console.log(rotatedArray); // [40, 50, 10, 20, 30]
+
+console.log(numbers);
+
+const array = [1, 2, 3, 4, 5];
+const rotateBy = 2;
+const rotatedArray = array.slice(-rotateBy).concat(array.slice(0, -rotateBy));
+console.log(rotatedArray);
+
+// Method 2: Using splice() and unshift()
+const array2 = [1, 2, 3, 4, 5];
+const rotateBy2 = 2;
+array2.unshift(...array2.splice(-rotateBy2));
+console.log(array2);
+
+// Method 3: Using forEach
+const newArray2 = [];const array = [1, 2, 3, 4, 5];
+array.forEach(element => {
+  newArray2.push(element === 3 ? 10 : element);
+});
+console.log(newArray2); // [1, 2, 10, 4, 5]
 ```
 
-
+- Method 1: slice and concat
+    Creates a new array by extracting a portion from the end (slice), concatenating it with the remaining elements (concat)
 
 ### Time Complexity
+#### Method 1: Slice and Concat
+- Time Complexity: O(n)
+- Explanation: The slice() method creates two new arrays, one for the part of the original array from the end and one for the part of the original array from the beginning, excluding the last positions elements. The concat() method concatenates these two arrays. This operation takes O(n) time, where n is the length of the original array.
 
+#### Method 2: Using splice() and unshift()
+- Time Complexity: O(1)
+- Explanation: The splice() method removes and returns a part of the original array (from the end), which is stored in a new variable. The unshift() method adds an element at the beginning of this new array. This operation takes constant time, O(1).
+
+#### Method 3: Using foreach
+- Time Complexity: O(n)
+- Explanation: The forEach() method iterates through each element of the original array and adds it to a new array if it's not equal to 3. This operation takes O(n) time, where n is the length of the original array.
+
+Note that in Method 2, splice() and unshift() operations take constant time, but overall the operation takes O(1) time because they are performed only once.
 </p>
 </details>
 
@@ -3558,13 +3627,27 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1: Using reduce() and filter():
+const arrays = [[1, 2, 3], [2, 3, 4], [3, 4, 5]];
+const intersection = arrays.reduce((acc, curr) => acc.filter(element => curr.includes(element)));
+console.log(intersection);
 
+
+// Method 2: Using reduce() and Set():
+const intersection2 = arrays.reduce((acc, curr) => acc.filter(element => new Set(curr).has(element)));
+console.log(intersection2);
 ```
 
-
-
 ### Time Complexity
+#### Method 1: Using reduce() and filter():
+- Time Complexity: O(nmk)
+- Explanation: The reduce() method iterates through the array of arrays, and for each inner array, it calls the filter() method. The filter() method iterates through the inner array and checks if each element is present in the other inner arrays. This operation takes O(nmk) time, where n is the number of arrays, m is the maximum length of an inner array, and k is the average length of an inner array.
 
+#### Method 2: Using reduce() and Set():
+- Time Complexity: O(nm)
+- Explanation: The reduce() method iterates through the array of arrays, and for each inner array, it creates a new Set. The Set operations (add and contains) take constant time on average. The overall operation takes O(nm) time, where n is the number of arrays and m is the maximum length of an inner array.
+
+Note that Method 2 has a better time complexity than Method 1 because Set operations are faster than iterating through arrays.
 </p>
 </details>
 
@@ -3573,12 +3656,26 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1: Using filter():
+const originalArray = [1, 2, 3, 4, 5];
+const newArray = originalArray.filter(element => element !== 3);
+console.log(newArray);
 
+// Method 2: Using slice():
+const newArray2 = [...originalArray.slice(0, 2), ...originalArray.slice(3)];
+console.log(newArray2);
 ```
 
-
-
 ### Time Complexity
+#### Method 1: Using filter():
+  - Time Complexity: O(n)
+  - The filter() method iterates through the original array and checks each element against the condition (element !== 3). This operation takes O(n) time, where n is the length of the original array.
+
+#### Method 2: Using slice():
+  - Time Complexity: O(n)
+  - The slice() method creates two new arrays, one for the part of the original array from the beginning (up to the 2nd element) and one for the part of the original array from the end (from the 3rd element to the end). The spread operator (...) is used to concatenate these two arrays. This operation takes O(n) time, where n is the length of the original array.
+
+Both methods have a linear time complexity, but filter() is generally faster because it can stop iterating early if the condition is not met, whereas slice() has to iterate through the entire array even if it only needs to copy a small part of it.
 
 </p>
 </details>
@@ -3588,13 +3685,26 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1: Using slice() and reverse():
+const nthElementFromEnd = array.slice().reverse()[n - 1];
+console.log(nthElementFromEnd);
 
+
+// Method 2: Using length:
+const nthElementFromEnd2 = array[array.length - n];
+console.log(nthElementFromEnd2);
 ```
 
-
-
 ### Time Complexity
+#### Method 1: Using slice() and reverse():
+  - Time Complexity: O(n)
+  - The slice() method creates a shallow copy of the original array, which takes O(n) time, where n is the length of the array. Then, the reverse() method reverses the copied array, which also takes O(n) time.         Therefore, the overall time complexity is O(2n), which simplifies to O(n).
 
+#### Method 2: Using length:
+  - Time Complexity: O(1)
+  - The length property of an array returns the length of the array, which is a constant-time operation. Accessing the element at a specific index (in this case, array.length - n) also takes constant time. Therefore, the overall time complexity is O(1), which is constant.
+
+Method 2 is much more efficient than Method 1 because it only requires accessing a single element, whereas Method 1 requires creating a copy of the array and reversing it.
 </p>
 </details>
 
@@ -3603,13 +3713,52 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1:  reduce with Expected Sum
+const numbers = [1, 2, 3, 5]; // Missing number is 4
 
+const expectedSum = (numbers.length + 1) * (numbers.length + 2) / 2; // Formula for arithmetic series sum
+const actualSum = numbers.reduce((sum, num) => sum + num, 0);
+
+console.log("Missing number:", expectedSum - actualSum);
+
+// Method 2: Use Array Methods and Filtering
+const numbers = [1, 2, 3, 5]; // Missing number is 4
+
+const expectedLength = numbers.length + 1; // Calculate expected length
+const actualLength = new Set(numbers).size; // Get the actual number of unique elements
+
+const missingNumber = expectedLength > actualLength
+  ? 1 // Missing number is at index 0 (assuming sequence starts from 1)
+  : numbers.filter((num, i) => num !== (i + 1)).pop(); // Find element not matching expected index + 1
+
+console.log("Missing number:", missingNumber);
+
+// Method 3: XOR method
+const numbers = [1, 2, 3, 5]; // Missing number is 4
+function findMissingNumber(arr) {
+    let missing = arr.length + 1;
+    for (let i = 0; i < arr.length; i++) {
+        missing ^= (i + 1) ^ arr[i];
+    }
+    return missing;
+}
+console.log(findMissingNumber(numbers));
 ```
 
-
-
 ### Time Complexity
+#### Method 1:  reduce with Expected Sum
+  - Time Complexity: O(n)
+  - The reduce() method iterates through the numbers array, adding each element to the sum. This operation takes O(n) time, where n is the length of the array.
 
+#### Method 2: Use Array Methods and Filtering
+  - Time Complexity: O(n)
+  - The filter() method iterates through the numbers array, checking each element against the condition (num !== (i + 1)). This operation also takes O(n) time, where n is the length of the array.
+
+#### Method 3: XOR method
+  - Time Complexity: O(n)
+  - The findMissingNumber() function uses a for loop to iterate through the arr array, performing a bitwise XOR operation at each iteration. This operation also takes O(n) time, where n is the length of the array.
+
+All three methods have a linear time complexity, with Method 1 being slightly more efficient because it only requires a single pass through the array. However, for small arrays, the difference in performance may not be noticeable.
 </p>
 </details>
 
@@ -3618,12 +3767,49 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+function findSecondHighestAndLowest(arr) {
+    let highest = arr[0];
+    let secondHighest = -Infinity;
+    let lowest = arr[0];
+    let secondLowest = Infinity;
 
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > highest) {
+            secondHighest = highest;
+            highest = arr[i];
+        } else if (arr[i] > secondHighest && arr[i] !== highest) {
+            secondHighest = arr[i];
+        }
+
+        if (arr[i] < lowest) {
+            secondLowest = lowest;
+            lowest = arr[i];
+        } else if (arr[i] < secondLowest && arr[i] !== lowest) {
+            secondLowest = arr[i];
+        }
+    }
+
+    return { secondHighest, secondLowest };
+}
+
+// Example usage
+const arr = [10, 5, 7, 3, 8, 2, 9];
+const { secondHighest, secondLowest } = findSecondHighestAndLowest(arr);
+console.log("Second highest:", secondHighest); // Output: 9
+console.log("Second lowest:", secondLowest); // Output: 3
 ```
 
-
-
 ### Time Complexity
+The time complexity of the findSecondHighestAndLowest function is O(n), where n is the length of the input array arr.
+
+Here's a breakdown of the time complexity:
+
+- The function iterates through the array using a single for loop, which takes O(n) time.
+- Within the loop, it performs a constant amount of work for each iteration, including:
+    - Comparing the current element with the highest and second-highest values, and updating them if necessary.
+    - Comparing the current element with the lowest and second-lowest values, and updating them if necessary.
+    - The number of comparisons and updates is proportional to the length of the array, so the overall time complexity is O(n).
+    - The space complexity is O(1), as the function only uses a constant amount of space to store the variables highest, secondHighest, lowest, and secondLowest.
 
 </p>
 </details>
@@ -3633,13 +3819,41 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1:  map and split:
+const words = ["apple", "banana", "apple", "orange", "banana"];
+function convertTo2DArray(arr) {
+    return arr.map(str => str.split(''));
+}
+console.log(convertTo2DArray(words))
 
+// Method 2: Nested for...of Loops:
+const stringArray = ["hello", "world"];
+
+const charArray = [];
+for (const str of stringArray) {
+  const charSubArray = [];
+  for (const char of str) {
+    charSubArray.push(char);  // Add each character to the sub-array
+  }
+  charArray.push(charSubArray); // Add the sub-array of characters to the main array
+}
+
+console.log(charArray); // [["h", "e", "l", "l", "o"], ["w", "o", "r", "l", "d"]]
 ```
 
-
+- Method 1: This method iterates through the string array, using map to create a new array where each element is a sub-array of characters obtained by splitting the original string.
+- Method 3: This method iterates through the string array using outer and inner loops. The outer loop iterates through each string, and the inner loop iterates through each character, creating a new sub-array for each string.
 
 ### Time Complexity
+#### Method 1: map and split
+  - Time Complexity: O(nm)
+  - The map() function iterates through the words array, and for each element, it calls the split() function, which iterates through the string and creates an array of characters. Therefore, the total time complexity is O(nm), where n is the length of the words array and m is the average length of a string in the array.
 
+#### Method 2: Nested for...of Loops
+  - Time Complexity: O(nm)
+  - The outer loop iterates through the stringArray (n times), and for each iteration, it iterates through each character of the string (m times) using the inner loop. Therefore, the total time complexity is also O(nm), where n is the length of the stringArray and m is the average length of a string in the array.
+
+In both methods, the time complexity is quadratic because they both involve iterating through the input array and then iterating through each element of that array to create a new 2D array.
 </p>
 </details>
 
@@ -3648,13 +3862,94 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1: 
+function areCircularlyIdentical(arr1, arr2) {
+  // Check if lengths are equal, otherwise not circularly identical
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
 
+  // Concatenate the first array with itself to create a longer array
+  const joined = arr1.concat(arr1);
+
+  // Iterate through the concatenated array
+  for (let i = 0; i < joined.length; i++) {
+    let isEqual = true;
+
+    // Check if a sub-array of length arr2.length starting from i in joined
+    // is equal to arr2
+    for (let j = 0; j < arr2.length; j++) {
+      if (arr2[j] !== joined[i + j]) {
+        isEqual = false;
+        break;
+      }
+    }
+
+    // If a match is found, return true
+    if (isEqual) {
+      return true;
+    }
+  }
+
+  // If no match is found after iterating through all positions, return false
+  return false;
+}
+
+// Example usage
+const arr1 = [4, 5, 6];
+const arr2 = [5, 6, 4];
+
+const areIdentical = areCircularlyIdentical(arr1, arr2);
+console.log("Arrays are circularly identical:", areIdentical);
+
+// Method 2: 
+function areCircularlyIdentical(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  const combined = arr1.concat(arr1);
+
+  for (let i = 0; i < arr1.length; i++) {
+    const sliced = combined.slice(i, i + arr2.length); // Get sub-array of length arr2.length
+    if (sliced.every((element, index) => element === arr2[index])) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// Example usage
+const arr1 = [1, 2, 3];
+const arr2 = [2, 3, 1];
+
+const areIdentical = areCircularlyIdentical(arr1, arr2);
+console.log("Arrays are circularly identical:", areIdentical); // Output: true
 ```
 
-
+This code effectively determines if two arrays are circularly identical by checking for the pattern of one array within the other array at different starting positions using a combined array.
 
 ### Time Complexity
+#### Method 1:
+The time complexity for Method 1 is O(n*m), where n is the length of the first array and m is the length of the second array. 
 
+Here's a breakdown:
+
+- The outer loop iterates through the concatenated array (which has a length of 2n), so that's O(n).
+- The inner loop also iterates through the second array (of length m), so that's O(m).
+- Since these are nested, the total time complexity is O(n*m).
+
+#### Method 2:
+The time complexity for Method 2 is also O(n*m), where n is the length of the first array and m is the length of the second array. 
+
+Here's a breakdown:
+
+- The outer loop iterates through the first array (of length n), so that's O(n).
+- The inner loop iterates through a sub-array of length m, so that's O(m).
+- Since these are nested, the total time complexity is O(n*m).
+
+In both methods, the time complexity is quadratic because they both involve iterating through the input arrays in a nested manner.
 </p>
 </details>
 
@@ -3663,12 +3958,41 @@ console.log("Not subset:", !isSubset); // true (using negation)
 <p>
 
 ```javascript
+// Method 1: simple for loop
+const numbers = [1, 2, 3, 5];
+function findIndexNotEqualToIndex(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== i) {
+            return i;
+        }
+    }
+    return -1; // If all elements are equal to their index
+}
+console.log(findIndexNotEqualToIndex(numbers))
 
+// Method 2: Using find()
+const numbers = [1, 2, 3, 4, 6];
+
+const indexMismatch = numbers.find((num, i) => num !== i);
+
+console.log(numbers.indexOf(indexMismatch));  // Index of the mismatch
 ```
 
-
-
 ### Time Complexity
+#### Method 1: Simple for loop
+    The time complexity for Method 1 is O(n), where n is the length of the array.
 
+Here's a breakdown:
+
+- The loop iterates through the array once, so that's O(n).
+- Method 2: Using find()
+- The time complexity for Method 2 is also O(n), where n is the length of the array.
+
+Here's a breakdown:
+
+- The find() function iterates through the array once, so that's O(n).
+- The indexOf() function after that also iterates through the array once, so that's O(n) again.
+- Since these are chained together, the total time complexity is O(n).
+- In both methods, the time complexity is linear because they both involve iterating through the input array once.
 </p>
 </details>
