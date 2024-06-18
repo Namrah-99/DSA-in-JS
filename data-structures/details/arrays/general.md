@@ -813,3 +813,461 @@ Explanation:
 
 </p>
 </details>
+
+###### 21. How can you find the intersection of two arrays?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const colors1 = ["red", "green", "blue"];
+const colors2 = ["blue", "purple", "yellow"];
+
+// Method 1: Set intersection with has()
+const intersection1 = Array.from(new Set(colors1).filter(x => new Set(colors2).has(x))); // ["blue"]
+
+// Method 2: filter() with includes()
+const intersection2 = colors1.filter(color => colors2.includes(color)); // ["blue"]
+
+console.log(intersection1); // ["blue"]
+console.log(intersection2); // ["blue"]
+
+// Method 3: Set with includes()
+const intersectionSet = new Set(array1.filter(value => array2.includes(value)));
+const intersection = [...intersectionSet];
+console.log(intersection); // [3, 4, 5]
+```
+
+- The first method leverages sets for efficient membership checks. It creates sets from both arrays and uses filter to find elements present in both sets.
+- The second method uses filter with includes to check if each element in the first array exists in the second array.
+
+### Time Complexity
+#### Method 1: Set intersection with has()
+```javascript
+const intersection1 = Array.from(new Set(colors1).filter(x => new Set(colors2).has(x)));
+```
+- Time Complexity: O(n + m)
+- Explanation: Creating two sets from colors1 and colors2 has a time complexity of O(n + m), where n is the number of elements in colors1 and m is the number of elements in colors2. The filter operation then iterates over the elements of colors1, which has a time complexity of O(n). The overall time complexity is O(n + m).
+
+#### Method 2: filter() with includes()
+```javascript
+const intersection2 = colors1.filter(color => colors2.includes(color));
+```
+- Time Complexity: O(n * m)
+- Explanation: The includes method inside the filter function iterates over all elements of colors2 for each element in colors1. This results in a time complexity of O(n * m), where n is the number of elements in colors1 and m is the number of elements in colors2.
+
+#### Method 3: Set with includes()
+```javascript
+const intersectionSet = new Set(array1.filter(value => array2.includes(value)));
+const intersection = [...intersectionSet];
+```
+- Time Complexity: O(n * m)
+- Explanation: Similar to Method 2, the includes method inside the filter function causes a nested iteration over all elements of array2 for each element in array1, resulting in a time complexity of O(n * m), where n is the number of elements in array1 and m is the number of elements in array2.
+
+</p>
+</details>
+
+###### 22. How can you find the union of two arrays?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers1 = [1, 2, 3];
+const numbers2 = [2, 3, 4];
+
+// Method 1: Set union (unique elements)
+const union1 = Array.from(new Set([...numbers1, ...numbers2])); // [1, 2, 3, 4]
+
+// Method 2: concat() (all elements)
+const union2 = numbers1.concat(numbers2); // [1, 2, 3, 2, 3, 4] (duplicates included)
+
+console.log(union1); // [1, 2, 3, 4]
+console.log(union2); // [1, 2, 3, 2, 3, 4]
+
+const unionSet = new Set([...array1, ...array2]);
+const union = [...unionSet];
+console.log(union); // [1, 2, 3, 4, 5, 6, 7]
+```
+
+- new Set([...array1, ...array2]): Creates a new set containing all unique elements from both arrays (duplicates are removed).
+- concat(): Combines elements from both arrays (may contain duplicates).
+
+### Time Complexity
+
+#### Method 1: Set union (unique elements)
+```javascript
+const union1 = Array.from(new Set([...numbers1, ...numbers2]));
+```
+- Time Complexity: O(n + m)
+- Explanation: Creating a new set from the concatenation of numbers1 and numbers2 has a time complexity of O(n + m), where n is the number of elements in numbers1 and m is the number of elements in numbers2. The Array.from operation then converts the set back to an array, which also has a time complexity of O(n + m). Overall, the time complexity is O(n + m).
+#### Method 2: concat() (all elements)
+```javascript
+const union2 = numbers1.concat(numbers2);
+```
+- Time Complexity: O(n + m)
+- Explanation: The concat method creates a new array by concatenating numbers1 and numbers2, which has a time complexity of O(n + m), where n is the number of elements in numbers1 and m is the number of elements in numbers2.
+
+#### Method 3: Set with concat() and spread operator
+```javascript
+const unionSet = new Set([...numbers1, ...numbers2]);
+const union = [...unionSet];
+```
+- Time Complexity: O(n + m)
+- Explanation: Similar to Method 1, creating a new set from the concatenation of numbers1 and numbers2 has a time complexity of O(n + m). The spread operator ... then converts the set back to an array, which also has a time complexity of O(n + m). Overall, the time complexity is O(n + m).
+
+**Note:** Method 1 and Method 3 are preferred for finding the union of arrays, as they ensure uniqueness of elements in the resulting array and have a time complexity of O(n + m).
+
+</p>
+</details>
+
+###### 23. How can you find the difference between two arrays?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const letters1 = ["a", "b", "c", "d"];
+const letters2 = ["b", "c", "e"];
+
+// Method 1: filter() with !includes()
+const difference1 = letters1.filter(letter => !letters2.includes(letter)); // ["a", "d"]
+
+// Method 2: Set difference (efficient)
+const difference2 = Array.from(new Set(letters1).difference(new Set(letters2))); // ["a", "d"]
+
+console.log(difference1); // ["a", "d"]
+console.log(difference2); // ["a", "d"]
+```
+- The first method uses filter with !includes to check if each element in the first array is not present in the second array.
+- The second method leverages sets for efficient difference calculations. It creates sets from both arrays and uses the difference method to find elements present in the first set but not in the second.
+
+### Time Complexity
+
+#### Method 1: filter() with !includes()
+```javascript
+const difference1 = letters1.filter(letter => !letters2.includes(letter));
+```
+- Time Complexity: O(n * m)
+- Explanation: For each element in letters1 (of length n), includes() is called on letters2 (of length m), resulting in a time complexity of O(n * m). This is because includes() has a time complexity of O(m), and it is called for each element in letters1.
+
+#### Method 2: Set difference (efficient)
+```javascript
+const difference2 = Array.from(new Set(letters1).difference(new Set(letters2)));
+```
+- Time Complexity: O(n + m)
+- Explanation: Creating two sets from letters1 and letters2 has a time complexity of O(n + m), where n is the number of elements in letters1 and m is the number of elements in letters2. The difference() operation between the two sets has a time complexity of O(n), as it iterates over the elements in the first set. Overall, the time complexity is O(n + m).
+
+**Note:** Method 2 is more efficient for finding the difference between two arrays, as it has a time complexity of O(n + m) compared to O(n * m) for Method 1.
+
+
+</p>
+</details>
+
+###### 24. How can you find the symmetric difference between two arrays?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [3, 4, 5, 6, 7];
+
+const symmetricDifference = [
+  ...array1.filter(value => !array2.includes(value)),
+  ...array2.filter(value => !array1.includes(value))
+];
+console.log(symmetricDifference); // [1, 2, 6, 7]
+```
+
+To find the symmetric difference between two arrays, you can use a combination of the filter and includes methods.
+
+- Time Complexity: O(n * m)
+- Explanation: For each element in array1 (of length n), includes() is called on array2 (of length m), resulting in a time complexity of O(n * m) for the first filter. Similarly, for each element in array2, includes() is called on array1, also resulting in a time complexity of O(n * m) for the second filter. Overall, the time complexity is O(n * m).
+
+This approach is not the most efficient for finding the symmetric difference, especially for large arrays, as it has a time complexity of O(n * m). Using sets or other more efficient methods can reduce the time complexity significantly.
+
+</p>
+</details>
+
+###### 25. How can you check if two arrays are equal?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const fruits1 = ["apple", "banana", "orange"];
+const fruits2 = ["apple", "banana", "orange"];
+const fruits3 = ["apple", "mango", "orange"];
+
+// Method 1: toString() (not ideal)
+const isEqual1 = fruits1.toString() === fruits2.toString(); // true
+
+// Method 2: JSON.stringify() (better for complex objects)
+const isEqual2 = JSON.stringify(fruits1) === JSON.stringify(fruits2); // true
+const isEqual3 = JSON.stringify(fruits1) === JSON.stringify(fruits3); // false
+
+// Method 3: length and element comparison (most reliable)
+const isEqual4 = fruits1.length === fruits2.length && fruits1.every((val, index) => val === fruits2[index]); // true
+const isEqual5 = fruits1.length === fruits3.length && fruits1.every((val, index) => val === fruits3[index]); // false
+
+console.log(isEqual1); // true
+console.log(isEqual2); // true
+console.log(isEqual3); // false
+console.log(isEqual4); // true
+console.log(isEqual5); // false
+```
+
+- array1.toString() === array2.toString(): Converts both arrays to strings and compares them for equality (may not be reliable for complex objects).
+- JSON.stringify(array1) === JSON.stringify(array2): Converts both arrays to JSON strings and compares them for equality (handles nested objects better).
+- array1.length === array2.length && array1.every((val, index) => val === array2[index]): Checks if both arrays have the same length and elements at corresponding indices are equal.
+
+### Time Complexity
+#### Method 1: toString()
+```javascript
+const isEqual1 = fruits1.toString() === fruits2.toString(); // true
+```
+- Time Complexity: O(n)
+- Explanation: The toString() method creates a string representation of the array elements, which involves iterating through all elements. Comparing two strings is O(n) where n is the length of the string.
+
+#### Method 2: JSON.stringify()
+```javascript
+const isEqual2 = JSON.stringify(fruits1) === JSON.stringify(fruits2); // true
+const isEqual3 = JSON.stringify(fruits1) === JSON.stringify(fruits3); // false
+```
+- Time Complexity: O(n)
+- Explanation: JSON.stringify() also iterates through all elements of the array to create a JSON string representation. Comparing two JSON strings is O(n) where n is the length of the JSON string.
+
+#### Method 3: length and element comparison
+```javascript
+const isEqual4 = fruits1.length === fruits2.length && fruits1.every((val, index) => val === fruits2[index]); // true
+const isEqual5 = fruits1.length === fruits3.length && fruits1.every((val, index) => val === fruits3[index]); // false
+```
+- Time Complexity: O(n)
+- Explanation: This method compares the lengths of the arrays first (O(1)), then iterates through all elements to compare each element (O(n)). The every() method returns false as soon as it finds a mismatch, so in the worst case, it will iterate through all elements.
+
+In all methods, the time complexity for comparing two arrays is O(n), where n is the length of the arrays.
+
+</p>
+</details>
+
+###### 26. How can you check if an array is empty?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the length property
+const isEmpty = arr.length === 0;
+// Method 2: Using the ! operator with the array
+const isEmpty = !arr.length;
+```
+
+- array.length === 0: Checks if the length of the array is zero.
+- !array.length: Negates the length check for a more concise expression.
+
+### Time Complexity
+#### Method 1: Using the length property
+```javascript
+const isEmpty = arr.length === 0;
+```
+- Time Complexity: O(1)
+- Explanation: Accessing the length property of an array is a constant-time operation. It does not depend on the size of the array and always takes the same amount of time to execute.
+
+#### Method 2: Using the ! operator with the array
+```javascript
+const isEmpty = !arr.length;
+```
+- Time Complexity: O(1)
+- Explanation: This method also has a constant time complexity. The ! operator is applied to the length property, which is a constant-time operation. The ! operator then converts the length to a boolean, which is also a constant-time operation.
+
+</p>
+</details>
+
+###### 27. How can you clone an array in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the spread operator (...)
+const clone = [...arr];
+
+// Method 2: Using the slice method
+const clone = arr.slice();
+
+
+const originalArray = [1, 2, 3];
+
+const clonedArray1 = originalArray.slice(0); // [1, 2, 3] (shallow copy)
+const clonedArray2 = [...originalArray]; // [1, 2, 3] (shallow copy)
+const clonedArray3 = [].concat(originalArray); // [1, 2, 3] (shallow copy)
+
+console.log(clonedArray1); // [1, 2, 3]
+console.log(clonedArray2); // [1, 2, 3]
+console.log(clonedArray3); // [1, 2, 3]
+
+// Modifying the original array
+originalArray[0] = 4;
+
+console.log(clonedArray1); // [4, 2, 3] (shallow copy reflects changes)
+console.log(clonedArray2); // [4, 2, 3] (shallow copy reflects changes)
+console.log(clonedArray3); // [4, 2, 3] (shallow copy reflects changes)
+```
+- slice(0): Creates a shallow copy of the entire array using the slice method without arguments.
+- spread syntax (...): Spreads the elements of the array into a new array, creating a shallow copy.
+- concat([]): Creates a new array by concatenating an empty array with the original array (effectively a shallow copy).
+
+### Time Complexity
+#### Method 1: Using the spread operator (...)
+```javascript
+const clone = [...arr];
+```
+- Time Complexity: O(n)
+- Explanation: The spread operator creates a new array and copies all elements from the original array into the new array. Since it copies each element one by one, the time complexity is linear, where n is the number of elements in the array.
+#### Method 2: Using the slice method
+```javascript
+const clone = arr.slice();
+```
+- Time Complexity: O(n)
+- Explanation: The slice method also creates a new array and copies all elements from the original array into the new array. Similar to the spread operator, it copies each element one by one, resulting in a linear time complexity.
+
+</p>
+</details>
+
+###### 28. How can you find the first and last elements of an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [10, 20, 30, 40];
+
+const firstElement1 = numbers[0]; // 10
+const lastElement1 = numbers[numbers.length - 1]; // 40
+
+const firstElement2 = numbers.slice(0, 1)[0]; // 10 (slice(0, 1) extracts the first element)
+const lastElement2 = numbers.slice(-1)[0]; // 40 (slice(-1) extracts the last element)
+
+console.log(firstElement1); // 10
+console.log(lastElement1); // 40
+console.log(firstElement2); // 10
+console.log(lastElement2); // 40
+```
+
+- array[0] and array[array.length - 1]: Access the first and last elements directly using their respective indices.
+- slice(): Use slice to extract the first and last elements.
+
+### Time Complexity
+#### Method 1: Using the spread operator (...)
+```javascript
+const clone = [...arr];
+```
+- Time Complexity: O(n)
+- Explanation: The spread operator creates a new array and copies all elements from the original array into the new array. Since it copies each element one by one, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 2: Using the slice method
+```javascript
+const clone = arr.slice();
+```
+- Time Complexity: O(n)
+- Explanation: The slice method also creates a new array and copies all elements from the original array into the new array. Similar to the spread operator, it copies each element one by one, resulting in a linear time complexity.
+
+</p>
+</details>
+
+###### 29. How can you remove the first and last elements of an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the shift and pop methods
+arr.shift(); // Remove first element
+arr.pop();   // Remove last element
+
+// Method 2: Using array slicing
+arr = arr.slice(1, -1); // Remove first and last elements
+```
+- shift() and pop(): These methods remove and return the first and last elements of the array, respectively, modifying the original array.
+- slice(1, -1): This approach creates a new array excluding the first and last elements of the original array.
+
+### Time Complexity
+#### Method 1: Using the shift and pop methods
+```javascript
+// Remove first element
+arr.shift();
+// Remove last element
+arr.pop();
+```
+- Time Complexity:
+    - arr.shift(): O(n)
+    - arr.pop(): O(1)
+- Explanation:
+    - arr.shift(): Removing the first element requires shifting all other elements to the left, which has a linear time complexity.
+    - arr.pop(): Removing the last element is a constant-time operation since it only involves updating the array length.
+#### Method 2: Using array slicing
+```javascript
+// Remove first and last elements
+arr = arr.slice(1, -1);
+```
+- Time Complexity: O(n)
+- Explanation: Slicing a portion of the array requires iterating over the specified range of elements, which has a linear time complexity.
+
+</p>
+</details>
+
+###### 30. How can you remove falsy values from an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the filter method
+const filteredArray = arr.filter(Boolean);
+
+// Method 2: Using a for loop
+const filteredArray = [];
+for (let i = 0; i < arr.length; i++) {
+  if (arr[i]) {
+    filteredArray.push(arr[i]);
+  }
+}
+
+// 
+const mixedArray = [0, 1, false, null, undefined, 2, 3];
+
+// Removing falsy values
+const filteredArray1 = mixedArray.filter(Boolean); // [1, 2, 3]
+
+const filteredArray2 = mixedArray.filter(value => !!value); // [1, 2, 3]
+
+console.log(filteredArray1); // [1, 2, 3]
+console.log(filteredArray2); // [1, 2, 3]
+```
+- filter(Boolean): Filters elements based on truthiness using the Boolean function.
+- filter(value => !!value): This approach uses a custom callback function to explicitly check for truthiness with double negation (!!).
+
+### Time Complexity
+#### Method 1: Using the filter method
+```javascript
+const filteredArray = arr.filter(Boolean);
+```
+- Time Complexity: O(n)
+- Explanation: The filter method iterates over each element of the array and applies the Boolean function to determine if the element is truthy. It creates a new array containing only the truthy elements. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+Method 2: Using a for loop
+```javascript
+const filteredArray = [];
+for (let i = 0; i < arr.length; i++) {
+  if (arr[i]) {
+    filteredArray.push(arr[i]);
+  }
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and checks if the element is truthy before adding it to the new array. Similar to the filter method, it iterates over each element once, resulting in a linear time complexity.
+
+Example:
+```javascript
+const mixedArray = [0, 1, false, null, undefined, 2, 3];
+const filteredArray1 = mixedArray.filter(Boolean); // [1, 2, 3]
+const filteredArray2 = mixedArray.filter(value => !!value); // [1, 2, 3]
+
+console.log(filteredArray1); // [1, 2, 3]
+console.log(filteredArray2); // [1, 2, 3]
+```
+Both methods produce the same result and have a time complexity of O(n), where n is the number of elements in the array.
+
+</p>
+</details>
