@@ -1271,3 +1271,355 @@ Both methods produce the same result and have a time complexity of O(n), where n
 
 </p>
 </details>
+
+###### 31. How can you convert an array of strings to lowercase?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const array = ["RED", "GREEN", "bLue"];
+// Method 1: Using the map method
+const lowercaseArray = array.map(str => str.toLowerCase());
+
+// Method 2: Using a for loop
+const lowercaseArray = [];
+for (let i = 0; i < array.length; i++) {
+  lowercaseArray.push(array[i].toLowerCase());
+}
+
+// Method 3: Modifying the original array (not recommended)
+array.forEach(string => string.toLowerCase()); // Modifies elements in-place
+
+console.log(array); // ["red", "green", "blue"] (modified if forEach is used)
+```
+- map(string => string.toLowerCase()): Uses the map method and a callback function to convert each string to lowercase.
+- forEach(string => string.toLowerCase()): Iterates through the array using forEach and applies lowercase conversion to each element, modifying the original array.
+
+### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const lowercaseArray = array.map(str => str.toLowerCase());
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and applies the toLowerCase method to convert each string to lowercase. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 2: Using a for loop
+```javascript
+const lowercaseArray = [];
+for (let i = 0; i < array.length; i++) {
+  lowercaseArray.push(array[i].toLowerCase());
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses the toLowerCase method to convert each string to lowercase before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+#### Method 3: Modifying the original array (not recommended)
+```javascript
+array.forEach(string => string.toLowerCase());
+```
+- Time Complexity: O(n)
+- Explanation: The forEach method iterates over each element of the array and applies the toLowerCase method to each string. However, it does not create a new array but modifies the elements in-place. While the time complexity remains O(n) because it still iterates over each element once, modifying the original array is not recommended as it can lead to unexpected behavior and makes the code less readable.
+
+Example:
+```javascript
+const array = ["RED", "GREEN", "bLue"];
+const lowercaseArray = array.map(str => str.toLowerCase());
+
+console.log(lowercaseArray); // ["red", "green", "blue"]
+```
+All three methods produce the same result, but the first two are recommended for creating a new array with the lowercase strings, while the third method should be avoided for modifying the original array in-place.
+
+</p>
+</details>
+
+###### 32. How can you convert an array of strings to uppercase?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the map method
+const uppercaseArray = array.map(str => str.toUpperCase());
+
+// Method 2: Using a for loop
+const uppercaseArray = [];
+for (let i = 0; i < array.length; i++) {
+  uppercaseArray.push(array[i].toUpperCase());
+}
+
+// Method 3: Modifying the original array (not recommended)
+colors.forEach(string => string.toLowerCase()); // Modifies elements in-place
+console.log(colors); // ["red", "green", "blue"] (modified if forEach is used)
+```
+
+- map(string => string.toLowerCase()): Uses the map method and a callback function to convert each string to lowercase.
+- forEach(string => string.toLowerCase()): Iterates through the array using forEach and applies lowercase conversion to each element, modifying the original array.
+
+### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const uppercaseArray = array.map(str => str.toUpperCase());
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and applies the toUpperCase method to convert each string to uppercase. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 2: Using a for loop
+```javascript
+const uppercaseArray = [];
+for (let i = 0; i < array.length; i++) {
+  uppercaseArray.push(array[i].toUpperCase());
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses the toUpperCase method to convert each string to uppercase before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+#### Method 3: Modifying the original array (not recommended)
+```javascript
+colors.forEach(string => string.toUpperCase());
+```
+- Time Complexity: O(n)
+- Explanation: The forEach method iterates over each element of the array and applies the toUpperCase method to each string. However, it does not create a new array but modifies the elements in-place. While the time complexity remains O(n) because it still iterates over each element once, modifying the original array is not recommended as it can lead to unexpected behavior and makes the code less readable.
+
+Example:
+```javascript
+const array = ["red", "green", "blue"];
+const uppercaseArray = array.map(str => str.toUpperCase());
+
+console.log(uppercaseArray); // ["RED", "GREEN", "BLUE"]
+```
+All three methods produce the same result, but the first two are recommended for creating a new array with the uppercase strings, while the third method should be avoided for modifying the original array in-place.
+
+</p>
+</details>
+
+###### 33. How can you convert an array of strings to title case?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const array = ["RED", "GREEN", "bLue"];
+// Method 1: Using the map method with a custom function
+const toTitleCase = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+const titleCaseArray = array.map(toTitleCase);
+// Method 2: Using a for loop with a custom function
+const titleCaseArray1 = [];
+for (let i = 0; i < array.length; i++) {
+  titleCaseArray1.push(array[i].charAt(0).toUpperCase() + array[i].slice(1).toLowerCase());
+}
+
+const phrases = ["hello world", "hOw aRE you"];
+
+const titleCasePhrases = phrases.map(string => 
+  string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())); // ["Hello World", "How Are You"]
+
+console.log(titleCasePhrases); // ["Hello World", "How Are You"]
+```
+map(string => string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())): Uses map with a complex regular expression to convert each string to title case.
+
+### Time Complexity
+#### Method 1: Using the map method with a custom function
+```javascript
+const toTitleCase = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+const titleCaseArray = array.map(toTitleCase);
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and applies the custom toTitleCase function to convert each string to title case. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 2: Using a for loop with a custom function
+```javascript
+const titleCaseArray1 = [];
+for (let i = 0; i < array.length; i++) {
+  titleCaseArray1.push(array[i].charAt(0).toUpperCase() + array[i].slice(1).toLowerCase());
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses a custom function to convert each string to title case before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+Example:
+```javascript
+const array = ["RED", "GREEN", "bLue"];
+const toTitleCase = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+const titleCaseArray = array.map(toTitleCase);
+
+console.log(titleCaseArray); // ["Red", "Green", "Blue"]
+```
+
+Both methods produce the same result, but the first method using the map method with a custom function is more concise and easier to read.
+
+</p>
+</details>
+
+###### 34. How can you convert an array of numbers to strings?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the map method
+const stringArray = array.map(num => String(num));
+
+// Method 2: Using a for loop
+const stringArray = [];
+for (let i = 0; i < array.length; i++) {
+  stringArray.push(String(array[i]));
+}
+```
+
+map(number => number.toString()): Uses map and a callback function to convert each number to a string using toString.
+
+### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const stringArray = array.map(num => String(num));
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and applies the String conversion function to convert each number to a string. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 2: Using a for loop
+```javascript
+const stringArray = [];
+for (let i = 0; i < array.length; i++) {
+  stringArray.push(String(array[i]));
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses the String conversion function to convert each number to a string before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+Both methods produce the same result, but the first method using the map method is more concise and easier to read.
+
+</p>
+</details>
+
+###### 35. How can you convert an array of strings to numbers?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+// Method 1: Using the map method
+const numberArray = array.map(str => Number(str));
+
+// Method 2: Using a for loop
+const numberArray = [];
+for (let i = 0; i < array.length; i++) {
+  numberArray.push(Number(array[i]));
+}
+
+const stringNumbers = ["10", "twenty", "30"];
+
+const numbers1 = stringNumbers.map(string => Number(string)); // [10, NaN, 30] ("twenty" cannot be converted to a number)
+
+console.log(numbers1); // [10, NaN, 30]
+
+// Additional check for valid conversion
+const numbers2 = stringNumbers.map(string => {
+  const parsedNumber = Number(string);
+  return !isNaN(parsedNumber) ? parsedNumber : null; // Handle invalid conversion
+});
+
+console.log(numbers2); // [10, null, 30]
+```
+
+map(string => Number(string)): Uses map and a callback function to convert each string to a number using the Number constructor. Note that this might lead to unexpected results if the string is not a valid number.
+
+### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const numberArray = array.map(str => Number(str));
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and applies the Number conversion function to convert each string to a number. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 2: Using a for loop
+```javascript
+const numberArray = [];
+for (let i = 0; i < array.length; i++) {
+  numberArray.push(Number(array[i]));
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses the Number conversion function to convert each string to a number before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+Example:
+```javascript
+const stringNumbers = ["10", "twenty", "30"];
+const numbers = stringNumbers.map(string => Number(string));
+
+console.log(numbers); // [10, NaN, 30]
+```
+In both methods, if there are invalid strings that cannot be converted to numbers, like "twenty" in the example, the result will include NaN (Not-a-Number) for those elements. To handle such cases, an additional check for valid conversion can be added, as shown in the example.
+
+</p>
+</details>
+
+###### 36. How can you convert an array of strings to booleans?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+### Time Complexity
+
+
+</p>
+</details>
+
+###### 37. How can you convert an array of booleans to strings?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+### Time Complexity
+
+
+</p>
+</details>
+
+###### 38. How can you convert an array of booleans to numbers?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+### Time Complexity
+
+
+</p>
+</details>
+
+###### 39. How can you find the sum of all numbers in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+### Time Complexity
+
+
+</p>
+</details>
+
+###### 40. How can you find the average of all numbers in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+### Time Complexity
+
+
+</p>
+</details>
