@@ -1819,12 +1819,60 @@ console.log(average); // 20.00
 <p>
 
 ```javascript
+// Method 1: Using the sort method and conditional logic
+const sortedArray = array.sort((a, b) => a - b);
+const length = sortedArray.length;
+const median = length % 2 === 0 ? (sortedArray[length / 2 - 1] + sortedArray[length / 2]) / 2 : sortedArray[Math.floor(length / 2)];
 
+// Method 2: Using the reduce method to calculate the sum and then finding the median
+const sum = array.reduce((acc, curr) => acc + curr, 0);
+const median = sum / array.length;
+
+// Method 3:
+const numbers = [10, 20, 30, 5, 15]; // Even length
+const sortedNumbers = numbers.slice().sort((a, b) => a - b); // Sort a copy to avoid modifying the original array
+const median1 = (sortedNumbers[sortedNumbers.length / 2 - 1] + sortedNumbers[sortedNumbers.length / 2]) / 2; // Average of middle two elements
+console.log(median1); // 15.0
+const numbers2 = [10, 20, 30, 5]; // Odd length
+const sortedNumbers2 = numbers2.slice().sort((a, b) => a - b);
+const median2 = sortedNumbers2[Math.floor(sortedNumbers2.length / 2)]; // Middle element
+console.log(median2); // 15
 ```
 
-
+- Sorting and indexing (for even and odd lengths): Sorts the array and accesses the middle element(s) for the median.
+- For even-length arrays, the median is the average of the two middle elements after sorting.
+- For odd-length arrays, the median is the single middle element after sorting.
 
 ### Time Complexity
+#### Method 1: Using the sort method and conditional logic
+```javascript
+const sortedArray = array.sort((a, b) => a - b);
+const length = sortedArray.length;
+const median = length % 2 === 0 ? (sortedArray[length / 2 - 1] + sortedArray[length / 2]) / 2 : sortedArray[Math.floor(length / 2)];
+```
+- Time Complexity: O(n log n)
+- Explanation: The sort method has an average time complexity of O(n log n), where n is the number of elements in the array. After sorting, finding the median involves simple array access, which is a constant time operation.
+
+#### Method 2: Using the reduce method to calculate the sum and then finding the median
+```javascript
+const sum = array.reduce((acc, curr) => acc + curr, 0);
+const median = sum / array.length;
+```
+- Time Complexity: O(n)
+- Explanation: Calculating the sum of all elements in the array using reduce is a linear operation, as it iterates over each element of the array once. Dividing the sum by the length of the array to find the average is also a constant time operation.
+
+#### Method 3: Sorting a copy of the array and calculating the median
+```javascript
+const sortedNumbers = numbers.slice().sort((a, b) => a - b); // Sort a copy to avoid modifying the original array
+const median1 = (sortedNumbers[sortedNumbers.length / 2 - 1] + sortedNumbers[sortedNumbers.length / 2]) / 2; // Average of middle two elements
+console.log(median1); // 15.0
+
+const sortedNumbers2 = numbers2.slice().sort((a, b) => a - b);
+const median2 = sortedNumbers2[Math.floor(sortedNumbers2.length / 2)]; // Middle element
+console.log(median2); // 15
+```
+- Time Complexity: O(n log n)
+- Explanation: Similar to Method 1, sorting the array using the sort method has a time complexity of O(n log n). Calculating the median afterward is a constant time operation, as it involves accessing specific elements of the sorted array.
 
 </p>
 </details>
@@ -1834,12 +1882,81 @@ console.log(average); // 20.00
 <p>
 
 ```javascript
+// Method 1: Using an object to store frequencies
+const freq = {};
+array.forEach(num => {
+  freq[num] = (freq[num] || 0) + 1;
+});
+const mode = Object.keys(freq).reduce((a, b) => freq[a] > freq[b] ? a : b);
 
+// Method 2: Using the reduce method to find the most common element
+const mode = array.reduce((a, b, i, arr) =>
+  (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
+  
+
+// Method 3: 
+const numbers = [10, 20, 30, 10, 10, 20];
+
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let mode = null;
+let maxCount = 0;
+for (const num in frequency) {
+  if (frequency[num] > maxCount) {
+    mode = num;
+    maxCount = frequency[num];
+  }
+}
+
+console.log(mode); // 10 (if multiple elements have the same max frequency, any one can be considered the mode)
 ```
 
-
+- Object to store frequency and finding the max frequency: Creates an object to store the frequency of each element and finds the element with the highest frequency (mode).
+- Explanation:
+    - The code iterates through the array, building an object where keys are numbers and values are their frequencies.
+    - It then iterates through the frequency object to find the element with the highest count (mode).
 
 ### Time Complexity
+#### Method 1: Using an object to store frequencies
+```javascript
+const freq = {};
+array.forEach(num => {
+  freq[num] = (freq[num] || 0) + 1;
+});
+const mode = Object.keys(freq).reduce((a, b) => freq[a] > freq[b] ? a : b);
+```
+- Time Complexity: O(n)
+- Explanation: This method iterates over the array once to count the frequency of each element, resulting in a linear time complexity, where n is the number of elements in the array. The final step of finding the mode by iterating over the keys of the frequency object is also a linear operation.
+
+#### Method 2: Using the reduce method to find the most common element
+```javascript
+const mode = array.reduce((a, b, i, arr) =>
+  (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
+```
+- Time Complexity: O(n^2)
+- Explanation: This method uses nested filter functions inside the reduce function. Each filter function iterates over the entire array to count occurrences of a specific value, resulting in a quadratic time complexity, where n is the number of elements in the array.
+
+#### Method 3: Using a for loop to find the mode
+```javascript
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let mode = null;
+let maxCount = 0;
+for (const num in frequency) {
+  if (frequency[num] > maxCount) {
+    mode = num;
+    maxCount = frequency[num];
+  }
+}
+```
+- Time Complexity: O(n)
+- Explanation: This method also iterates over the array once to count the frequency of each element, resulting in a linear time complexity. The final step of finding the mode by iterating over the keys of the frequency object is also a linear operation.
 
 </p>
 </details>
@@ -1849,12 +1966,65 @@ console.log(average); // 20.00
 <p>
 
 ```javascript
+// Method 1: Using an object to store frequencies
+const freq = {};
+array.forEach(num => {
+  freq[num] = (freq[num] || 0) + 1;
+});
 
+// Method 2:
+const numbers = [10, 20, 30, 10, 10, 20];
+
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let mode = null;
+let maxCount = 0;
+for (const num in frequency) {
+  if (frequency[num] > maxCount) {
+    mode = num;
+    maxCount = frequency[num];
+  }
+}
+
+console.log(mode); // 10 (if multiple elements have the same max frequency, any one can be considered the mode)
 ```
-
-
+- Object to store frequency and finding the max frequency: Creates an object to store the frequency of each element and finds the element with the highest frequency (mode).
+- Explanation:
+    - The code iterates through the array, building an object where keys are numbers and values are their frequencies.
+    - It then iterates through the frequency object to find the element with the highest count (mode).
 
 ### Time Complexity
+#### Method 1: Using an object to store frequencies
+```javascript
+const freq = {};
+array.forEach(num => {
+  freq[num] = (freq[num] || 0) + 1;
+});
+```
+- Time Complexity: O(n)
+- Explanation: This method iterates over the array once to count the frequency of each element, resulting in a linear time complexity, where n is the number of elements in the array.
+
+#### Method 2:
+```javascript
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let mode = null;
+let maxCount = 0;
+for (const num in frequency) {
+  if (frequency[num] > maxCount) {
+    mode = num;
+    maxCount = frequency[num];
+  }
+}
+```
+- Time Complexity: O(n)
+- Explanation: This method also iterates over the array once to count the frequency of each element, resulting in a linear time complexity. The final step of finding the mode by iterating over the keys of the frequency object is also a linear operation.
 
 </p>
 </details>
@@ -1864,12 +2034,57 @@ console.log(average); // 20.00
 <p>
 
 ```javascript
+// Method 1: Using the sort method
+const sortedArray = array.sort((a, b) => a - b);
+const secondHighest = sortedArray[sortedArray.length - 2];
+const secondLowest = sortedArray[1];
 
+// Method 2:
+const numbers = [10, 20, 30, 5, 15];
+const sortedNumbers = numbers.slice().sort((a, b) => a - b); // Sort a copy
+
+const secondHighest = sortedNumbers[sortedNumbers.length - 2]; // Second-to-last element
+const secondLowest = sortedNumbers[1]; // Second element
+
+console.log(secondHighest); // 20
+console.log(secondLowest); // 10
+
+// Alternative with potential modification (avoiding duplicates)
+const uniqueNumbers = [...new Set(numbers)]; // Remove duplicates using Set
+uniqueNumbers.sort((a, b) => a - b);
+
+const secondHighest2 = uniqueNumbers.length > 1 ? uniqueNumbers[uniqueNumbers.length - 2] : null; // Handle cases with less than 2 unique elements
+const secondLowest2 = uniqueNumbers.length > 1 ? uniqueNumbers[1] : null;
+
+console.log(secondHighest2); // 20 (if duplicates exist)
+console.log(secondLowest2); // 10 (if duplicates exist)
 ```
 
-
+- Uses double negation (!!) to coerce strings to booleans. However, this might not be ideal for all cases (e.g., "0" becomes true).
+- The first method explicitly checks for lowercase "true" to ensure accurate conversion.
+- The second method leverages double negation, which coerces any non-empty string to true and empty strings to false. This might lead to unexpected results if you expect strict boolean conversions.
 
 ### Time Complexity
+#### Method 1: Using the sort method
+```javascript
+const sortedArray = array.sort((a, b) => a - b);
+const secondHighest = sortedArray[sortedArray.length - 2];
+const secondLowest = sortedArray[1];
+```
+- Time Complexity: O(n log n)
+- Explanation: The sort method typically has an average time complexity of O(n log n), where n is the number of elements in the array. Accessing the second highest and second lowest elements after sorting is O(1), so the dominant factor is the sorting operation.
+
+#### Method 2:
+```javascript
+const sortedNumbers = numbers.slice().sort((a, b) => a - b); // Sort a copy
+
+const secondHighest = sortedNumbers[sortedNumbers.length - 2]; // Second-to-last element
+const secondLowest = sortedNumbers[1]; // Second element
+```
+- Time Complexity: O(n log n)
+- Explanation: Similar to Method 1, this method involves sorting the array, which has a time complexity of O(n log n).
+
+The alternative method that removes duplicates using a Set before sorting also has a time complexity of O(n log n) due to the sorting operation.
 
 </p>
 </details>
@@ -1879,13 +2094,66 @@ console.log(average); // 20.00
 <p>
 
 ```javascript
+// Method 1: Using the reduce method to find the most common element
+const mode = array.reduce((a, b, i, arr) =>
+  (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b), null);
 
+// Method 2: 
+const numbers = [10, 20, 30, 10, 10, 20];
+
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let mostCommon = null;
+let maxCount = 0;
+for (const num in frequency) {
+  if (frequency[num] > maxCount) {
+    mostCommon = num;
+    maxCount = frequency[num];
+  }
+}
+
+console.log(mostCommon); // 10 (most frequent element)
+
+// Method 3: 
+const numbers = [10, 20, 30, 10, 10, 20];
+
+const frequency = numbers.reduce((acc, num) => {
+  acc[num] = (acc[num] || 0) + 1;
+  return acc;
+}, {}); // Initialize accumulator as an empty object
+
+let mostCommon = null;
+let maxCount = 0;
+for (const num in frequency) {
+  if (frequency[num] > maxCount) {
+    mostCommon = num;
+    maxCount = frequency[num];
+  }
+}
+
+console.log(mostCommon); // 10 (most frequent element)
 ```
 
+Method 2: Object to store frequency and finding the max frequency (same as mode): This approach leverages the same logic as finding the mode. The element with the highest frequency in the frequency object is the most common element.
+
+Method 3: reduce with object creation: Creates an object to store element counts and uses reduce to iterate through the array, updating the object accordingly. The element with the highest count in the final object is the most common.
 
 
 ### Time Complexity
+#### Method 1: Using the reduce method to find the most common element
+- Time Complexity: O(n^2)
+- Explanation: In this method, for each element in the array, the filter method is used to create a new array containing only elements that are equal to the current element. This filter operation has a time complexity of O(n) for each element, resulting in an overall time complexity of O(n^2).
 
+#### Method 2:
+- Time Complexity: O(n)
+- Explanation: This method uses a single loop to iterate over the array and create a frequency object. This loop has a time complexity of O(n). The subsequent loop to find the most common element also has a time complexity of O(n) since it iterates over the keys of the frequency object. Overall, the time complexity is O(n).
+
+#### Method 3:
+- Time Complexity: O(n)
+- Explanation: Similar to Method 2, this method uses a single loop to iterate over the array and create a frequency object. The subsequent loop to find the most common element also has a time complexity of O(n). Overall, the time complexity is O(n).
 </p>
 </details>
 
