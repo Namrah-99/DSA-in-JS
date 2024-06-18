@@ -2162,12 +2162,71 @@ Method 3: reduce with object creation: Creates an object to store element counts
 <p>
 
 ```javascript
+// Method 1: Using the reduce method and an object to store frequencies
+const freq = array.reduce((acc, curr) => {
+  acc[curr] = (acc[curr] || 0) + 1;
+  return acc;
+}, {});
+const leastCommon = Object.keys(freq).reduce((a, b) => freq[a] < freq[b] ? a : b);
 
+// Method 2: Object to store frequency and finding the min frequency
+const numbers = [10, 20, 30, 10, 10, 20, 40];
+
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let leastCommon = null;
+let minCount = Infinity; // Initialize with a high value
+for (const num in frequency) {
+  if (frequency[num] < minCount) {
+    leastCommon = num;
+    minCount = frequency[num];
+  }
+}
+
+console.log(leastCommon); // 40 (assuming all elements appear at least once)
 ```
 
-
+- Similar to finding the most common element, this approach iterates through the array, building a frequency object.
+- It then iterates through the frequency object to find the element with the lowest count (least common).
 
 ### Time Complexity
+#### Method 1: Using the reduce method and an object to store frequencies
+```javascript
+const freq = array.reduce((acc, curr) => {
+  acc[curr] = (acc[curr] || 0) + 1;
+  return acc;
+}, {});
+const leastCommon = Object.keys(freq).reduce((a, b) => freq[a] < freq[b] ? a : b);
+```
+- Time Complexity: O(n)
+- Explanation: In this method, the array is iterated over once using the reduce method to create an object with frequencies. This operation has a time complexity of O(n). The subsequent reduction to find the least common element also has a time complexity of O(n) since it iterates over the keys of the frequency object. Overall, the time complexity is O(n).
+
+#### Method 2: Object to store frequency and finding the min frequency
+```javascript
+const numbers = [10, 20, 30, 10, 10, 20, 40];
+
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let leastCommon = null;
+let minCount = Infinity; // Initialize with a high value
+for (const num in frequency) {
+  if (frequency[num] < minCount) {
+    leastCommon = num;
+    minCount = frequency[num];
+  }
+}
+
+console.log(leastCommon); // 40 (assuming all elements appear at least once)
+```
+- Time Complexity: O(n)
+- Explanation: This method also uses a single loop to iterate over the array and create a frequency object. The subsequent loop to find the least common element also has a time complexity of O(n) since it iterates over the keys of the frequency object. Overall, the time complexity is O(n).
+
 
 </p>
 </details>
@@ -2177,12 +2236,36 @@ Method 3: reduce with object creation: Creates an object to store element counts
 <p>
 
 ```javascript
+// Method 1: indexOf(): Returns the index of the first occurrence of the specified value in the array, or -1 if not found.
+const numbers = [10, 20, 30, 10, 10];
+const index1 = numbers.indexOf(20); // 1
+console.log(index1); // 1
 
+// Method 2: findIndex(): Returns the index of the first element in the array that satisfies the provided testing function.
+const index2 = numbers.findIndex(num => num === 10); // 0
+console.log(index2); // 0
 ```
 
-
+- indexOf() is a built-in method that efficiently searches for the first occurrence.
+- findIndex() offers more flexibility for custom search criteria using a callback function.
 
 ### Time Complexity
+#### Method 1: Using indexOf()
+```javascript
+const numbers = [10, 20, 30, 10, 10];
+const index1 = numbers.indexOf(20); // 1
+console.log(index1); // 1
+```
+- Time Complexity: O(n)
+- Explanation: The indexOf method iterates through the array to find the first occurrence of the specified value. In the worst case, it may need to check each element once, resulting in a time complexity of O(n), where n is the number of elements in the array.
+
+#### Method 2: Using findIndex()
+```javascript
+const index2 = numbers.findIndex(num => num === 10); // 0
+console.log(index2); // 0
+```
+- Time Complexity: O(n)
+- Explanation: The findIndex method also iterates through the array to find the first element that satisfies the provided testing function. Similar to indexOf, it may need to check each element once in the worst case, resulting in a time complexity of O(n), where n is the number of elements in the array.
 
 </p>
 </details>
@@ -2192,12 +2275,37 @@ Method 3: reduce with object creation: Creates an object to store element counts
 <p>
 
 ```javascript
+// Method 1: lastIndexOf(): Returns the index of the last occurrence of the specified value in the array, or -1 if not found.
+const numbers = [10, 20, 30, 10, 10];
+const index1 = numbers.lastIndexOf(10); // 3
+console.log(index1); // 3
 
+
+// Method 2: Loop from the end: Iterates through the array from the end, checking for the value and returning the index upon finding it.
+const index2 = numbers.length - 1 - numbers.slice(0).reverse().indexOf(10); // 3
+console.log(index2); // 3
 ```
 
-
+- lastIndexOf() is a built-in method specifically designed for finding the last occurrence.
+- Looping from the end can be a more manual approach but might be useful for understanding the concept.
 
 ### Time Complexity
+#### Method 1: Using lastIndexOf()
+```javascript
+const numbers = [10, 20, 30, 10, 10];
+const index1 = numbers.lastIndexOf(10); // 3
+console.log(index1); // 3
+```
+- Time Complexity: O(n)
+- Explanation: The lastIndexOf method iterates through the array from the end to find the last occurrence of the specified value. In the worst case, it may need to check each element once, resulting in a time complexity of O(n), where n is the number of elements in the array.
+
+#### Method 2: Loop from the end using reverse() and indexOf()
+```javascript
+const index2 = numbers.length - 1 - numbers.slice(0).reverse().indexOf(10); // 3
+console.log(index2); // 3
+```
+- Time Complexity: O(n)
+- Explanation: This method involves three steps: slicing the array, reversing it, and then finding the index of the specified value. Each of these operations has a time complexity of O(n), leading to an overall time complexity of O(n). Specifically:
 
 </p>
 </details>
@@ -2207,13 +2315,48 @@ Method 3: reduce with object creation: Creates an object to store element counts
 <p>
 
 ```javascript
+// Method 1: filter(): Creates a new array with all elements that pass the test implemented by the provided function.
+const numbers = [10, 20, 30, 10, 10];
+const filteredNumbers = numbers.filter(num => num !== 10); // [20, 30]
 
+console.log(filteredNumbers); // [20, 30]
+
+
+// Method 2: splice() (with caution): Removes elements from an array and (optionally) replaces them with other elements. It modifies the original array, so use it with care.
+JavaScript
+const numbers = [10, 20, 30, 10, 10];
+numbers.splice(1, 2); // Remove 20 and 30 (starting from index 1)
+
+console.log(numbers); // [10, 10, 10]
 ```
 
-
+- filter() creates a new array without modifying the original one, excluding elements that match the filter condition (not equal to 10 in this case).
+- splice() modifies the original array in place. Use it cautiously and consider creating a copy of the array if necessary to
 
 ### Time Complexity
+#### Method 1: Using filter()
+```javascript
+const numbers = [10, 20, 30, 10, 10];
+const filteredNumbers = numbers.filter(num => num !== 10); // [20, 30]
 
+console.log(filteredNumbers); // [20, 30]
+```
+Time Complexity: O(n)
+Explanation:
+The filter method iterates through all elements of the array to apply the provided function.
+In the worst case, it will check each element exactly once, resulting in a time complexity of O(n), where n is the number of elements in the array.
+
+#### Method 2: Using splice()
+```javascript
+const numbers = [10, 20, 30, 10, 10];
+numbers.splice(1, 2); // Remove 20 and 30 (starting from index 1)
+
+console.log(numbers); // [10, 10, 10]
+```
+- Time Complexity: O(n)
+- Explanation:
+  - The splice method removes elements from an array starting at a specified index.
+  - Removing k elements from an array using splice has a complexity of O(k), but since it also shifts the remaining elements in the array to fill the gaps, the overall time complexity can be considered O(n), where n is the number of elements in the array after the splice operation.
 </p>
 </details>
 
@@ -2222,12 +2365,64 @@ Method 3: reduce with object creation: Creates an object to store element counts
 <p>
 
 ```javascript
+// Method 1: filter(Boolean): Uses filter with a callback that coerces elements to booleans. Only elements that become true (non-empty values) are included in the new array.
+const sparseArray = [1, , , 4, , 5]; // , represents empty slots
+const denseArray = sparseArray.filter(Boolean); // [1, 4, 5]
+console.log(denseArray); // [1, 4, 5]
 
+// Method 2: reduce with concatenation: Employs reduce to iterate through the original array and concatenate non-empty values into a new array.
+const sparseArray = [1, , , 4, , 5];
+const denseArray = sparseArray.reduce((acc, num) => num ? acc.concat(num) : acc, []); // Initialize accumulator as an empty array
+console.log(denseArray); // [1, 4, 5]
+
+// Method 3:  Using the forEach method
+const denseArray = [];
+sparseArray.forEach(value => {
+  if (value !== undefined) {
+    denseArray.push(value);
+  }
+});
 ```
 
-
-
 ### Time Complexity
+#### Method 1: Using filter(Boolean)
+```javascript
+const sparseArray = [1, , , 4, , 5]; // , represents empty slots
+const denseArray = sparseArray.filter(Boolean); // [1, 4, 5]
+console.log(denseArray); // [1, 4, 5]
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The filter method iterates through all elements of the array, applying the Boolean callback to each element.
+    - The callback Boolean checks if the element is truthy.
+    - This results in a time complexity of O(n), where n is the number of elements in the array.
+#### Method 2: Using reduce with concatenation
+```javascript
+const sparseArray = [1, , , 4, , 5];
+const denseArray = sparseArray.reduce((acc, num) => num ? acc.concat(num) : acc, []); // Initialize accumulator as an empty array
+console.log(denseArray); // [1, 4, 5]
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The reduce method iterates through all elements of the array.
+    - The callback function checks if each element is truthy and concatenates non-empty values into the accumulator array.
+    - Since concatenation and checking each element are O(1) operations, the overall time complexity is O(n).
+#### Method 3: Using forEach
+```javascript
+const sparseArray = [1, , , 4, , 5];
+const denseArray = [];
+sparseArray.forEach(value => {
+  if (value !== undefined) {
+    denseArray.push(value);
+  }
+});
+console.log(denseArray); // [1, 4, 5]
+```
+- Time Complexity: O(n)
+- Explanation:
+    - The forEach method iterates through all elements of the array.
+    - The callback function checks if each element is not undefined and pushes non-empty values into the denseArray.
+    - Since pushing elements into an array and checking each element are O(1) operations, the overall time complexity is O(n).
 
 </p>
 </details>
