@@ -3019,12 +3019,36 @@ console.log(flattenArray2(array));
 <p>
 
 ```javascript
+// Method 1: Using filter() and includes()
+const array11 = [1, 2, 3, 2, 1];
+const array22 = [2, 3, 4];
+const difference = array11.filter(num => !array22.includes(num));
 
+console.log(difference); // [1]
+
+// Method 2: Using reduce()
+const array1 = [1, 2, 2, 3, 4];
+const array2 = [2, 3, 5];
+const difference2 = array1.reduce((acc, curr) => {
+  if (!array2.includes(curr) || acc.includes(curr)) {
+    acc.push(curr);
+  }
+  return acc;
+}, []);
+
+console.log(difference2); // [1, 4]
 ```
 
-
+Method 1: filter with comparison: Filters elements from the first array that are not included in the second array (might be less performant for larger arrays).
 
 ### Time Complexity
+#### Method 1: Using filter() and includes()
+  - Time Complexity: O(n^2)
+  - Explanation: The filter() method iterates through the array once, taking O(n) time, where n is the length of the array. The includes() method inside the callback function also iterates through the array array22 for each element in array11, making it O(n) time. Since this happens for each element in array11, the overall time complexity is O(n^2), where n is the length of array11.
+
+#### Method 2: Using reduce()
+  - Time Complexity: O(n)
+  - Explanation: The reduce() method iterates through the array once, taking O(n) time, where n is the length of the array. The inner condition !array2.includes(curr) || acc.includes(curr) checks for the existence of each element in both arrays, which takes constant time O(1). Therefore, the overall time complexity is O(n), where n is the length of array1.
 
 </p>
 </details>
@@ -3034,12 +3058,45 @@ console.log(flattenArray2(array));
 <p>
 
 ```javascript
+const array = [1, 1, 2, 2, 3, 4, 4, 5];
 
+// Method 1: Using findIndex() and indexOf()
+const firstNonRepeatingIndex = array.findIndex((item, index) => array.indexOf(item) === array.lastIndexOf(item));
+
+console.log(firstNonRepeatingIndex); // 0 (index of 1)
+
+
+// Method 2: Loop with object to store frequency
+const numbers = [10, 20, 30, 10, 10, 20];
+
+const frequency = {};
+for (const num of numbers) {
+  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
+}
+
+let firstNonRepeatingIndex = null;
+for (let i = 0; i < numbers.length; i++) {
+  if (frequency[numbers[i]] === 1) {
+    firstNonRepeatingIndex = i;
+    break;
+  }
+}
+
+console.log(firstNonRepeatingIndex !== null ? firstNonRepeatingIndex : -1); // 2 (or -1 if no non-repeating element)
 ```
 
-
+Method 2: The second approach iterates through the array, building a frequency object. Then, it iterates through the array again to find the index of the first element with a count of 1 (meaning it appears only once).
 
 ### Time Complexity
+#### Method 1: Using findIndex() and indexOf()
+  - Time Complexity: O(n^2)
+  - Explanation: The findIndex() method iterates through the array once, taking O(n) time, where n is the length of the array. Inside the callback function, the indexOf() method is called, which also iterates through the array for each element, taking O(n) time. Therefore, the overall time complexity is O(n^2), where n is the length of array.
+
+#### Method 2: Loop with object to store frequency
+  - Time Complexity: O(n)
+  - Explanation: The outer loop iterates through the array once, taking O(n) time, where n is the length of numbers. The inner loop checks for non-repeating elements in a single pass through the array, also taking O(n) time. Therefore, the overall time complexity is O(n), where n is the length of numbers.
+
+Note that Method 2 is more efficient than Method 1 because it only requires a single pass through the array to store frequencies and find the first non-repeating element. Method 1 uses nested iterations, leading to a higher time complexity.
 
 </p>
 </details>
@@ -3050,12 +3107,27 @@ console.log(flattenArray2(array));
 <p>
 
 ```javascript
+const array1 = [1, 2, 3];
+const array2 = [3, 4, 5];
 
+// Using some()
+const hasCommonElement = array1.some(item => array2.includes(item));
+
+console.log(hasCommonElement); // true
 ```
 
-
+- Uses some on one array to iterate through its elements.
+- The callback function checks if the current element (num) is present in the other array using includes.
+- If includes returns true for any element, it means there's a common element, and some stops iterating and returns true
 
 ### Time Complexity
+The time complexity for this code is O(n), where n is the length of array1.
+
+The some() method iterates through array1 and checks if the callback function returns a truthy value. The callback function uses the includes() method to check if each element of array1 is present in array2. This operation takes O(n) time, where n is the length of array2.
+
+Since the some() method stops iterating as soon as it finds a truthy value, the overall time complexity is still O(n), where n is the length of array1. However, in practice, the actual time complexity may be closer to O(min(n, m)), where m is the length of array2, because includes() may terminate early when it finds a match.
+
+Note that if you were to use every() instead of some(), the time complexity would be O(m), where m is the length of array2, because every() would need to check every element in array2 for each element in array1.
 
 </p>
 </details>
@@ -3065,12 +3137,58 @@ console.log(flattenArray2(array));
 <p>
 
 ```javascript
+const array = [1, 2, 3, 2, 4, 5, 2];
 
+// Method 1: Using reverse() and findIndex()
+const lastIndex = array.length - 1 - array.reverse().findIndex(item => item === 2);
+
+console.log(lastIndex); // 6
+
+// Method 2: lastIndexOf (Built-in Method)
+const array = [1, 2, 3, 2, 4, 5, 2];
+const element = 2;
+
+const lastIndex = array.lastIndexOf(element);
+
+console.log(lastIndex !== -1 ? lastIndex : -1); // 3 (index of the last occurrence)
+
+// Method 3: Loop with Comparison
+const array = [1, 2, 3, 2, 4, 5, 2];
+const element = 2;
+
+let lastIndex = -1;
+for (let i = array.length - 1; i >= 0; i--) {
+  if (array[i] === element) {
+    lastIndex = i;
+    break; // Stop iterating once found
+  }
+}
+
+console.log(lastIndex); // 3 (index of the last occurrence)
 ```
 
-
+- Method 2:
+    - lastIndexOf searches the array backwards from the end and returns the index of the last occurrence of the specified element.
+    - If the element is not found, it returns -1.
+- Method 3:
+    - Loop with Comparison Iterates through the array backwards using a loop (for...of or for...in can also be used).
+    - If the current element (numbers[i]) matches the target element (element), the index (i) is stored in lastIndex.
+    - The loop breaks after finding the first occurrence (last occurrence while iterating backwards) to avoid unnecessary iterations.
 
 ### Time Complexity
+#### Method 1: Using reverse() and findIndex()
+  - Time Complexity: O(n)
+  - Explanation: The reverse() method takes O(n) time, where n is the length of the array. The findIndex() method then iterates through the reversed array, also taking O(n) time. Therefore, the overall time complexity is O(n).
+
+#### Method 2: lastIndexOf (Built-in Method)
+  - Time Complexity: O(n)
+  - Explanation: The built-in lastIndexOf() method iterates through the array from the end to find the last occurrence of the element, taking O(n) time, where n is the length of the array.
+
+#### Method 3: Loop with Comparison
+  - Time Complexity: O(n)
+  - Explanation: The loop iterates through the array in reverse order, comparing each element with the target element. The loop stops once it finds a match, so it takes O(n) time in the worst case, where n is the length of the array.
+
+In all three methods, the time complexity is linear, but Method 2 is more efficient as it uses a built-in method that is optimized for this specific task.
 
 </p>
 </details>
@@ -3080,12 +3198,39 @@ console.log(flattenArray2(array));
 <p>
 
 ```javascript
+const array = [1, 2, 3, 4, 5, 6];
 
+// Method 1: Using filter()
+const filteredArray = array.filter(item => item % 2 === 0);
+
+console.log(filteredArray); // [2, 4, 6]
+
+// Method 2: Loops through the array and uses splice
+const numbers = [10, 20, 30, 40, 50];
+const condition = num => num < 30; // Remove elements less than 30
+
+let i = 0; // Index to keep track of modified array
+while (i < numbers.length) {
+  if (condition(numbers[i])) {
+    numbers.splice(i, 1); // Remove the element at index i (1 element)
+  } else {
+    i++; // Move to the next element if not removed
+  }
+}
+
+console.log(numbers); // [30, 40, 50]
 ```
 
-
+- Method 2: A loop iterates through the array.
+    - If the current element (numbers[i]) satisfies the condition (condition(numbers[i])), splice is used to remove that element at index i (removing 1 element).
+    - If the condition is not met, the i index is incremented to move to the next element.
+    - This process continues until the entire array is scanned.
 
 ### Time Complexity
+#### Method 2: A loop iterates through the array.
+  - If the current element (numbers[i]) satisfies the condition (condition(numbers[i])), splice is used to remove that element at index i (removing 1 element).
+  - If the condition is not met, the i index is incremented to move to the next element.
+  - This process continues until the entire array is scanned.
 
 </p>
 </details>
