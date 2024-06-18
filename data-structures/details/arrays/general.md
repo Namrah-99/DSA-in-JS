@@ -217,3 +217,244 @@ const lastIndexOfE = letters.lastIndexOf("e"); // 4
 
 </p>
 </details>
+
+###### 6. How can you find the index of an element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const array = [1, 2, 3, 4, 5];
+
+// Method 1: Using splice()
+array.splice(2, 1); // Remove element at index 2
+
+// Method 2: Using filter()
+const newArray = array.filter((_, index) => index !== 2); // Remove element at index 2
+
+console.log(array); // [1, 2, 4, 5]
+console.log(newArray); // [1, 2, 4, 5]
+```
+
+- splice(index, number) (Primary Method)
+  Removes number elements starting at index and returns a new array containing the removed elements. This modifies the original array.
+- filter(callbackFunction) (Alternative Method)
+  Creates a new array containing all elements that pass the test implemented by the provided function. You can use this to filter out the element at the desired index.
+
+### Time Complexity
+#### Using splice():
+```javascript
+array.splice(2, 1); // Remove element at index 2
+```
+- Time Complexity: O(n)
+- Explanation: The splice method removes an element from the array at the specified index and shifts all subsequent elements one position to the left. This shifting operation involves moving all elements after the removed element, which takes O(n) time where n is the number of elements in the array.
+
+#### Using filter():
+```javascript
+const newArray = array.filter((_, index) => index !== 2); // Remove element at index 2
+```
+- Time Complexity: O(n)
+- Explanation: The filter method creates a new array by iterating through each element of the original array and applying the provided function. It includes only those elements that do not match the specified condition. Since it iterates through all elements once, the time complexity is O(n).
+</p>
+</details>
+
+###### 7. How can you find the index of an element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const colors1 = ["red", "green"];
+const colors2 = ["blue", "purple"];
+
+// Method 1: Spread syntax
+const combinedColors = [...colors1, ...colors2]; // ["red", "green", "blue", "purple"]
+
+// Method 2: concat()
+const combinedColors2 = colors1.concat(colors2); // ["red", "green", "blue", "purple"]
+
+console.log(combinedColors); // ["red", "green", "blue", "purple"]
+console.log(combinedColors2); // ["red", "green", "blue", "purple"]
+```
+
+- Spread Syntax (...) (Concise Method)
+  Combines elements from both arrays into a new array.
+- concat() (Explicit Method)
+  Creates a new array containing elements from both arrays, leaving the originals unchanged.
+
+### Time Complexity
+#### Using Spread Syntax:
+```javascript
+const combinedColors = [...colors1, ...colors2]; // ["red", "green", "blue", "purple"]
+```
+- Time Complexity: O(n + m)
+- Explanation: The spread syntax creates a new array by iterating through each element of colors1 and colors2. The time complexity is proportional to the sum of the lengths of both arrays, where n is the length of colors1 and m is the length of colors2.
+#### Using concat():
+```javascript
+const combinedColors2 = colors1.concat(colors2); // ["red", "green", "blue", "purple"]
+```
+- Time Complexity: O(n + m)
+- Explanation: The concat method creates a new array by appending all elements of colors2 to the end of colors1. This involves iterating through both arrays, resulting in a time complexity that is proportional to the sum of the lengths of both arrays.
+</p>
+</details>
+
+###### 8. How can you find the index of an element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const numbers = [3, 1, 4, 5, 2];
+
+// Method 1: Default sort (ascending)
+numbers.sort(); // [1, 2, 3, 4, 5]
+
+// Method 2: Sort with custom comparison function (descending)
+numbers.sort((a, b) => b - a); // descending order
+
+console.log(numbers); // [5, 4, 3, 2, 1] (original array modified)
+```
+
+- sort() (Default Method)
+  Sorts the array in place (ascending order by default) based on the Unicode code points of the elements. It modifies the original array.
+- sort(comparisonFunction) (Custom Sorting)
+  Allows you to define a custom comparison function for custom sorting logic (e.g., sorting numbers in ascending or descending order).
+
+### Time Complexity
+#### Using Default Sort (Ascending):
+```javascript
+numbers.sort(); // [1, 2, 3, 4, 5]
+```
+- Time Complexity: O(n log n)
+- Explanation: The default sort method in JavaScript uses the Timsort algorithm, which has a time complexity of O(n log n) in the average and worst cases. Timsort is a hybrid sorting algorithm derived from merge sort and insertion sort.
+#### Using Sort with Custom Comparison Function (Descending):
+```javascript
+numbers.sort((a, b) => b - a); // descending order
+```
+- Time Complexity: O(n log n)
+- Explanation: When using a custom comparison function, the sort method still utilizes the Timsort algorithm. The time complexity remains O(n log n) in the average and worst cases, as the sorting mechanism does not change with the addition of a custom comparator.
+
+</p>
+</details>
+
+###### 9. How can you find the index of an element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const letters = ["a", "b", "c", "d"];
+
+// Method 1: reverse() (mutates)
+letters.reverse(); // ["d", "c", "b", "a"]
+
+// Method 2: slice().reverse() (immutable)
+const reversedLetters = letters.slice().reverse(); // ["a", "b", "c", "d"] (original remains unchanged)
+
+console.log(letters); // ["d", "c", "b", "a"]
+console.log(reversedLetters); // ["a", "b", "c", "d"]
+```
+
+- reverse is a direct method for reversing the order of elements in an array, but it modifies the original array.
+- slice().reverse is a preferred approach when you want to avoid modifying the original array. It creates a new reversed array, preserving the original order.
+
+### Time Complexity
+#### Using reverse() (mutates the original array):
+```javascript
+letters.reverse(); // ["d", "c", "b", "a"]
+```
+- Time Complexity: O(n)
+- Explanation: The reverse method in JavaScript iterates through the array and reverses the order of the elements in place. This requires swapping each element, which takes linear time relative to the number of elements in the array.
+#### Using slice().reverse() (creates a new array and then reverses it):
+```javascript
+const reversedLetters = letters.slice().reverse(); // ["a", "b", "c", "d"] (original remains unchanged)
+```
+- Time Complexity: O(n)
+- Explanation: The slice method first creates a shallow copy of the array, which takes O(n) time. Then, the reverse method is applied to this new array, which also takes O(n) time. Combining these operations, the overall time complexity remains O(n).
+
+</p>
+</details>
+
+###### 10. How can you find the index of an element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const message = "Hello, world!";
+
+// Method 1: Splitting on characters
+const characters = message.split(""); // ["H", "e", "l", "l", "o", ...]
+
+// Splitting on words (space as separator)
+const words = message.split(" "); // ["Hello,", "world!"]
+
+console.log(characters); // ["H", "e", "l", "l", "o", ...]
+console.log(words); // ["Hello,", "world!"]
+
+// Method 2: Using Array.from() to split on characters
+const array2 = Array.from(message); // ['h', 'e', 'l', 'l', 'o']
+```
+- split is the primary method for converting strings to arrays. You can specify a separator to define how the string is split.
+- Array.from converts an array-like or iterable object (such as a string) into a new array.
+
+### Time Complexity
+#### Splitting on Characters:
+```javascript
+const characters = message.split(""); // ["H", "e", "l", "l", "o", ...]
+```
+- Time Complexity: O(n)
+- Explanation: Splitting a string into individual characters using split("") requires iterating through each character of the string once, resulting in a time complexity of O(n), where n is the length of the string.
+
+#### Splitting on Words:
+```javascript
+const words = message.split(" "); // ["Hello,", "world!"]
+```
+- Time Complexity: O(n)
+- Explanation: Splitting a string into words using split(" ") also requires iterating through each character of the string once to identify word boundaries. Therefore, it also has a time complexity of O(n).
+
+#### Using Array.from() to Split on Characters:
+```javascript
+const array2 = Array.from(message); // ['h', 'e', 'l', 'l', 'o']
+```
+- Time Complexity: O(n)
+- Explanation: Using Array.from() to convert a string into an array of characters also requires iterating through each character of the string once, resulting in a time complexity of O(n).
+
+#### Summary
+- Splitting on Characters: O(n)
+- Splitting on Words: O(n)
+- Using Array.from() to Split on Characters: O(n)
+
+</p>
+</details>
+
+###### 11. How can you convert an array to a string in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+const array = ["Hello", "world"];
+const string = array.join(", "); // "Hello, world"
+
+
+const array = ["Hello", "world"];
+const string = array.toString(); // "Hello,world"
+```
+
+- join(separator): Creates a new string by joining elements of the array with a specified separator (comma by default).
+- toString(): Converts the array to a string representation, often containing commas and square brackets.
+
+### Time Complexity
+
+#### Using join():
+```javascript
+const array = ["Hello", "world"];
+const string = array.join(", "); // "Hello, world"
+```
+- Time Complexity: O(n)
+- Explanation: Iterates through each element and constructs the resulting string, where n is the total number of characters in the final string.
+#### Using toString():
+```javascript
+const array = ["Hello", "world"];
+const string = array.toString(); // "Hello,world"
+```
+- Time Complexity: O(n)
+- Explanation: Converts each element to a string and concatenates them with commas, where n is the total number of characters in the final string.
+
+</p>
+</details>
