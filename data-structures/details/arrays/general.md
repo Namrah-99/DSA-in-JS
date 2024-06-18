@@ -1813,3 +1813,604 @@ console.log(average); // 20.00
 
 </p>
 </details>
+
+###### 41. How can you find the median of all numbers in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 42. How can you find the mode of all numbers in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 43. How can you find the frequency of each element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 44. How can you find the second highest and second lowest numbers in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 45. How can you find the most common element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 46. How can you find the least common element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 47. How can you find the index of the first occurrence of a value in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 48. How can you find the index of the last occurrence of a value in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 49. How can you remove specific elements from an array by value?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 50. How can you convert a sparse array to a dense array in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 51. How can you merge multiple arrays into a single array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 52. How can you find the difference between two arrays, excluding common elements?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 53. How can you find the index of the first occurrence of an element in an array from a specific index?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 54. How can you check if an array contains only unique values?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 55. How can you find the longest consecutive sequence of a specific value in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 56. How can you find the number of occurrences of each element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 57. How can you remove the last n elements from an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 58. How can you add elements to an array at specific indexes?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 59. How can you remove elements from an array at specific indexes?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 60. How can you convert a multidimensional array into a flat array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 61. How can you find the difference between two arrays, including duplicates?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 62. How can you find the index of the first non-repeating element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+
+###### 63. How can you check if two arrays have at least one common element?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 64. How can you find the index of the last occurrence of an element in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 65. How can you remove elements from an array that satisfy a specific condition?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 66. How can you replace specific elements in an array with new values?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 67. How can you find the largest and smallest numbers in an array without using the Math object?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 68. How can you find the sum of all elements in an array using recursion?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 69. How can you check if an array is sorted in ascending order?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 70. How can you check if an array is a subset of another array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 71. How can you find the frequency of each word in a string array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 72. How can you rotate the elements of an array to the right by a specific number of positions?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 73. How can you find the intersection of multiple arrays?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 74. How can you remove elements from an array without mutating the original array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 75. How can you find the nth element from the end of an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 76. How can you find the missing number in a sequential array of numbers?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 77. How can you find the second highest and second lowest elements in an array without sorting?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 78. How can you convert a string array to a 2D array of characters?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 79. How can you check if two arrays are circularly identical?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
+
+###### 80. How can you find the index of the first element that is not equal to its index in an array?
+<details><summary><b>Solution</b></summary>
+<p>
+
+```javascript
+
+```
+
+
+
+### Time Complexity
+
+</p>
+</details>
