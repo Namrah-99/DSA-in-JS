@@ -3240,13 +3240,55 @@ console.log(numbers); // [30, 40, 50]
 <p>
 
 ```javascript
+// Method 1: Loop with Condition
+const numbers = [10, 20, 30, 40, 50];
+const condition = num => num < 30; // Replace elements less than 30
+const newValue = 100;
 
+for (let i = 0; i < numbers.length; i++) {
+  if (condition(numbers[i])) {
+    numbers[i] = newValue;
+  }
+}
+
+console.log(numbers);
+
+// Method 2: Using map()
+const numbers = [10, 20, 30, 40, 50];
+const condition = num => num < 30; // Replace elements less than 30
+const newValue = 100;
+
+const replacedArray = numbers.map(num => (condition(num) ? newValue : num));
+
+console.log(replacedArray); // [100, 20, 30, 40, 50] (original array remains unchanged)
+
+// Method 3: Using forEach
+const newArray2 = [];const array = [1, 2, 3, 4, 5];
+array.forEach(element => {
+  newArray2.push(element === 3 ? 10 : element);
+});
+console.log(newArray2); // [1, 2, 10, 4, 5]
 ```
 
-
+- Method 1: Loop with Condition:
+    - Iterates through the array, replacing elements that meet a specific condition with a new value.
+- Method 2: map with Condition
+    - Creates a new array with elements replaced based on a callback function.
 
 ### Time Complexity
+#### Method 1: Loop with Condition
+  - Time Complexity: O(n)
+  - The loop iterates through the array, checking each element to see if it meets the condition. If it does, it replaces the element. This operation takes O(n) time, where n is the length of the array.
 
+#### Method 2: Using map()
+  - Time Complexity: O(n)
+  - The map() method iterates through the array, applying the condition and replacing elements as needed. This operation also takes O(n) time, where n is the length of the array.
+
+#### Method 3: Using forEach
+  - Time Complexity: O(n)
+  - The forEach() method iterates through the array, applying the condition and pushing elements to a new array. This operation also takes O(n) time, where n is the length of the array.
+
+In all three methods, the time complexity is linear, meaning they all have a direct relationship with the size of the input array. However, Method 2 using map() is often considered more efficient because it creates a new array without modifying the original one, which can be beneficial in certain situations.
 </p>
 </details>
 
@@ -3255,13 +3297,80 @@ console.log(numbers); // [30, 40, 50]
 <p>
 
 ```javascript
+// Method 1: Loop with Variables
+const numbers = [10, 20, 30, 40, 5];
 
+let largest = numbers[0];
+let smallest = numbers[0];
+
+for (const num of numbers) {
+  if (num > largest) {
+    largest = num;
+  }
+  if (num < smallest) {
+    smallest = num;
+  }
+}
+
+console.log("Largest:", largest); // Largest: 40
+console.log("Smallest:", smallest); // Smallest: 5
+
+// Method 2: Recursive Approach (Divide and Conquer)
+const numbers = [10, 20, 30, 40, 5];
+
+function findLargestSmallest(arr, low = 0, high = arr.length - 1) {
+  if (low === high) {
+    return { largest: arr[low], smallest: arr[low] }; // Base case: single element
+  }
+
+  const mid = Math.floor((low + high) / 2);
+  const left = findLargestSmallest(arr, low, mid);
+  const right = findLargestSmallest(arr, mid + 1, high);
+
+  return {
+    largest: Math.max(left.largest, right.largest),
+    smallest: Math.min(left.smallest, right.smallest),
+  };
+}
+
+const result = findLargestSmallest(numbers);
+console.log("Largest:", result.largest); // Largest: 40
+console.log("Smallest:", result.smallest); // Smallest: 5
+
+// Method 3: Using reduce():
+const array = [1, 2, 3, 4, 5];
+const max = array.reduce((acc, curr) => (acc > curr ? acc : curr));
+const min = array.reduce((acc, curr) => (acc < curr ? acc : curr));
+console.log(`Max: ${max}, Min: ${min}`);
+
+// Method 4: Using sort():
+const array = [1, 2, 3, 4, 5];
+array.sort((a, b) => a - b);
+const min2 = array[0];
+const max2 = array[array.length - 1];
+console.log(`Max: ${max2}, Min: ${min2}`);
 ```
 
-
+Method 1: filter with comparison: Filters elements from the first array that are not included in the second array (might be less performant for larger arrays).
 
 ### Time Complexity
+#### Method 1: Loop with Variables
+  - Time Complexity: O(n)
+  - The loop iterates through the array, checking each element to find the largest and smallest values. This operation takes O(n) time, where n is the length of the array.
 
+#### Method 2: Recursive Approach (Divide and Conquer)
+  - Time Complexity: O(log n)
+  - The recursive function divides the array into two halves and finds the largest and smallest values in each half. This operation takes O(log n) time, where n is the length of the array.
+
+#### Method 3: Using reduce()
+  - Time Complexity: O(n)
+  - The reduce() method iterates through the array, applying a callback function to each element to find the maximum and minimum values. This operation takes O(n) time, where n is the length of the array.
+
+#### Method 4: Using sort()
+  - Time Complexity: O(n log n)
+  - The sort() method sorts the array, which takes O(n log n) time, and then extracts the maximum and minimum values. This operation takes O(n log n) time, where n is the length of the array.
+
+Note that Method 2 has a better time complexity than the other methods because it uses a divide-and-conquer approach, which reduces the problem size by half at each recursive step. The other methods iterate through the entire array, making them less efficient for large inputs.
 </p>
 </details>
 
@@ -3270,12 +3379,48 @@ console.log(numbers); // [30, 40, 50]
 <p>
 
 ```javascript
+// Using recursion
+const sumArray = arr => {
+  if (arr.length === 0) return 0;
+  return arr[0] + sumArray(arr.slice(1));
+};
+console.log(sumArray([1, 2, 3, 4, 5])); // 15
 
+
+
+const numbers = [10, 20, 30, 40];
+
+function sumRecursive(arr) {
+  if (arr.length === 0) {
+    return 0; // Base case: empty array
+  }
+  return arr[0] + sumRecursive(arr.slice(1)); // Add first element and recurse on remaining elements
+}
+
+const totalSum = sumRecursive(numbers);
+console.log("Sum:", totalSum); // Sum: 100
 ```
 
+- Explanation:
+    - The sumRecursive function takes an array (arr).
+    - The base case checks for an empty array and returns 0 (no sum).
+    - Otherwise, it returns the sum of the first element (arr[0]) and the recursive call on the remaining elements obtained using slice(1).
 
+
+- Choosing the Right Method:
+    While recursion can be used for finding the sum, a simple loop (for...of or reduce) or array methods like reduce are generally more efficient and easier to understand for this purpose. Recursion might have overhead due to function calls.
 
 ### Time Complexity
+The time complexity of the recursive function sumArray and sumRecursive is O(n), where n is the length of the input array.
+
+Here's a breakdown of the time complexity:
+
+In each recursive call, the function processes one element of the array (by adding it to the sum).
+The function then recursively calls itself on the remaining elements of the array (i.e., arr.slice(1)).
+This process repeats until the base case is reached, which is when the array is empty (length 0).
+Since each recursive call processes one element and makes another recursive call, the time complexity is proportional to the number of elements in the array. Therefore, the time complexity is O(n), where n is the length of the input array.
+
+Note that while recursion can be an elegant way to solve problems, it's often less efficient than iterative solutions because it creates a new stack frame for each recursive call, which can lead to stack overflow errors for large inputs. In this case, an iterative solution using a simple loop would have a similar time complexity but would be more efficient in terms of memory usage.
 
 </p>
 </details>
@@ -3285,13 +3430,44 @@ console.log(numbers); // [30, 40, 50]
 <p>
 
 ```javascript
+// Method 1: Using every()
+const isSorted = arr => arr.every((element, index) => index === 0 || element >= arr[index - 1]);
+console.log(isSorted([1, 2, 3, 4, 5])); // true
+console.log(isSorted([1, 3, 2, 4, 5])); // false
 
+// Method 2: Loop with comparison
+const sortedArray = [10, 20, 30, 40];
+const unsortedArray = [10, 30, 20, 40];
+
+function isSorted(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] > arr[i + 1]) {
+      return false; // Not sorted if current element is greater than next
+    }
+  }
+  return true; // Sorted if loop completes without finding violations
+}
+
+console.log("Sorted array:", isSorted(sortedArray)); // true
+console.log("Unsorted array:", isSorted(unsortedArray)); // false
 ```
 
-
+- Explanation (Loop with Comparison):
+    - The isSorted function takes an array (arr).
+    - The loop iterates from index 0 to the second-last element (length - 1) to compare consecutive elements.
+    - If arr[i] (current element) is greater than arr[i + 1] (next element), the array is not sorted, and the function returns false.
+    - If the loop completes without finding any violation, the array is considered sorted, and the function returns true.
 
 ### Time Complexity
+#### Method 1: Using every()
+  - Time Complexity: O(n)
+  - Explanation: The every() method iterates through the array, checking each element to see if it's less than or equal to the previous element. This operation takes O(n) time, where n is the length of the array.
 
+#### Method 2: Loop with comparison
+  - Time Complexity: O(n)
+  - Explanation: The loop iterates through the array, comparing each element to the next one. If a pair of elements is found where the current element is greater than the next one, the function returns false immediately. If the loop completes without finding any such pairs, it returns true. This operation also takes O(n) time, where n is the length of the array.
+
+In both methods, the time complexity is O(n) because they both iterate through the array once. The every() method uses a callback function to check each element, while the loop uses a simple comparison operation.
 </p>
 </details>
 
@@ -3300,13 +3476,37 @@ console.log(numbers); // [30, 40, 50]
 <p>
 
 ```javascript
+// Method 1: Using every with includes:
+const isSubset = (arr1, arr2) => arr2.every(element => arr1.includes(element));
+console.log(isSubset([1, 2], [1, 2, 3, 4, 5])); // true
+console.log(isSubset([1, 2, 6], [1, 2, 3, 4, 5])); // false
 
+// Method 2: Using some with Negation
+const subset = [10, 20];
+const superset = [10, 20, 30];
+const notSubset = [10, 40];
+
+const isSubset = !subset.some(num => !superset.includes(num));
+
+console.log("Is subset:", isSubset); // true
+console.log("Not subset:", !isSubset); // true (using negation)
 ```
 
-
+- Method 1:
+    Uses every to check if every element in the first array (subset) is present in the second array (superset).
+- Method 2:  some with Negation
+    Uses some with negation to check if any element in the first array (subset) is not present in the second array (superset).
 
 ### Time Complexity
+#### Method 1: Using every with includes
+  - Time Complexity: O(nm)
+  - The every() method iterates through each element of arr2, and for each element, it checks if it exists in arr1 using the includes() method. This operation takes O(nm) time, where n is the length of arr2 and m is the length of arr1.
 
+#### Method 2: Using some with Negation
+  - Time Complexity: O(n)
+  - The some() method iterates through each element of subset, and for each element, it checks if it exists in superset using the includes() method. If any element is not found, it returns true immediately. If the loop completes without finding any elements not in superset, it returns false. This operation takes O(n) time, where n is the length of subset.
+
+In Method 1, the time complexity is O(n*m) because it has to check each element of arr2 against all elements of arr1. In Method 2, the time complexity is O(n) because it only needs to check each element of subset once.
 </p>
 </details>
 
@@ -3315,7 +3515,20 @@ console.log(numbers); // [30, 40, 50]
 <p>
 
 ```javascript
+// Method 1: Using every with includes:
+const isSubset = (arr1, arr2) => arr2.every(element => arr1.includes(element));
+console.log(isSubset([1, 2], [1, 2, 3, 4, 5])); // true
+console.log(isSubset([1, 2, 6], [1, 2, 3, 4, 5])); // false
 
+// Method 2: Using some with Negation
+const subset = [10, 20];
+const superset = [10, 20, 30];
+const notSubset = [10, 40];
+
+const isSubset = !subset.some(num => !superset.includes(num));
+
+console.log("Is subset:", isSubset); // true
+console.log("Not subset:", !isSubset); // true (using negation)
 ```
 
 
