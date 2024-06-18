@@ -1554,12 +1554,46 @@ In both methods, if there are invalid strings that cannot be converted to number
 <p>
 
 ```javascript
+// Method 1: Using the map method
+const booleanArray = array.map(str => str.toLowerCase() === 'true');
 
+// Method 2: Using a for loop
+const booleanArray = [];
+for (let i = 0; i < array.length; i++) {
+  booleanArray.push(array[i].toLowerCase() === 'true');
+}
+// method 3: Double Negation
+const boolValues2 = truthValues.map(string => !!string); // [true, true, true] (might be misleading)
+console.log(boolValues2); // [true, true, true]
 ```
-
+- Uses double negation (!!) to coerce strings to booleans. However, this might not be ideal for all cases (e.g., "0" becomes true).
+- The first method explicitly checks for lowercase "true" to ensure accurate conversion.
+- The second method leverages double negation, which coerces any non-empty string to true and empty strings to false. This might lead to unexpected results if you expect strict boolean conversions.
 
 ### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const booleanArray = array.map(str => str.toLowerCase() === 'true');
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and applies the comparison operation (str.toLowerCase() === 'true') to convert each string to a boolean value. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
 
+#### Method 2: Using a for loop
+```javascript
+const booleanArray = [];
+for (let i = 0; i < array.length; i++) {
+  booleanArray.push(array[i].toLowerCase() === 'true');
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses the comparison operation to convert each string to a boolean value before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+#### Method 3: Double Negation
+```javascript
+const boolValues2 = truthValues.map(string => !!string);
+```
+- Time Complexity: O(n)
+- Explanation: The double negation (!!) is used to convert truthy and falsy values to true and false respectively. While this method is concise, it might be misleading as it converts all truthy values to true, including non-empty strings, which may not be the intended behavior.
 
 </p>
 </details>
@@ -1569,12 +1603,51 @@ In both methods, if there are invalid strings that cannot be converted to number
 <p>
 
 ```javascript
+// Method 1: Using the map method
+const stringArray = array.map(bool => String(bool));
 
+// Method 2: Using a for loop
+const stringArray = [];
+for (let i = 0; i < array.length; i++) {
+  stringArray.push(String(array[i]));
+}
+
+// Method 3
+const booleans = [true, false, true];
+
+const stringBooleans = booleans.map(bool => bool.toString()); // ["true", "false", "true"]
+console.log(stringBooleans); // ["true", "false", "true"]
 ```
 
+toString() (map): Uses map to convert each boolean to a string using toString.
 
 ### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const stringArray = array.map(bool => String(bool));
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and converts each boolean to a string using the String constructor. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
 
+#### Method 2: Using a for loop
+```javascript
+const stringArray = [];
+for (let i = 0; i < array.length; i++) {
+  stringArray.push(String(array[i]));
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses the String constructor to convert each boolean to a string before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+#### Method 3:
+```javascript
+const booleans = [true, false, true];
+
+const stringBooleans = booleans.map(bool => bool.toString()); // ["true", "false", "true"]
+console.log(stringBooleans); // ["true", "false", "true"]
+```
+
+This method uses the toString method directly on each boolean element to convert it to a string. Since it also iterates over each element once, the time complexity is O(n), where n is the number of elements in the array.
 
 </p>
 </details>
@@ -1584,12 +1657,47 @@ In both methods, if there are invalid strings that cannot be converted to number
 <p>
 
 ```javascript
+// Method 1: Using the map method
+const numberArray = array.map(bool => bool ? 1 : 0);
 
+// Method 2: Using a for loop
+const numberArray = [];
+for (let i = 0; i < array.length; i++) {
+  numberArray.push(array[i] ? 1 : 0);
+}
+
+// Method 3
+const numberBooleans = booleans.map(bool => Number(bool)); // [1, 0, 1]
+console.log(numberBooleans); // [1, 0, 1]
 ```
 
+Number() (map): Leverages map and the Number constructor to convert booleans to numbers (true becomes 1, false becomes 0).
 
 ### Time Complexity
+#### Method 1: Using the map method
+```javascript
+const numberArray = array.map(bool => bool ? 1 : 0);
+```
+- Time Complexity: O(n)
+- Explanation: The map method iterates over each element of the array and converts each boolean to a number (0 or 1) based on the ternary condition. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
 
+#### Method 2: Using a for loop
+```javascript
+const numberArray = [];
+for (let i = 0; i < array.length; i++) {
+  numberArray.push(array[i] ? 1 : 0);
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array and uses a ternary condition to convert each boolean to a number (0 or 1) before adding it to the new array. Similar to the map method, it iterates over each element once, resulting in a linear time complexity.
+
+#### Method 3:
+```javascript
+const numberBooleans = booleans.map(bool => Number(bool)); // [1, 0, 1]
+console.log(numberBooleans); // [1, 0, 1]
+```
+
+This method uses the Number constructor directly on each boolean element to convert it to a number. Since it also iterates over each element once, the time complexity is O(n), where n is the number of elements in the array.
 
 </p>
 </details>
@@ -1599,12 +1707,55 @@ In both methods, if there are invalid strings that cannot be converted to number
 <p>
 
 ```javascript
+const array = [10, 20, 30];
 
+// Method 1: Using the reduce method
+const sum = array.reduce((acc, curr) => acc + curr, 0);
+
+// Method 2: Using a for loop
+let sum = 0;
+for (let i = 0; i < array.length; i++) {
+  sum += array[i];
+}
+
+// Method 3: Using for...of
+const sum2 = 0;
+for (const num of numbers) {
+  sum2 += num;
+}
+console.log(sum2); // 60
 ```
 
+- reduce(): Uses the reduce method with an initial value of 0 as the accumulator (acc) and a callback function that adds each element (num) to the accumulator.
+- for...of loop: Iterates through the array using a loop, keeping track of the sum in a variable.
 
 ### Time Complexity
+#### Method 1: Using the reduce method
+```javascript
+const sum = array.reduce((acc, curr) => acc + curr, 0);
+```
+- Time Complexity: O(n)
+- Explanation: The reduce method iterates over each element of the array once, adding it to the accumulator (acc). Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
 
+#### Method 2: Using a for loop
+```javascript
+let sum = 0;
+for (let i = 0; i < array.length; i++) {
+  sum += array[i];
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array once, adding it to the sum. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
+
+#### Method 3: Using for...of
+```javascript
+let sum2 = 0;
+for (const num of array) {
+  sum2 += num;
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for...of loop iterates over each element of the array once, adding it to the sum. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array.
 
 </p>
 </details>
@@ -1614,12 +1765,51 @@ In both methods, if there are invalid strings that cannot be converted to number
 <p>
 
 ```javascript
+// Method 1: Using the reduce method
+const sum = array.reduce((acc, curr) => acc + curr, 0);
+const average = sum / array.length;
 
+// Method 2: Using a for loop
+let sum = 0;
+for (let i = 0; i < array.length; i++) {
+  sum += array[i];
+}
+const average = sum / array.length;
+
+// method 3
+const average = (numbers.reduce((acc, num) => acc + num, 0) / numbers.length).toFixed(2); // 20.00
+console.log(average); // 20.00
 ```
 
+This approach combines reduce to find the sum and divides by the array length to get the average. Rounding to two decimal places using toFixed(2) is optional.
 
 ### Time Complexity
+#### Method 1: Using the reduce method
+```javascript
+const sum = array.reduce((acc, curr) => acc + curr, 0);
+const average = sum / array.length;
+```
+- Time Complexity: O(n)
+- Explanation: The reduce method iterates over each element of the array once to calculate the sum. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array. Calculating the average by dividing the sum by the length of the array is a constant time operation, so it doesn't affect the overall time complexity.
 
+#### Method 2: Using a for loop
+```javascript
+let sum = 0;
+for (let i = 0; i < array.length; i++) {
+  sum += array[i];
+}
+const average = sum / array.length;
+```
+- Time Complexity: O(n)
+- Explanation: The for loop iterates over each element of the array once to calculate the sum. Since it iterates over each element once, the time complexity is linear, where n is the number of elements in the array. Calculating the average by dividing the sum by the length of the array is a constant time operation, so it doesn't affect the overall time complexity.
+
+#### Method 3: Using reduce and toFixed
+```javascript
+const average = (numbers.reduce((acc, num) => acc + num, 0) / numbers.length).toFixed(2);
+console.log(average); // 20.00
+```
+- Time Complexity: O(n)
+- Explanation: The reduce method is used to calculate the sum of numbers in the array, which has a time complexity of O(n), where n is the number of elements in the array. Dividing the sum by the length of the array is a constant time operation. The toFixed(2) method is also a constant time operation as it always formats the number to two decimal places, irrespective of the array size.
 
 </p>
 </details>
