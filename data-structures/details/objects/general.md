@@ -1256,6 +1256,9 @@ for (const key in person) {
   }
 }
 ```
+
+Time Complexity: O(n) - Where n is the number of own enumerable properties in the object. The for...in loop iterates over all enumerable properties of an object, including inherited ones, but filtering out non-own properties using hasOwnProperty.
+
 Using Object.values (modern, doesn't iterate over inherited properties):
 ```javascript
 const person = { name: "Alice", age: 30 };
@@ -1265,6 +1268,12 @@ for (const value of values) {
   console.log(value); // Output: Alice, 30
 }
 ```
+
+Time Complexity: O(n) - Where n is the number of own enumerable properties in the object. Object.values returns an array of a given object's own enumerable property values, iterating only over the object's own properties and not inherited ones.
+
+Summary:
+- `for...in` Loop with hasOwnProperty: O(n) - Iterates over all enumerable properties, including inherited ones, but filters out non-own properties using hasOwnProperty.
+- `Object.values`: O(n) - Iterates over only own enumerable property values, excluding inherited ones.
 
 </p>
 </details>
@@ -1282,6 +1291,8 @@ for (const [key, value] of Object.entries(person)) {
 }
 ```
 
+Time Complexity: O(n) - Where n is the number of own enumerable properties in the object. `Object.entries` returns an array of a given object's own enumerable property [key, value] pairs, iterating over only the object's own properties and not inherited ones.
+
 </p>
 </details>
 
@@ -1295,12 +1306,18 @@ const person = { name: "Alice", age: 30 };
 const valuesArray = Object.values(person);
 console.log(valuesArray); // Output: ["Alice", 30]
 ```
+
+Time Complexity: Object.values O(n) - Iterates over only own enumerable properties, excluding inherited ones, to extract values from the object.
+
 Using Object.keys and mapping for key-value pairs (modern):
 ```javascript
 const person = { name: "Alice", age: 30 };
 const entriesArray = Object.keys(person).map(key => [key, person[key]]);
 console.log(entriesArray); // Output: [["name", "Alice"], ["age", 30]]
 ```
+
+Time Complexity: Object.keys and Mapping O(n) - Iterates over only own enumerable properties, excluding inherited ones, to extract key-value pairs from the object.
+
 Using a loop with spread syntax (older approach):
 ```javascript
 const person = { name: "Alice", age: 30 };
@@ -1310,6 +1327,8 @@ for (const key in person) {
 }
 console.log(valuesArray); // Output: ["Alice", 30]
 ```
+
+Time Complexity: Loop with Spread Syntax O(n) - Iterates over only own enumerable properties, excluding inherited ones, to extract values from the object.
 
 </p>
 </details>
@@ -1324,6 +1343,9 @@ const names = ["Alice", "Bob", "Charlie"];
 const nameObject = Object.fromEntries(names.map((name, index) => [index, name]));
 console.log(nameObject); // Output: {0: "Alice", 1: "Bob", 2: "Charlie"}
 ```
+
+Time Complexity: Object.fromEntries O(n) - Iterates over each element in the array to create key-value pairs for the resulting object.
+
 Using a loop with object literal syntax:
 ```javascript
 const names = ["Alice", "Bob", "Charlie"];
@@ -1333,6 +1355,8 @@ for (let i = 0; i < names.length; i++) {
 }
 console.log(nameObject); // Output: {0: "Alice", 1: "Bob", 2: "Charlie"}
 ```
+
+Time Complexity: Loop with Object Literal Syntax O(n) - Iterates over each element in the array to assign values to the object with the corresponding index as the key.
 
 </p>
 </details>
@@ -1356,6 +1380,8 @@ try {
 }
 ```
 
+Time Complexity: Object.freeze O(1) - Sets a flag on the object to make it immutable, preventing modifications to existing properties and addition of new properties.
+
 </p>
 </details>
 
@@ -1378,6 +1404,8 @@ try {
 }
 ```
 
+Time Complexity: Object.seal O(1) - Sets a flag on the object to make it non-extensible, preventing addition of new properties while allowing modifications to existing ones.
+
 </p>
 </details>
 
@@ -1393,6 +1421,8 @@ Object.freeze(person);
 person.newProperty = "New"; // This will not change the object (silent failure)
 console.log(person.hasOwnProperty('newProperty')); // Output: false
 ```
+
+Time Complexity: Object.freeze O(1) - Sets a flag on the object to make it immutable, preventing modifications to existing properties and addition of new properties.
 
 </p>
 </details>
@@ -1413,6 +1443,8 @@ console.log(Object.isFrozen(person));       // Output: false (sealed, not frozen
 console.log(Object.isFrozen(frozenPerson));  // Output: true (frozen)
 ```
 
+Time Complexity: Object.isFrozen, Object.isSealed, Object.isExtensible O(1) - These methods have a constant time complexity as they directly check the mutability state of an object based on internal flags set by methods like Object.freeze and Object.seal.
+
 </p>
 </details>
 
@@ -1428,6 +1460,9 @@ const shallowCopy = { ...person };
 shallowCopy.name = "Bob";
 console.log(person.name); // Output: also "Bob" (changes are reflected in original object)
 ```
+
+Time Complexity: O(n) - Where n is the number of own enumerable properties in the person object. The spread syntax { ...person } creates a new object and copies all enumerable own properties of person into it, which requires iterating over all properties of person.
+
 Using Object.assign with a new empty object:
 ```javascript
 const person = { name: "Alice", age: 30 };
@@ -1436,6 +1471,8 @@ const shallowCopy = Object.assign({}, person);
 shallowCopy.name = "Bob";
 console.log(person.name); // Output: still "Alice" (changes don't affect original)
 ```
+
+Time Complexity: O(n) - Where n is the number of own enumerable properties in the person object. Object.assign({}, person) creates a new empty object and then copies all enumerable own properties of person into it, which requires iterating over all properties of person.
 
 </p>
 </details>
@@ -1470,6 +1507,9 @@ deepCopy.address.city = "London";
 console.log(person.name); // Output: still "Alice" (original not affected)
 console.log(person.address.city); // Output: still "New York" (deep copy for nested object)
 ```
+
+Time Complexity: O(n) - Where n is the total number of primitive values and non-primitive values (objects and arrays) in the person object. The function iterates through all properties of the object recursively, creating copies as it goes.
+
 Third-party libraries (Lodash, for example):
 ```javascript
 // Assuming Lodash is installed
@@ -1483,6 +1523,9 @@ deepCopy.address.city = "London";
 console.log(person.name); // Output: still "Alice" (original not affected)
 console.log(person.address.city); // Output: still "New York" (deep copy for nested object)
 ```
+
+Time Complexity: O(n) - The complexity of Lodash's cloneDeep function is similar to the recursive function, as it also iterates through all properties of the object recursively, creating copies as it goes.
+
 ##### Explanation:
 The recursive function handles various data types (primitives, arrays, objects) and considers circular references.
 Third-party libraries like Lodash often provide well-tested deep copy functionalities.
