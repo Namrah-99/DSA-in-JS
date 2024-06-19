@@ -6,8 +6,6 @@
 <p align="center">Create, Traverse & Manipulate Objects</p>
 
 
-
-
 ###### 1. How do you create an empty object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
@@ -19,6 +17,12 @@ let obj1 = {};
 // Using Object constructor
 let obj2 = new Object();
 ```
+
+### Time Complexity
+The time complexity for creating an object in JavaScript using either object literal notation or the Object constructor is 𝑂(1).
+
+In both cases, the steps to create an empty object are minimal and do not depend on any input size or other variable factors. Therefore, the time complexity for both methods is 
+𝑂(1).
 
 </p>
 </details>
@@ -37,6 +41,10 @@ console.log(obj.name); // John
 console.log(obj["age"]); // 30
 ```
 
+### Time Complexity
+In JavaScript, accessing properties of an object using dot notation or bracket notation has a time complexity of O(1), which is constant time. This is because JavaScript objects are implemented as hash tables, and accessing a value by its key in a hash table is an average-case O(1) operation.
+
+Both operations are efficient and quick because they involve looking up the key in the hash table and retrieving the corresponding value.
 </p>
 </details>
 
@@ -54,6 +62,8 @@ obj.age = 30;
 obj["city"] = "New York";
 ```
 
+### Time Complexity
+The time complexity of both dot notation and bracket notation for adding properties to a JavaScript object is generally considered to be O(1). This is because adding a property to an object typically involves a constant amount of work, regardless of the size of the object.
 </p>
 </details>
 
@@ -68,6 +78,8 @@ let obj = { name: "John", age: 30 };
 delete obj.age;
 ```
 
+### Time Complexity
+The time complexity of the delete operation in JavaScript is generally considered to be O(1) (constant time). This means that the operation takes a constant amount of time, regardless of the size of the object.
 </p>
 </details>
 
@@ -82,6 +94,18 @@ let obj = { name: "John", age: 30 };
 console.log("name" in obj); // true
 console.log("city" in obj); // false
 ```
+
+### Time Complexity
+The time complexity of using the in operator to check if a property exists in an object is O(1) on average.
+
+In JavaScript, objects are typically implemented using hash tables. When you check for the existence of a property using the in operator, the underlying implementation uses a hash function to find the property, which generally results in constant time complexity.
+
+Here’s a summary of the time complexity:
+
+- Average Case: O(1)
+- Worst Case: O(n), where n is the number of properties in the object. This can happen in rare cases due to hash collisions or if the object is implemented using a different data structure.
+
+However, for practical purposes and most use cases, you can consider the time complexity to be O(1).
 
 </p>
 </details>
@@ -109,6 +133,37 @@ Object.entries(obj).forEach(([key, value]) => {
 });
 ```
 
+### Time Complexity
+
+#### Using for...in loop:
+```javascript
+let obj = { name: "John", age: 30 };
+for (let key in obj) {
+  console.log(`${key}: ${obj[key]}`);
+}
+```
+- Time Complexity: O(n)
+- Explanation: The for...in loop iterates over all enumerable properties of an object. The time complexity is O(n), where n is the number of enumerable properties in the object.
+
+#### Using Object.keys():
+```javascript
+Object.keys(obj).forEach(key => {
+  console.log(`${key}: ${obj[key]}`);
+});
+```
+- Time Complexity: O(n)
+- Explanation: Object.keys(obj) returns an array of the object's own enumerable property names. The forEach method then iterates over this array. Creating the array with Object.keys() takes O(n) time, and iterating over the array also takes O(n) time. Therefore, the overall time complexity is O(n).
+
+#### Using Object.entries():
+```javascript
+Object.entries(obj).forEach(([key, value]) => {
+  console.log(`${key}: ${value}`);
+});
+```
+- Time Complexity: O(n)
+- Explanation: Object.entries(obj) returns an array of the object's own enumerable property [key, value] pairs. The forEach method then iterates over this array. Creating the array with Object.entries() takes O(n) time, and iterating over the array also takes O(n) time. Therefore, the overall time complexity is O(n).
+
+In all three cases, the time complexity is linear in relation to the number of properties in the object.
 </p>
 </details>
 
@@ -129,6 +184,23 @@ const clone = { ...originalObject };
 const clone = JSON.parse(JSON.stringify(originalObject));
 ```
 
+### Time Complexity
+#### Using Object.assign:
+- Time Complexity: O(n)
+- Explanation: The Object.assign method copies all enumerable own properties from one or more source objects to a target object. The time complexity depends on the number of properties in the originalObject, hence it is O(n), where n is the number of properties in the object.
+#### Using the Spread Operator:
+- Time Complexity: O(n)
+- Explanation: The spread operator (...) creates a shallow copy of the object by copying all enumerable own properties to the new object. Similar to Object.assign, the time complexity is O(n), where 
+n is the number of properties in the object.
+#### Using JSON.stringify and JSON.parse:
+- Time Complexity: O(n)
+- Explanation: The JSON.stringify method converts a JavaScript object to a JSON string, and JSON.parse parses the JSON string back into an object. The combined process involves iterating over all properties of the object twice (once for stringify and once for parse). Therefore, the time complexity is (n), where n is the number of properties in the object. However, it also depends on the size of the values within the object, which can affect the time complexity in practice.
+
+In summary:
+- Object.assign: O(n)
+- Spread Operator: O(n)
+- JSON.stringify and JSON.parse: O(n)
+In all cases, n represents the number of properties in the object.
 </p>
 </details>
 
@@ -148,6 +220,38 @@ const merged = { ...obj1, ...obj2 };
 ```javascript
 const merged = _.merge({}, obj1, obj2);
 ```
+
+### Time Complexity
+- Object.assign: O(n), where n is the total number of properties in the source objects.
+- Spread Operator (...): O(n), where n is the total number of properties in the source objects.
+- Lodash's _.merge: O(m) in the worst case, where m is the total number of properties across all levels of nesting in the source objects. O(n) if the objects are shallow.
+
+In general, for shallow merges (i.e., objects without nested properties), all three methods have a linear time complexity, O(n). For deep merges, Lodash's _.merge can have higher time complexity depending on the depth and number of properties in the nested objects.
+
+<details><summary><b>Details</b></summary>
+<p>
+The time complexity for merging objects in JavaScript depends on the number of properties in the objects being merged. Here's a breakdown of the time complexity for each method mentioned:
+
+#### Using Object.assign: 
+This method copies properties from one or more source objects to a target object. The time complexity is O(n), where n is the total number of properties in the source objects (obj1 and obj2). This is because each property needs to be iterated over and copied to the target object.
+
+```javascript
+const merged = Object.assign({}, obj1, obj2);
+```
+#### Using the Spread Operator: 
+This method creates a new object by copying properties from the source objects. The time complexity is O(n), where n is the total number of properties in the source objects (obj1 and obj2). Similar to Object.assign, each property needs to be iterated over and copied to the new object.
+
+```javascript
+const merged = { ...obj1, ...obj2 };
+```
+#### Using a Library like Lodash's _.merge: 
+Lodash's merge function performs a deep merge, meaning it recursively merges properties. The time complexity can vary depending on the depth of the objects. In the worst case, where the objects have nested properties, the time complexity can be O(m), where m is the total number of properties across all levels of nesting in the objects (obj1 and obj2). If the objects are shallow (no nested properties), the time complexity would be O(n), similar to the previous methods.
+
+```javascript
+const merged = _.merge({}, obj1, obj2);
+```
+</p>
+</details>
 
 </p>
 </details>
@@ -171,6 +275,28 @@ function isEqual(obj1, obj2) {
 }
 ```
 
+### Time Complexity
+#### 1. Using JSON.stringify
+The time complexity of comparing two objects using JSON.stringify depends on two factors: the time complexity of JSON.stringify itself and the string comparison.
+
+- `JSON.stringify` Time Complexity: O(n), where n is the size of the object (number of properties and the length of strings).
+- String Comparison Time Complexity: O(m), where m is the length of the resulting JSON strings.
+
+Therefore, the overall time complexity is O(n + m), which simplifies to O(n) if we assume the size of the object and the length of the JSON strings are proportional.
+
+#### 2. Using Lodash _.isEqual
+The time complexity of Lodash's _.isEqual function is O(n), where n is the number of properties in the objects being compared. Lodash's _.isEqual function is optimized for deep comparison, including handling circular references, arrays, and nested objects efficiently.
+
+#### 3. Using a Custom Recursive Function
+The time complexity of a custom recursive function for deep equality comparison depends on the implementation, but generally, it can be approximated as O(n), where n is the number of properties in the objects being compared. This assumes a well-implemented function that checks all properties recursively.
+
+In summary:
+
+- Using JSON.stringify: O(n)
+- Using Lodash _.isEqual: O(n)
+- Using a Custom Recursive Function: O(n)
+
+In all cases, n represents the size of the objects, including the number of properties and the depth of nested structures. The specific constant factors and overhead may vary, but the asymptotic complexity remains O(n).
 </p>
 </details>
 
@@ -182,6 +308,20 @@ function isEqual(obj1, obj2) {
 const jsonString = JSON.stringify(obj);
 ```
 
+### Time Complexity
+The time complexity of JSON.stringify(obj) depends on the size and structure of the object obj.
+
+- Primitive Values: If obj is a primitive value (like a number, string, or boolean), the time complexity is O(1).
+
+- Simple Objects: For simple objects (those without nested objects or arrays), the time complexity is O(n), where n is the number of key-value pairs in the object. This is because each key-value pair needs to be processed.
+
+- Nested Objects and Arrays: For objects that contain nested objects or arrays, the time complexity becomes O(m), where m is the total number of elements (including nested ones) that need to be serialized. This includes all nested properties and array elements.
+
+In summary, the time complexity of JSON.stringify(obj) is:
+- O(1) for primitive values.
+- O(n) for simple objects with n key-value pairs.
+- O(m) for complex objects with m total elements, including nested ones.
+
 </p>
 </details>
 
@@ -192,6 +332,15 @@ const jsonString = JSON.stringify(obj);
 ```javascript
 const obj = JSON.parse(jsonString);
 ```
+
+### Time Complexity
+The time complexity of the JSON.parse function in JavaScript, which is used to parse a JSON string into an object, is generally O(n), where n is the length of the JSON string.
+
+Explanation:
+- The `JSON.parse` function needs to read and process each character of the JSON string to construct the corresponding JavaScript object.
+- This involves iterating over the string and parsing the various components, such as objects, arrays, strings, numbers, booleans, and null values.
+
+Since each character of the input string is processed exactly once, the time complexity is linear with respect to the length of the input string. Hence, the time complexity of JSON.parse(jsonString) is O(n).
 
 </p>
 </details>
@@ -209,6 +358,8 @@ Bracket notation allows you to access properties dynamically or when the propert
 const value = obj['propertyName'];
 ```
 
+### Time Complexity
+Both dot notation and bracket notation provide O(1) time complexity for property access in JavaScript objects.
 </p>
 </details>
 
@@ -224,6 +375,8 @@ const obj = {
 };
 ```
 
+### Time Complexity
+The time complexity of defining a method within an object literal in JavaScript, as shown in your example, is O(1). This is because creating an object and assigning properties to it, including methods, involves constant time operations.
 </p>
 </details>
 
@@ -234,6 +387,55 @@ const obj = {
 ```javascript
 obj.methodName();
 ```
+
+### Time Complexity
+The time complexity of calling a method on an object in JavaScript (or any other programming language) depends on what the method is doing. The obj.methodName() syntax itself does not inherently have a specific time complexity because it is a way to invoke a function. The time complexity depends on the operations performed within methodName.
+
+Here's a breakdown of factors that determine the time complexity:
+
+- Constant Time Operations (O(1)): If the method performs a fixed number of operations regardless of the size of the input, it has constant time complexity. For example:
+```javascript
+obj.methodName = function() {
+    return this.property; // Assuming accessing `property` is O(1)
+}
+```
+
+- Linear Time Operations (O(n)): If the method iterates over an array or a list of length n, it has linear time complexity. For example:
+```javascript
+Copy code
+obj.methodName = function(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+    }
+}
+```
+
+- Quadratic Time Operations (O(n^2)): If the method contains nested loops that iterate over an array or list, it may have quadratic time complexity. For example:
+```javascript
+obj.methodName = function(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            console.log(arr[i], arr[j]);
+        }
+    }
+}
+```
+- Logarithmic Time Operations (O(log n)): If the method involves operations that reduce the problem size by a factor of two (e.g., binary search), it has logarithmic time complexity. For example:
+```javascript
+obj.methodName = function(arr, target) {
+    let left = 0, right = arr.length - 1;
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        if (arr[mid] === target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+```
+Other Complexities: Depending on the operations performed, the method can have other complexities like O(n log n), O(n^3), etc.
+
+To determine the exact time complexity of obj.methodName(), you would need to analyze the code inside methodName. If you provide the code of the method, I can help you determine its time complexity.
 
 </p>
 </details>
@@ -291,6 +493,8 @@ person.name = "Charlie";
 console.log(person.name); // Output: Charlie
 ```
 
+### Time Complexity
+In all three examples, the time complexity for defining the properties, creating new instances (where applicable), and using the getters and setters is O(1). This is because these operations involve direct property access or assignment, which are constant time operations in JavaScript.
 </p>
 </details>
 
@@ -298,8 +502,114 @@ console.log(person.name); // Output: Charlie
 <details><summary><b>Solution</b></summary>
 <p>
 
-- **Prototype:** An object that serves as a blueprint for creating new objects. It holds properties and methods that can be inherited by objects created from that prototype.
-- **Prototype Chain:** The mechanism in JavaScript by which an object can inherit properties and methods from its prototype, and then its prototype's prototype, and so on, until a null prototype is reached.
+In JavaScript, you can define getters and setters for a property in several ways. Here are three common methods:
+
+### 1. Using Object.defineProperty
+The Object.defineProperty method allows you to define getters and setters for a property on an object.
+
+```javascript
+const person = {};
+Object.defineProperty(person, "name", {
+  get() {
+    return this._name;
+  },
+  set(value) {
+    this._name = value;
+  }
+});
+
+person.name = "Alice";
+console.log(person.name); // Output: Alice
+```
+
+#### Time Complexity
+- Definition: O(1) - Object.defineProperty is a single operation.
+- Get/Set: O(1) - Simple property access or assignment.
+
+
+### 2. Using Accessors (Modern Syntax)
+You can define getters and setters directly within an object literal using the get and set keywords.
+
+```javascript
+const person = {
+  get name() {
+    return this._name;
+  },
+  set name(value) {
+    this._name = value;
+  }
+};
+
+person.name = "Bob";
+console.log(person.name); // Output: Bob
+```
+
+#### Time Complexity:
+- Definition: O(1) - Directly defined within the object literal.
+- Get/Set: O(1) - Simple property access or assignment.
+
+### 3. Using Prototype-based Getters and Setters
+If you are using constructor functions, you can define getters and setters on the prototype of the constructor.
+
+```javascript
+function Person() {
+  this._name = undefined;
+}
+
+Person.prototype = {
+  get name() {
+    return this._name;
+  },
+  set name(value) {
+    this._name = value;
+  }
+};
+
+const person = new Person();
+person.name = "Charlie";
+console.log(person.name); // Output: Charlie
+```
+
+Explanation
+- Getter (get): A getter allows you to define a method that will be called when the property is accessed.
+- Setter (set): A setter allows you to define a method that will be called when a value is assigned to the property.
+
+#### Time Complexity:
+- Definition: O(1) - Defining the prototype with getters and setters is a single operation.
+- Instantiation: O(1) - Creating a new instance with new Person() is also a single operation.
+- Get/Set: O(1) - Simple property access or assignment within the getter and setter functions.
+
+Using prototypes allows for the efficient sharing of methods among all instances of a constructor function, making it a powerful tool for defining methods like getters and setters in JavaScript.
+
+
+### Using ES6 Classes
+If you are using ES6 classes, you can define getters and setters within the class definition.
+
+```javascript
+class Person {
+  constructor() {
+    this._name = undefined;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+}
+
+const person = new Person();
+person.name = "David";
+console.log(person.name); // Output: David
+```
+
+### Time Complexity:
+- Definition: O(1) - Defined within the class.
+- Get/Set: O(1) - Simple property access or assignment.
+
+Each of these methods allows you to create encapsulated properties, providing control over how properties are accessed and modified.
 
 </p>
 </details>
@@ -308,6 +618,9 @@ console.log(person.name); // Output: Charlie
 <details><summary><b>Solution</b></summary>
 <p>
 
+
+- **Prototype:** An object that serves as a blueprint for creating new objects. It holds properties and methods that can be inherited by objects created from that prototype.
+- **Prototype Chain:** The mechanism in JavaScript by which an object can inherit properties and methods from its prototype, and then its prototype's prototype, and so on, until a null prototype is reached.
   
 Object.create:
 ```javascript
@@ -320,6 +633,10 @@ const personPrototype = {
 const person = Object.create(personPrototype);
 person.greet(); // Output: Hello!
 ```
+
+### Time Complexity:
+Object.create: O(1) - Creating an object using Object.create is a single operation.
+
 Constructor functions (with prototype property):
 ```javascript
 function Person() {
@@ -336,6 +653,13 @@ const person = new Person();
 person.greet(); // Output: Hi!
 person.talk();    // Output: Talking...
 ```
+
+### Time Complexity:
+- Constructor Function Execution: O(1) - Creating an instance using a constructor function is a single operation.
+- Adding Methods to Prototype: O(1) - Adding a method to the prototype of a constructor function is also a single operation.
+- Method Execution: O(1) - Calling a method on an object is a single operation.
+
+In both cases, the time complexity is O(1) for creating objects, executing constructor functions, adding methods to prototypes, and executing methods.
 
 </p>
 </details>
@@ -354,6 +678,22 @@ function Person() {}
 const person = new Person();
 console.log(person.__proto__ === Person.prototype); // Output: true (custom prototype)
 ```
+
+### Time Complexity:
+- Object creation with {}: O(1) - Creating an object with an object literal {} is a single operation.
+- Prototype Check (obj.__proto__): O(1) - Accessing the __proto__ property and comparing it to Object.prototype is a single operation.
+
+- Constructor Function Execution (new Person()): O(1) - Creating an instance using a constructor function is a single operation.
+- Prototype Check (person.__proto__): O(1) - Accessing the __proto__ property and comparing it to Person.prototype is a single operation.
+
+Summary:
+
+- Object Creation with {}:
+    - Creation: O(1)
+    - Prototype Check: O(1)
+- Constructor Function (new Person()):
+    - Creation: O(1)
+    - Prototype Check: O(1)
 
 </p>
 </details>
@@ -379,6 +719,24 @@ Direct assignment (legacy):
 obj.__proto__ = personPrototype; // Not recommended in modern JavaScript due to potential issues
 ```
 
+### Time Complexity
+
+#### 1. Object.setPrototypeOf (Modern):
+- Object.setPrototypeOf: O(1) - Setting the prototype of an object is a single operation.
+- Method Execution (obj.greet()): O(1) - Calling a method on the object is a single operation.
+
+#### 2. Direct Assignment (__proto__) (Legacy):
+- Direct Assignment (obj.__proto__ = personPrototype): O(1) - Directly assigning the prototype is a single operation.
+- Method Execution (obj.greet()): O(1) - Calling a method on the object is a single operation.
+
+Summary:
+- Object.setPrototypeOf:
+    - Prototype Setting: O(1)
+    - Method Execution: O(1)
+- Direct Assignment (__proto__):
+    - Prototype Setting: O(1)
+    - Method Execution: O(1)
+
 </p>
 </details>
 
@@ -386,7 +744,6 @@ obj.__proto__ = personPrototype; // Not recommended in modern JavaScript due to 
 <details><summary><b>Solution</b></summary>
 <p>
 
-  
 Object.create(null):
 ```javascript
 const obj = Object.create(null);
@@ -400,6 +757,25 @@ const obj = new NoPrototypeObject();
 console.log(obj.hasOwnProperty('__proto__')); // Output: false (no prototype)
 ```
 Important Note: Creating objects without a prototype is generally not recommended as it can lead to unexpected behavior and difficulty with inheritance.
+
+### Time Complexity
+
+#### 1. Object.create(null):
+- Object.create(null): O(1) - Creating an object with Object.create(null) is a single operation, resulting in an object with no prototype.
+- Property Check (obj.hasOwnProperty('__proto__')): O(1) - Checking if the object has its own property is a single operation.
+
+#### 2. Using a Constructor Function That Doesn't Set a Prototype:
+- Constructor Function Execution (new NoPrototypeObject()): O(1) - Creating an instance using an empty constructor function is a single operation.
+- Property Check (obj.hasOwnProperty('__proto__')): O(1) - Checking if the object has its own property is a single operation.
+
+Summary:
+
+Object.create(null):
+    - Object Creation: O(1)
+    - Property Check: O(1)
+Constructor Function Without Prototype:
+    - Object Creation: O(1)
+    - Property Check: O(1)
 
 </p>
 </details>
