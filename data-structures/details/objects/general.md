@@ -770,10 +770,10 @@ Important Note: Creating objects without a prototype is generally not recommende
 
 Summary:
 
-Object.create(null):
+- Object.create(null):
     - Object Creation: O(1)
     - Property Check: O(1)
-Constructor Function Without Prototype:
+- Constructor Function Without Prototype:
     - Object Creation: O(1)
     - Property Check: O(1)
 
@@ -802,6 +802,18 @@ console.log(car1.constructor === Car); // Output: true (assuming `Car` construct
 // Solution 3: Custom Symbol.hasInstance method (advanced, for more control)
 // (Implementation omitted for brevity, refer to advanced JavaScript references)
 ```
+
+### Time Complexity
+- Constructor Function Execution: O(1) - Creating an instance using a constructor function is a single operation.
+- `instanceof` Operator: O(n) - The `instanceof` operator checks the prototype chain, which can take linear time in the worst case if the prototype chain is long. Here, n is the length of the prototype chain.
+- `constructor` Property: O(1) - Accessing the `constructor` property and comparing it is a single operation.
+- Custom `Symbol.hasInstance` Method (Advanced): This would depend on the custom implementation of the `Symbol.hasInstance` method. Generally, the custom implementation would be designed to be efficient, but specifics would vary based on how it's written. The check itself (once defined) would typically be O(1), but any additional logic within the method could vary.
+
+Summary:
+- Constructor Function Execution (new Car(...)): O(1)
+- `instanceof` Operator: O(n) - Checks the prototype chain, linear time complexity.
+- `constructor` Property Check: O(1) - Direct property access and comparison.
+- Custom `Symbol.hasInstance` Method: Typically O(1) (depending on implementation details).
 
 </p>
 </details>
@@ -840,6 +852,23 @@ const student1 = new Student("Bob", "Computer Science");
 student1.greet(); // Output: Hello, my name is Bob and I'm majoring in Computer Science.
 ```
 
+### Time Complexity 
+- Traditional Constructor Function:
+    - Constructor Function Execution (new Person(...)): O(1) - Creating an instance and initializing properties is a single operation.
+    - Method Execution (person1.introduce()): O(1) - Executing the introduce method is a single operation.
+
+- Modern Class Syntax (ES6+):
+    - Constructor Execution (new Student(...)): O(1) - Creating an instance and initializing properties is a single operation.
+    - Method Execution (student1.greet()): O(1) - Executing the greet method is a single operation.
+
+Summary:
+- Traditional Constructor Function:
+    - Instance Creation and Initialization: O(1)
+    - Method Execution: O(1)
+- Modern Class Syntax:
+    - Instance Creation and Initialization: O(1)
+    - Method Execution: O(1)
+
 </p>
 </details>
 
@@ -871,6 +900,22 @@ console.log(person2.name); // Output: Bob
 console.log(person2.age); // Output: 25
 ```
 
+### Time Complexity
+#### Using the new Keyword:
+- Constructor Execution (new Person(...)): O(1) - Creating an instance and initializing properties is a single operation.
+- Property Access (person1.name, person1.age): O(1) - Accessing properties of the object is a single operation.
+#### Using a Factory Function (Less Common):
+- Factory Function Execution (createPerson(...)): O(1) - Creating an object and initializing properties is a single operation.
+- Property Access (person2.name, person2.age): O(1) - Accessing properties of the object is a single operation.
+
+Summary:
+- Using the new Keyword:
+    - Instance Creation and Initialization: O(1)
+    - Property Access: O(1)
+- Using a Factory Function:
+    - Instance Creation and Initialization: O(1)
+    - Property Access: O(1)
+
 </p>
 </details>
 
@@ -892,6 +937,16 @@ class MathUtils {
 
 console.log(MathUtils.add(5, 3)); // Output: 8 (can be called without creating an instance)
 ```
+
+### Time Complexity Analysis
+- Static Method Declaration: O(1) - Declaring static methods on the class is a compile-time operation and does not affect runtime complexity.
+- Static Method Execution:
+    - MathUtils.add(5, 3): O(1) - Executing the add method involves a single addition operation, which is constant time.
+    - MathUtils.subtract(5, 3): O(1) - Executing the subtract method involves a single subtraction operation, which is constant time.
+
+Summary:
+- Static Method Declaration: O(1)
+- Static Method Execution (e.g., MathUtils.add, MathUtils.subtract): O(1)
 
 </p>
 </details>
@@ -920,6 +975,15 @@ console.log(user1.getEmail()); // Output: John@example.com (public getter)
 // console.log(user1._email); // Error: _email is not accessible outside the constructor
 ```
 Note: JavaScript doesn't have true private properties and methods, but these techniques simulate privacy.
+
+### Time Complexity
+- Constructor Execution (new User("John")): O(1) - Creating an instance and initializing private properties using closures is a single operation.
+- Method Execution (user1.getName()): O(1) - Executing the getName method involves returning a stored value, which is a constant time operation.
+- Method Execution (user1.getEmail()): O(1) - Executing the getEmail method involves returning a value stored in the closure, which is a constant time operation.
+
+Summary:
+    - Instance Creation and Initialization: O(1)
+    - Method Execution (getName, getEmail): O(1)
 
 </p>
 </details>
@@ -951,6 +1015,13 @@ const dog1 = new Dog("Buddy", "Labrador");
 console.log(dog1.type); // Output: animal (inherited)
 dog1.makeSound(); // Output: Generic animal sound (inherited)
 ```
+
+### Time Complexity
+- Instance Creation and Initialization (new Dog("Buddy", "Labrador")):
+    - TC: O(1) - Creating an instance and setting up prototype chain is a single operation.
+- Method Execution (dog1.makeSound()):
+    - TC: O(1) - Executing the makeSound method involves a single method call.
+
 Using classes (ES6+):
 ```javascript
 class Animal {
@@ -980,6 +1051,16 @@ console.log(dog2.type); // Output: animal
 dog2.makeSound(); // Output: Generic animal sound (inherited)
 dog2.bark(); // Output: Woof! (specific to Dog)
 ```
+
+### Time Complexity
+- Instance Creation and Initialization (new Dog("Charlie", "Golden Retriever")):
+    - Time Complexity: O(1) - Creating an instance and setting up prototype chain is a single operation.
+- Method Execution (dog2.makeSound(), dog2.bark()):
+    - Time Complexity: O(1) - Executing the methods involves single method calls.
+
+Summary:
+- Instance Creation and Initialization: O(1)
+- Method Execution: O(1)
 
 </p>
 </details>
@@ -1027,6 +1108,16 @@ You can optionally call the superclass method along with your subclass's specifi
 Inheritance in JavaScript is based on prototypes, not strict class-based inheritance like in some other languages.
 Understanding prototypal inheritance is crucial for working effectively with JavaScript objects and classes.
 
+### Time Complexity:
+- Instance Creation and Initialization (new Dog("Charlie", "Golden Retriever")):
+    - TC: O(1) - Creating an instance and setting up the prototype chain is a single operation.
+- Method Execution (dog2.bark()):
+    - TC: O(1) - Executing the bark method involves calling console.log, which is a constant time operation, and calling super.makeSound(), which also involves a single method call.
+
+Summary:
+- Instance Creation and Initialization: O(1)
+- Method Execution: O(1)
+
 </p>
 </details>
 
@@ -1063,6 +1154,16 @@ const dog1 = new Dog("Buddy", "Labrador");
 dog1.makeSound(); // Output: Woof! (overrides Animal's makeSound)
 ```
 
+### Time Complexity Analysis:
+- Instance Creation and Initialization (new Dog("Buddy", "Labrador")):
+    - TC: O(1) - Creating an instance and setting up the prototype chain is a single operation.
+- Method Execution (dog1.makeSound()):
+    - Time Complexity: O(1) - Executing the makeSound method in Dog involves calling console.log, which is a constant time operation.
+
+Summary:
+- Instance Creation and Initialization: O(1)
+- Method Execution: O(1)
+
 </p>
 </details>
 
@@ -1082,6 +1183,9 @@ const text = "Hello"; // Not iterable
 console.log(isIterable(numbers)); // Output: true
 console.log(isIterable(text));   // Output: false
 ```
+
+Time Complexity: O(1) - Checking the `typeof` operator and accessing the `Symbol.iterator` property is a constant time operation.
+
 Using the Symbol.iterator property (more robust):
 ```javascript
 function isIterable(obj) {
@@ -1094,6 +1198,12 @@ const set = new Set();
 console.log(isIterable(map));  // Output: true
 console.log(isIterable(set));  // Output: true
 ```
+
+Time Complexity: O(1) - Checking the presence of `Symbol.iterator` property and its type is a constant time operation.
+
+Summary:
+- `typeof` Operator: O(1)
+- `Symbol.iterator` Property Check: O(1)
 
 </p>
 </details>
@@ -1110,6 +1220,9 @@ for (const key in person) {
   console.log(key); // Output: name, age
 }
 ```
+
+Time Complexity: O(n) - Where n is the number of enumerable properties in the object. The for...in loop iterates over all enumerable properties of an object, including inherited ones.
+
 Using Object.keys (modern, doesn't iterate over inherited properties):
 ```javascript
 const person = { name: "Alice", age: 30 };
@@ -1119,6 +1232,12 @@ for (const key of keys) {
   console.log(key); // Output: name, age
 }
 ```
+
+Time Complexity: O(n) - Where n is the number of own enumerable properties in the object. Object.keys returns an array of a given object's own enumerable property names, iterating only over the object's own properties and not inherited ones.
+
+Summary:
+- for...in Loop: O(n) - Iterates over all enumerable properties, including inherited ones.
+- Object.keys: O(n) - Iterates over only own enumerable properties, excluding inherited ones.
 
 </p>
 </details>
