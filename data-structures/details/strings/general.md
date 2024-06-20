@@ -23,6 +23,10 @@ function reverseString(str) {
 
 console.log(reverseString("hello")); // Output: "olleh"
 ```
+
+### Time Complexity: O(n)
+The function iterates through each character of the string once, where n is the length of the string.
+
 ##### Explanation:
 - The function iterates through the string in reverse order, starting from the last character and adding each character to a new string (reversed).
 
@@ -34,6 +38,13 @@ function reverseString(str) {
 
 console.log(reverseString("hello")); // Output: "olleh"
 ```
+
+### Time Complexity: O(n)
+- split("") takes O(n)
+- reverse() takes O(n)
+- join("") takes O(n)
+- Combined: O(n) + O(n) + O(n) = O(n)
+
 ##### Explanation:
 - This approach uses built-in methods:
   - split("") splits the string into an array of characters.
@@ -75,6 +86,12 @@ console.log(isPalindrome("hello")); // Output: false
 - It checks if the characters at the left and right pointers match. If not, it's not a palindrome.
 - If the loop completes without finding a mismatch, it's a palindrome.
 
+### Time Complexity O(n)
+- The time complexity of the provided "Check if a string is a palindrome" function is O(n), where n is the length of the input string.
+- O(n) for cleaning the string (str.replace and toLowerCase both iterate over the string once).
+- O(n) for the two-pointer comparison loop.
+- Thus, the overall time complexity is O(n).
+
 </p>
 </details>
 
@@ -102,6 +119,12 @@ console.log(countVowels("hello world")); // Output: 3
 - It iterates through the lowercase string and checks if each character is present in the vowel set.
 - If it is, the count is incremented.
 
+### Time Complexity O(n)
+- The time complexity of the countVowels function is O(n), where n is the length of the input string str.
+- The function iterates through each character in the string once.
+- Checking if a character is in the Set takes O(1) time.
+- Thus, the overall time complexity is O(n).
+
 </p>
 </details>
 
@@ -122,6 +145,15 @@ console.log(countWords("  hello   world ")); // Output: 2 (trims leading/trailin
 - The function trims leading and trailing whitespaces using trim().
 - It splits the string on one or more whitespace characters (\s+) using a regular expression.
 - The length property of the resulting array gives the number of words.
+
+### Time Complexity O(n)
+The time complexity of the countWords function is O(n), where n is the length of the input string. This is because:
+
+- trim(): Traverses the string to remove leading and trailing whitespaces, which is O(n).
+- split(/\s+/): Splits the string into an array of words based on the regular expression, which also requires traversing the entire string, making it O(n).
+- length: Accessing the length property of the array is O(1).
+
+Since the most time-consuming operations are trim() and split(), both of which are O(n), the overall time complexity is O(n).
 
 </p>
 </details>
@@ -147,6 +179,12 @@ console.log(capitalizeWords("hello world")); // Output: "Hello World"
   - Combining these: Capitalizes the first letter and keeps the rest of the word.
 - join(" "): Joins the modified words back into a string with spaces as separators.
 
+### Time Complexity: O(n)
+- split(/\s+/): Splits the string into an array of words, O(n).
+- map(word => ...): Iterates through each word to capitalize the first letter, O(n).
+- join(" "): Joins the words back into a string, O(n).
+
+
 Solution 2: Using a Regular Expression with replace (Concise but Potentially Less Readable):
 ```javascript
 function capitalizeWords(str) {
@@ -163,6 +201,9 @@ console.log(capitalizeWords("hello world")); // Output: "Hello World"
 - replace: Replaces each matched word with the following function's output:
   - txt.charAt(0).toUpperCase(): Capitalizes the first character.
   - txt.substr(1).toLowerCase(): Converts the rest to lowercase (optional for consistent case)
+
+### Time Complexity: O(n)
+replace(/\w\S*/g, ...): Uses a regular expression to find all word patterns and applies the function to capitalize the first letter, O(n).
 
 Solution 3: Using a Loop (Less Efficient but More Controllable):
 ```javascript
@@ -192,6 +233,9 @@ console.log(capitalizeWords("hello world")); // Output: "Hello World"
   - If whitespace: isWordStart is set to true for the next word.
   - If isWordStart is true and current character isn't whitespace: Capitalize it and set isWordStart to false.
   - Otherwise: Append the character to the result string.
+
+### Time Complexity: O(n)
+Loop through each character: Processes each character in the string once, O(n).
 
 </p>
 </details>
@@ -226,6 +270,10 @@ console.log(findFirstNonRepeated("hello world")); // Output: "h"
 - Another loop iterates through the string again.
 - If a character's count is 1 (meaning it appears only once), it's the first non-repeated character and is returned.
 
+### Time complexity: O(n)
+- Building the character count map: O(n)
+- Iterating to find the first non-repeated character: O(n)
+
 Solution 2: Using a Loop and Index Tracking (Simpler but Less Efficient):
 ```javascript
 function findFirstNonRepeated(str) {
@@ -250,6 +298,10 @@ console.log(findFirstNonRepeated("hello world")); // Output: "h"
 - Nested loops iterate through each character in the string.
 - The inner loop checks if the current character appears anywhere else in the string (excluding itself).
 - If a character is unique (not found elsewhere), it's returned.
+
+### Time complexity: O(n^2)
+- Outer loop: O(n)
+- Inner loop: O(n) for each iteration of the outer loop
 
 </p>
 </details>
@@ -280,6 +332,11 @@ console.log(removeDuplicates("hello world")); // Output: "helo wrd"
 - Loop iterates through the string.
 - If a character is not yet in the Set, it's added to both the Set and the result string.
 
+### Time complexity: O(n)
+- Loop through string: O(n)
+- Set operations (add/has): O(1) on average
+- String concatenation: O(n) in total over the entire loop
+
 Solution 2: Using a Character Map and String Reconstruction (Less Efficient):
 ```javascript
 function removeDuplicates(str) {
@@ -300,6 +357,11 @@ console.log(removeDuplicates("hello world")); // Output: "helo wrd"
 - charCount object keeps track of whether a character has been seen before.
 - Loop iterates through the string.
 - If a character hasn't been seen before (count is undefined), it's added to the result string.
+
+### Time complexity: O(n)
+- Loop through string: O(n)
+- Object operations (check/add): O(1) on average
+- String concatenation: O(n) in total over the entire loop
 
 </p>
 </details>
@@ -339,6 +401,13 @@ console.log(areAnagrams("hello", "world")); // Output: false (not anagrams)
   - Otherwise, the count of that character in charCount1 is decremented to indicate a match.
 - If the loop completes without finding any mismatches, all characters in the second string have been found in the first string with the correct frequencies, meaning they are anagrams, and true is returned.
 
+### Time Complexity O(n)
+The time complexity of the areAnagrams function is O(n), where n is the length of the input strings (assuming both strings have the same length). This is because:
+- str1.toLowerCase() and str2.toLowerCase(): Both conversions are O(n).
+- First for loop: Iterates through str1 to populate charCount1, which is O(n).
+- Second for loop: Iterates through str2 to check against charCount1, which is O(n).
+Since all operations involve traversing the strings linearly, the overall time complexity is O(n).
+
 </p>
 </details>
 
@@ -348,6 +417,9 @@ console.log(areAnagrams("hello", "world")); // Output: false (not anagrams)
 
 Solution 1: Expanding Around Centers (Efficient - Manacher's Algorithm):
 This solution is more complex but generally more efficient for larger strings. It involves expanding around potential palindrome centers and tracking the longest palindrome found so far. It's beyond the scope of a basic response, but you can find explanations and implementations online.
+
+### Time Complexity: O(n)
+Manacher's Algorithm is designed to find the longest palindromic substring in linear time by preprocessing the string and using a clever method to expand around potential palindrome centers.
 
 Solution 2: Dynamic Programming (Efficient for Overlapping Palindromes):
 ```javascript
@@ -387,9 +459,14 @@ console.log(findLongestPalindrome("a")); // Output: "a" (single character)
 - maxLength is tracked to keep the length of the longest palindrome found so far.
 - Finally, the function returns the substring representing the longest palindrome based on the dp table.
 
+### Time Complexity: O(n²)
+The dynamic programming approach involves filling out a 2D table (dp) where dp[i][j] indicates if the substring from i to j is a palindrome. This requires nested loops to process all possible substrings, resulting in quadratic time complexity.
+
 ##### Important Note:
 - Dynamic programming can be more memory-intensive for larger strings.
 - Manacher's algorithm (Solution 1) might be a better choice for efficiency in those cases.
+
+Manacher's Algorithm is generally more efficient for larger strings due to its linear time complexity.
 
 </p>
 </details>
@@ -447,6 +524,11 @@ console.log(reverseWords("  hello world  ")); // Output: "world hello"
 - Two pointers (left and right) move towards each other, skipping leading and trailing spaces.
 - Characters at left and right are swapped.
 - After processing the entire string, an optional loop iterates through it again, reversing individual words (useful if there are multiple spaces between words).
+
+### Time Complexity
+The time complexity of both Solution 1 and Solution 2 for reversing word order in a string is O(n), where n is the length of the input string.
+- **Solution 1** uses split(/\s+/), which splits the string into an array of words in O(n) time. Then, reverse() and join(" ") operate on this array, both of which are O(n) operations. So, the overall time complexity is O(n).
+- **Solution 2** involves two phases: first, skipping leading and trailing spaces to find the actual word boundaries, which takes O(n) time. Then, it optionally reverses individual words, which also takes O(n) time. Overall, the time complexity remains O(n).
 
 </p>
 </details>
