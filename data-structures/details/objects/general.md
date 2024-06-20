@@ -1545,6 +1545,9 @@ const mergedObj = { ...obj1, ...obj2 };
 
 console.log(mergedObj); // Output: { name: "Alice", age: 30, city: "New York", job: "Developer" }
 ```
+
+Time Complexity: O(n + m), where n is the number of properties in obj1 and m is the number of properties in obj2. The spread syntax iterates over all properties of both objects to create a new object.
+
 Using Object.assign (can overwrite properties):
 ```javascript
 const obj1 = { name: "Alice", age: 30 };
@@ -1553,6 +1556,9 @@ const mergedObj = Object.assign({}, obj1, obj2);
 
 console.log(mergedObj); // Output: { name: "Alice", age: 28, city: "New York" }
 ```
+
+Time Complexity: O(n + m), where n is the number of properties in obj1 and m is the number of properties in obj2. Object.assign iterates over all properties of the source objects to copy them into the target object.
+
 Using a loop for selective merging:
 ```javascript
 const obj1 = { name: "Alice", age: 30 };
@@ -1561,6 +1567,14 @@ const mergedObj = Object.assign({}, obj1, obj2);
 
 console.log(mergedObj); // Output: { name: "Alice", age: 28, city: "New York" }
 ```
+
+Time Complexity: O(n + m), where n is the number of properties in obj1 and m is the number of properties in obj2. The loop or Object.assign function iterates over all properties of the source objects to copy them into the target object. Note: The code provided here for "loop for selective merging" is the same as Object.assign, thus it has the same complexity.
+
+Summary:
+
+- Using Spread Syntax: O(n + m)
+- Using Object.assign: O(n + m)
+- Using a Loop for Selective Merging: O(n + m)
 
 </p>
 </details>
@@ -1583,6 +1597,9 @@ console.log(location); // Output: "New York"
 ##### Explanation:
 Destructuring allows extracting properties from objects into variables with concise syntax.
 You can also rename properties during destructuring.
+
+ ### Time complexity: 
+ TC of using object destructuring syntax to extract properties from an object is O(1).
 
 </p>
 </details>
@@ -1613,8 +1630,17 @@ const person = {
 console.log(person.job); // Output: "Developer"
 ```
 ##### Explanation:
-- Optional chaining (?.) provides a safe way to access nested properties and set default values if undefined.
-- Default values can also be specified during object creation using the assignment operator (||).
+- Optional Chaining (?.) provides a safe way to access nested properties. If a property is undefined or null, it returns undefined instead of throwing an error.
+- Nullish Coalescing Operator (??) provides a way to set default values if a value is null or undefined.
+- Logical OR (||) provides a way to set default values but can have unintended results if the value is falsy (e.g., 0, '', false).
+
+### Time Complexity:
+TC for both using optional chaining with nullish coalescing and assigning default values during object creation is O(1). These operations involve direct property access and basic conditional checks, both of which are done in constant time.
+
+- Optional Chaining and Nullish Coalescing:
+    - Time Complexity: O(1)
+- Default Value During Object Creation:
+    - Time Complexity: O(1)
 
 </p>
 </details>
@@ -1633,6 +1659,9 @@ console.log(numProperties); // Output: 3
 ##### Explanation:
 - Object.keys(obj) returns an array of the object's own enumerable property names.
 - We then use the length property to get the number of elements in the array.
+
+### Time Complexity
+Time complexity for Object.keys(obj).length is O(n) because it requires iterating over all the properties of the object to create the array of keys.
 
 </p>
 </details>
@@ -1663,6 +1692,20 @@ console.log(personMap); // Output: Map { "name" => "Alice", "age" => 30 }
 - The loop iterates through the object's properties and adds them as key-value pairs to the Map.
 - The spread syntax with Object.entries(person) creates an array of key-value pairs, which is then used to construct the Map.
 
+### Time Complexity
+
+#### Using a Loop:
+- Time Complexity: O(n)
+- Analysis:
+    - Iterating over the properties of the person object with a for...in loop takes O(n) time, where n is the number of properties in the object.
+    - For each property, the personMap.set(key, person[key]) operation takes O(1) time. However, this step is performed n times, resulting in an overall complexity of O(n).
+
+#### Using the Spread Syntax:
+- Time Complexity: O(n)
+- Analysis:
+    - Object.entries(person) iterates over the properties of the person object and creates an array of key-value pairs. This operation takes O(n) time.
+    - Constructing a new Map with the array of key-value pairs, new Map(Object.entries(person)), also takes O(n) time since it iterates over the array to populate the Map.
+
 </p>
 </details>
 
@@ -1684,6 +1727,9 @@ console.log(personObj); // Output: { name: "Alice", age: 30 }
 ##### Explanation:
 - The loop iterates through the Map's entries (key-value pairs) and adds them as properties to the object.
 
+### Time Complexity
+Time complexity of converting a Map to an object using a loop and object literal syntax is O(n), where n is the number of entries in the Map.
+
 </p>
 </details>
 
@@ -1702,6 +1748,9 @@ console.log(colorSet); // Output: Set { "red", "green", "blue" } (order may vary
 - The spread syntax (...) expands the object's values into an array.
 - We then create a Set using new Set() and pass the array of values.
 - Using colors.values() ensures we only consider values and avoid potential duplicate keys.
+
+### Time Complexity
+Time complexity of using the spread syntax with new Set() to convert the values of an object into a Set is O(n), where n is the number of properties (key-value pairs) in the object.
 
 </p>
 </details>
@@ -1725,6 +1774,10 @@ console.log(colorObj); // Output: { red: true, green: true, blue: true }
 - We cannot directly convert a Set to an object with the same key-value structure because Sets don't have unique keys associated with each value.
 - This approach creates an object where each set element becomes a property with a chosen default value (here, true).
 
+### Time Complexity: O(n)
+- Iterating over the Set takes O(n) time, where n is the number of elements in the Set.
+- Adding each element to the object as a property is an O(1) operation, done n times.
+
 2. Using Object.fromEntries with a map (modern JS, for key-value pairs with transformation):
 ```javascript
 const colorsSet = new Set(["red", "green", "blue"]);
@@ -1738,6 +1791,12 @@ console.log(colorObj); // Output: { red: "RED", green: "GREEN", blue: "BLUE" }
 - This approach first creates a Map from the Set entries.
 - Then, it uses map to transform the values to uppercase before creating the object using Object.fromEntries.
 
+### Time Complexity: O(n)
+- colorsSet.entries(): Creating an iterator over the Set entries is O(1).
+- Array.from(colorsSet.entries()): Converting the Set iterator to an array takes O(n).
+- .map(entry => [entry[0], entry[0].toUpperCase()]): Iterating over the array and transforming the values takes O(n).
+- new Map(...): Creating a Map from the transformed array takes O(n).
+- Object.fromEntries(colorMap): Converting the Map to an object takes O(n).
 </p>
 </details>
 
@@ -1767,6 +1826,10 @@ console.log(keyValuePairs); // Output: [["name", "Alice"], ["age", 30]]
 - Object.entries returns an array of key-value pairs from an object.
 - The loop iterates through the object's properties and adds them as arrays to the keyValuePairs array.
 
+### Time Complexity: O(n)
+- Iterating over the object's properties with for...in takes O(n).
+- Each push operation inside the loop is O(1), but since it is executed n times, it results in O(n) total.
+
 </p>
 </details>
 
@@ -1784,6 +1847,9 @@ console.log(personObj); // Output: { name: "Alice", age: 30 }
 ##### Explanation
 Object.fromEntries directly constructs an object from an array of key-value pairs.
 
+### Time Complexity: O(n)
+The method Object.fromEntries iterates over the array of key-value pairs to construct the object. Here, n is the number of key-value pairs in the array.
+
 </p>
 </details>
 
@@ -1799,6 +1865,12 @@ const queryString = params.toString();
 
 console.log(queryString); // Output: name=Alice&age=30
 ```
+##### Explanation:
+URLSearchParams(person) creates a URLSearchParams object from the person object, which is used to construct a query string.
+
+### Time Complexity: O(n)
+The creation of a URLSearchParams object involves iterating over the properties of the person object. Here, n is the number of properties in the object.
+
 Using a loop and manual encoding (older approach, consider URLSearchParams for security):
 ```javascript
 const person = { name: "Alice", age: 30 };
@@ -1820,6 +1892,9 @@ console.log(queryString); // Output: name=Alice&age=30
   - encodeURIComponent is used to encode both the key and value to ensure they are URL-safe (avoid special characters breaking the query string).
   - The encoded key and value are joined with an = sign to form a key-value pair.
   - The entire key-value pair is then concatenated to the queryString variable.
+
+### Time Complexity: O(n)
+The loop iterates over each property of the object, and the operations inside the loop (appending strings, encoding) are constant time operations. Thus, the overall time complexity is O(n), where n is the number of properties in the object.
 
 </p>
 </details>
