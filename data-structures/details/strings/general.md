@@ -583,6 +583,9 @@ console.log(toCamelCase("snake_case")); // Output: "snakeCase"
   - Set the flag to false for subsequent characters in the same word.
 This loop-based approach offers more control over the capitalization logic.
 
+### Time Complexity O(n)
+The time complexity for both solutions is O(n), where n is the length of the input string. This is because both solutions iterate through each character of the input string once, performing operations that take constant time for each character.
+
 </p>
 </details>
 
@@ -624,6 +627,11 @@ console.log(toKebabCase("snakeCase")); // Output: "snake-case"
 - Otherwise (uppercase), a hyphen is appended.
 - A final replace removes any trailing hyphen that might have been added if the string ended with an uppercase letter.
 
+### Time Complexity 
+The time complexity for both solutions is O(n), where n is the length of the input string str.
+- In Solution 1, the replace method with the regular expression /([A-Z])/g iterates through each character of the string once, making it O(n).
+- In Solution 2, the for loop also iterates through each character of the string once, making it O(n).
+
 </p>
 </details>
 
@@ -663,6 +671,18 @@ console.log(truncateString("This is a long sentence", 10)); // Output: "This is 
   - slice(0, -1) removes the last word from the array.
   - join(" ") joins the remaining words with spaces.
 - The ellipsis is added to indicate truncation.
+
+### Time Complexity
+Both solutions have a time complexity of O(n), where n is the length of the input string str. This is because:
+
+- Solution 1:
+    - The slice(0, maxLength) operation extracts a substring of length maxLength, which takes O(maxLength) time.
+    - The conditional check str.length > maxLength and the concatenation str.slice(0, maxLength) + "..." both take constant time.
+- Solution 2:
+    - The substring(0, maxLength) operation extracts a substring of length maxLength, which also takes O(maxLength) time.
+    - Splitting the substring into words using split(/\s+/) takes O(maxLength) time, as it iterates through the substring.
+    - Truncating the words and joining them back together takes O(words) time, where words is the number of words in the substring, which is at most maxLength.
+    - Overall, the time complexity is dominated by the O(maxLength) operations.
 
 </p>
 </details>
@@ -709,6 +729,11 @@ console.log(isDigitsOnly("123a45")); // Output: false
 - isNaN(parseInt(char, 10)): Checks if the parsed integer representation of the character is Not a Number (NaN).
 - If any character is not a digit (NaN returned), it's not digits-only.
 
+### Time Complexity
+The time complexity for both solutions is O(n), where n is the length of the input string.
+- Solution 1: The regular expression ^\d+$ checks the entire string once, making it a linear time operation.
+- Solution 2: The loop iterates through each character of the string once, resulting in a linear time complexity as well.
+
 </p>
 </details>
 
@@ -740,6 +765,9 @@ function removeWhitespace(str) {
 
 console.log(removeWhitespace("Hello world"));
 ```
+
+### Time Complexity
+Both solutions have a time complexity of O(n), where n is the length of the input string str. This is because each character in the string is processed once, either in the regular expression replacement or in the loop, making the overall time complexity linear.
 
 </p>
 </details>
@@ -787,6 +815,12 @@ console.log(replaceAll("Hello world world", "world", "Earth")); // Output: "Hell
 - If not found (-1), the remaining string is appended, and the loop breaks.
 - Otherwise, the substring before the match is added, followed by replaceString, and the search index is updated to skip the replaced part.
 
+### Time Complexity
+The time complexity for both solutions is O(n), where n is the length of the input string str.
+
+- Solution 1: Uses the replace method with a global regular expression. Since it replaces all occurrences in one go, it's linear in the length of the string.
+- Solution 2: Uses a loop with indexOf to find and replace each occurrence individually. Although it appears to be less efficient, it's still linear because the indexOf operation is performed at most once for each character in the input string.
+
 </p>
 </details>
 
@@ -825,6 +859,11 @@ console.log(findFirstChar("Hello world", 'x')); // Output: -1 (not found)
 - Loop iterates through each character in the string.
 - If the current character matches char, its index is returned.
 - If the loop completes without finding a match, -1 is returned.
+
+### Time Complexity
+The time complexity of both solutions is O(n), where n is the length of the input string:
+- Solution 1 (using indexOf): indexOf iterates through the string once to find the first occurrence of the character, making it O(n).
+- Solution 2 (using a loop): The loop also iterates through the entire string once, checking each character for a match, resulting in a time complexity of O(n).
 
 </p>
 </details>
@@ -868,6 +907,11 @@ console.log(findFirstChar("Hello world", 'x')); // Output: -1 (not found)
 - Loop iterates through each character in the string.
 - If the current character matches char, its index is returned.
 - If the loop completes without finding a match, -1 is returned.
+
+### Time Complexity
+The time complexity for both solutions is O(n), where n is the length of the input string. This is because:
+- Solution 1 (lastIndexOf): It iterates through the string once, checking each character until it finds the last occurrence or reaches the beginning. Since it only iterates once, the time complexity is linear, O(n).
+- Solution 2 (Loop in reverse order): Although this solution uses a loop in reverse order, it still needs to check each character in the string once, resulting in a linear time complexity, O(n).
 
 </p>
 </details>
@@ -926,6 +970,11 @@ console.log(findMostCommonChar("hello world")); // Output: "l"
 - Nested loops iterate through each character in the string.
 - The inner loop counts the occurrences of the current character (str[i]).
 - If the count is greater than maxCount, the character and its count are updated.
+
+### Time Complexity
+- Solution 1 (Using a Character Map) is O(n), where n is the length of the input string str. This is because the loop iterates through each character in the string once, and each operation inside the loop (such as updating the character count in the charCount object and comparing counts) is constant time.
+
+- Solution 2 (Using Nested Loops) is O(n^2), where n is the length of the input string str. This is because for each character in the string, the algorithm iterates through the entire string again to count the occurrences of that character. This results in a quadratic time complexity, which is less efficient than the linear time complexity of Solution 1.
 
 </p>
 </details>
@@ -987,6 +1036,10 @@ function findLongestSubstring(str) {
 
 console.log(findLongestSubstring("abcabcbb")); // Output: "abc"
 ```
+
+### Time Complexity O(n)
+The time complexity for both solutions is O(n), where n is the length of the input string str. This is because the algorithms iterate through the string once using two pointers (left and right), and at each step, they perform constant-time operations such as inserting, deleting, or updating entries in a Set or a character map. Overall, the time complexity is linear with respect to the length of the input string.
+
 </p>
 </details>
 
@@ -1102,6 +1155,9 @@ console.log(findShortestSubstring("xyzayb", "xy")); // Output: "xy"
 - While all characters are found, it shrinks the window from the left, updating the shortest valid substring length (`minLength`).
 - Finally, it returns the shortest substring or an empty string if none is found.
 
+### Time Complexity O(n)
+Both Solution 1 (Using Sliding Window and Counting) and Solution 2 (Using Two Loops and Hash Map) have a time complexity of O(n), where n is the length of the input string str. Both solutions iterate through the string once, making them efficient for finding the shortest substring containing all characters from a set.
+
 </p>
 </details>
 
@@ -1134,6 +1190,9 @@ console.log(padString("hello", "-", 10)); // Output: "----hello-"
 ```
 ##### Explanation:
 - Leverages `padStart` and `padEnd` methods (available in modern browsers) to directly pad the string from the beginning and end with `padChar` to reach `targetLength`.
+
+### Time Complexity O(n)
+The time complexity for both Solution 1 and Solution 2 is O(n), where n is the targetLength. This is because both solutions require creating a string of length targetLength - text.length filled with the padChar, which is an O(n) operation. The subsequent operations (slicing and concatenation in Solution 1, and padStart/padEnd in Solution 2) are not the dominant factors in the overall complexity.
 
 </p>
 </details>
@@ -1174,6 +1233,9 @@ console.log(removeVowels("Hello, World!")); // Output: "Hll, Wrd!"
 - Checks if the character is not a vowel using `!` and `.includes("aeiouAEIOU")`.
 - If it's not a vowel, appends it to the `result` string.
 
+### Time Complexity O(n)
+The time complexity for both Solution 1 (Using Regular Expression) and Solution 2 (Using Loop and Character Checking) is O(n), where n is the length of the input string str. Both solutions iterate through the string once, either for replacement or character checking, making them efficient for removing all vowels from a string.
+
 </p>
 </details>
 
@@ -1211,6 +1273,9 @@ console.log(toTitleCase("hello, world!")); // Output: "Hello, World!"
 - Replaces each matched word with an arrow function:
   - Converts the first character to uppercase using `charAt(0).toUpperCase()`.
   - Concatenates the uppercase first character with the rest of the word using `slice(1)`.
+
+### Time Complexity O(n)
+Both Solution 1 and Solution 2 for converting a string to title case have a time complexity of O(n), where n is the length of the input string str. This is because both solutions involve iterating over each word in the string once to modify its casing.
 
 </p>
 </details>
@@ -1261,6 +1326,9 @@ console.log(reverseCase("Hello")); // Output: "hELLO"
 - Uses two regular expression replacements:
   - `/[a-z]/gi`: Matches all lowercase letters (a-z) globally (`g`) and case-insensitively (`i`). Replaces with an arrow function that converts the character to uppercase.
   - `/[A-Z]/g`: Matches all uppercase letters (A-Z) globally. Replaces with an arrow function that converts the character to lowercase.
+
+### Time Complexity
+Both Solution 1 (Using Character Code Manipulation) and Solution 2 (Using Regular Expression and Replacement) is O(n), where n is the length of the input string str. Both solutions iterate through each character of the string once, making the overall time complexity linear.
 
 </p>
 </details>
@@ -1338,6 +1406,9 @@ console.log(isPalindrome("hello")); // Output: false
 - Pop and Compare: While the stack has more than one character remaining, the first and last characters are popped (`pop`) and compared. If they don't match, the string is not a palindrome.
 - Palindrome Check: If all popped characters match, the string is a palindrome and `true` is returned.
 
+### Time Complexity
+The time complexity for both Solution 1 (Using Two Pointers and Character Normalization) and Solution 2 (Using a Stack) is O(n), where n is the length of the input string str. Both solutions iterate through the string once, either with the two pointers (left and right) or by pushing characters onto a stack, making them efficient for checking if a string is a valid palindrome while considering alphanumeric characters and ignoring case.
+
 </p>
 </details>
 
@@ -1398,6 +1469,11 @@ console.log(findFirstRepeatedChar("leetcode")); // Output: "l"
 - Inner Loop: The inner loop iterates through all subsequent characters (`str[j]`) starting from `i + 1` to compare against the outer loop's character.
 - Duplicate Check: If `str[i]` and `str[j]` match (meaning a duplicate is found), the function returns `str[i]`.
 - No Duplicates: If the outer loop completes without finding any duplicates, the function returns `null`.
+
+### Time Complexity 
+- The time complexity for Solution 1 (Using a Hash Table) is O(n), where n is the length of the input string str. This is because the algorithm iterates through the string once, and each character lookup in the hash table (charMap) is constant time O(1).
+
+- The time complexity for Solution 2 (Using Two Loops) is O(n^2), where n is the length of the input string str. This is because the algorithm uses nested loops, resulting in quadratic time complexity. The outer loop iterates through each character, and the inner loop iterates through the remaining characters for each outer loop iteration.
 
 </p>
 </details>
@@ -1488,6 +1564,17 @@ console.log(findSecondMostFrequentChar("aaa")); // Output: null (no second most 
 - Returning Second Most Frequent:
 - After iterating through the entire string, `secondMaxChar` will hold the second most frequent character (if one exists). By excluding the most frequent character in the second loop, we ensure we identify the next most frequent one.
 - The function returns `secondMaxChar`. If no character qualifies as the second most frequent (e.g., in the case of "aaa"), `secondMaxChar` remains `null`, and the function implicitly returns `null`.
+
+### Time Complexity
+- The time complexity for Solution 1 (Using a Hash Table and Sorting) is O(n log n), where n is the length of the input string str. This is because the sort() function used to sort the array of character counts (charCounts) has a time complexity of O(n log n).
+
+- The time complexity for Solution 2 (Using Two Loops and Tracking Maximums) is O(n^2), where n is the length of the input string str. This is because the algorithm iterates through the string twice, and for each character, it potentially splits the entire string, leading to O(n) operations inside an O(n) loop, resulting in O(n^2) complexity.
+
+In summary:
+
+- Solution 1 is more efficient with a time complexity of O(n log n) due to sorting.
+- Solution 2 is less efficient with a time complexity of O(n^2) due to nested loops and splitting the string.
+
 
 </p>
 </details>
@@ -1598,6 +1685,13 @@ console.log(longestCommonPrefix(["dog", "racecar", "car"])); // Output: ""
   - Solution 2 (Horizontal Scanning) might be slightly less efficient than Solution 1 but still has a linear time complexity (O(n * m)).
   - Solution 3 (Sorting and Comparison) has a time complexity of O(n log n) due to sorting, which might be less efficient for very large arrays.
 Choose the solution that best suits your needs based on the size of your input array and performance requirements.
+
+### Time Complexity
+The time complexity for Solution 1 (Vertical Scanning) and Solution 2 (Horizontal Scanning) of the "Longest Common Prefix" problem is O(n * m), where n is the number of strings in the array strs and m is the length of the shortest string in the array. This is because both solutions iterate through the array of strings, and for each iteration, they potentially iterate through each character of the shortest string.
+
+Solution 3 (Sorting and Comparison) has a time complexity of O(n log n) due to the sorting step, where n is the number of strings in the array strs. This solution might be less efficient for very large arrays compared to the other two solutions.
+
+Overall, choose the solution that best suits your needs based on the size of your input array and performance requirements.
 
 </p>
 </details>
@@ -1730,6 +1824,13 @@ console.log(longestPalindrome("a")); // Output: "a"
   - Solution 1 (Dynamic Programming) generally has a time complexity of O(n^2) and space complexity of O(n^2) due to the `dp` table.
   - Solution 2 (Expanding Around Center) has a time complexity of O(n) and space complexity of O(n) due to string preprocessing.
 Choose the solution that best suits your needs based on performance requirements and string length. However, Solution 2 might be slightly more complex to understand due to the preprocessing step.
+
+### Time Complexity
+- The time complexity for Solution 1 (Dynamic Programming) is O(n^2), where n is the length of the input string str. This is because the algorithm uses a 2D array dp to store whether substrings are palindromes, leading to nested loops that iterate through all substrings.
+
+- The time complexity for Solution 2 (Expanding Around Center) is O(n), where n is the length of the input string str. This is because the algorithm expands around each character and checks for palindromes, leading to a linear time complexity.
+
+Overall, Solution 2 is more efficient in terms of time complexity for finding the longest palindromic substring.
 
 </p>
 </details>
