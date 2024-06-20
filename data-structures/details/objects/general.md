@@ -1911,6 +1911,10 @@ const personObj = Object.fromEntries(params);
 
 console.log(personObj); // Output: { name: "Alice", age: "30" } (values are strings)
 ```
+
+### Time Complexity: O(n)
+Creating a URLSearchParams object and converting it to an object both involve iterating over the key-value pairs in the queryString. Here, n is the number of key-value pairs in the queryString.
+
 Using a loop and manual parsing (older approach, consider URLSearchParams for complex logic):
 ```javascript
 const queryString = "name=Alice&age=30";
@@ -1925,6 +1929,10 @@ const personObj = Object.fromEntries(keyValuePairs);
 
 console.log(personObj); // Output: { name: "Alice", age: "30" } (values are strings)
 ```
+
+### Time Complexity: O(n)
+Both splitting the queryString and iterating over the key-value pairs have a linear time complexity proportional to the number of key-value pairs in the queryString, denoted by n.
+
 ##### Explanation:
 - URLSearchParams provides a built-in way to parse a query string into key-value pairs.
     - We then use Object.fromEntries to convert those pairs into an object.
@@ -1957,7 +1965,12 @@ console.log(formData); // FormData object with key-value pairs
 - FormData objects are used for sending form data with file uploads in AJAX requests.
 - The loop iterates through the object's properties.
 - formData.append(key, value) adds each key-value pair to the FormData object.
+
 Note that you can directly append Blobs or File objects for file uploads.
+
+### Time Complexity: O(n)
+- In this case, n represents the number of properties in the person object.
+- The loop's time complexity is linear with respect to the number of properties, as it iterates through each property exactly once.
 
 </p>
 </details>
@@ -1999,6 +2012,10 @@ console.log(params); // URLSearchParams object with key-value pairs
 - Remember that URLSearchParams automatically handles URL encoding for you, making it a secure choice for building query strings.
 - You can also use params.toString() to get the query string representation of the URLSearchParams object.
 
+### Time Complexity: O(n)
+- In this case, n represents the number of properties in the person object.
+- The loop's time complexity is linear with respect to the number of properties, as it iterates through each property exactly once.
+
 </p>
 </details>
 
@@ -2016,6 +2033,9 @@ console.log(personObj); // Output: { name: "Alice", age: "30" } (values are stri
 ##### Explanation:
 - URLSearchParams provides an iterable of key-value pairs.
 - Object.fromEntries directly constructs an object from such iterables.
+
+### Time Complexity
+The time complexity for Object.fromEntries when used with URLSearchParams is O(n), where n is the number of key-value pairs in the URLSearchParams object.
 
 </p>
 </details>
