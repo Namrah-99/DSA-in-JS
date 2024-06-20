@@ -2052,6 +2052,11 @@ const blob = new Blob([jsonString], { type: "application/json" });
 
 console.log(blob); // Blob object representing the JSON string
 ```
+
+### Time Complexity: O(n)
+##### Explanation: 
+The JSON.stringify operation has a time complexity of O(n), where n is the number of characters in the resulting JSON string. The Blob constructor also operates in O(n) time as it processes each character in the input string.
+
 Using a library like FileSaver.js (for saving or downloading Blobs):
 ```javascript
 // Assuming FileSaver.js is installed (ensure trusted source)
@@ -2061,6 +2066,12 @@ const blob = new Blob([jsonString], { type: "application/json" });
 
 FileSaver.saveAs(blob, "person.json"); // Save the Blob as a file (requires user interaction)
 ```
+
+### Time Complexity: O(n)
+##### Explanation: 
+This approach involves the same steps as the first scenario for creating the JSON string and Blob, each with O(n) complexity. The FileSaver.saveAs method adds additional operations, but these are typically constant time, making the overall complexity still O(n).
+
+
 ##### Explanation:
 - Blobs are binary data containers.
 - The first approach creates a JSON string from the object and then uses the Blob constructor to create a Blob with the specified type (e.g., JSON).
@@ -2092,6 +2103,14 @@ reader.readAsText(blob);  // Read the Blob content as text
 - FileReader allows asynchronous reading of Blob content.
 - We read the Blob as text (adjust the type based on the Blob's actual content) and then parse it as JSON if the content format is appropriate (e.g., JSON string).
 
+### Time Complexity:
+- Blob creation: The creation of a Blob is O(n), where n is the size of the data being stored in the Blob.
+- FileReader.readAsText(blob): The read operation's complexity is O(n), where n is the size of the Blob content being read.
+- Parsing JSON: The JSON.parse(content) operation is O(m), where m is the length of the string being parsed.
+### Overall Time Complexity:
+- Time Complexity: O(n + m)
+- Explanation: The overall complexity is the sum of the time to read the Blob content and parse it as JSON. If the Blob content is directly parsed as JSON, n and m represent the same data, resulting in an effective complexity of O(n).
+
 </p>
 </details>
 
@@ -2114,6 +2133,10 @@ console.log(typedArray); // TypedArray object with the data
 ##### Important Note:
 -TypedArrays are not directly interchangeable with objects. They offer efficient storage and operations for specific data types.
 - Converting an object to a TypedArray might require restructuring the data depending on the object's structure and the desired TypedArray type.
+
+### Time Complexity: O(n) 
+The overall complexity is linear with respect to the number of elements in the input array numbers.data. The TypedArray constructor iterates through the input array to initialize the TypedArray.
+
 </p>
 </details>
 
@@ -2137,6 +2160,11 @@ console.log(obj); // Output: { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5 }
 - This approach creates a new object with each TypedArray element assigned to a property using its index as the key.
 ##### Important Note:
 This creates a basic object representation. The structure might not be ideal for all use cases, depending on your desired object format.
+
+### Time Complexity O(n)
+Loop Iteration: Iterating through the typedArray has a time complexity of O(n), where n is the length of the typedArray.
+Object Assignment: Each assignment obj[i] = typedArray[i] is an O(1) operation.
+
 </p>
 </details>
 
@@ -2151,6 +2179,10 @@ const arrayBuffer = numbers.data.buffer; // Access the underlying ArrayBuffer
 
 console.log(arrayBuffer); // ArrayBuffer object representing the data
 ```
+
+### Time Complexity: O(1) 
+Accessing the buffer property of a TypedArray is a constant time operation.
+
 Using TextEncoder for string data and ArrayBuffer.from (modern JS):
 ```javascript
 const person = { name: "Alice" };
@@ -2160,6 +2192,10 @@ const arrayBuffer = ArrayBuffer.from(encodedString); // Create ArrayBuffer from 
 
 console.log(arrayBuffer); // ArrayBuffer object representing the encoded JSON string
 ```
+
+### Time Complexity: O(n)
+Encoding the string using TextEncoder and creating an ArrayBuffer from the Uint8Array both involve iterating over the input data, making the operation linear with respect to the length of the string.
+
 ##### Explanation:
 - ArrayBuffers are used as the underlying storage for TypedArrays.
 - If the object holds a TypedArray, you can access its underlying ArrayBuffer using TypedArray.buffer.
@@ -2190,6 +2226,14 @@ console.log(obj); // Output: { value: 12345678 }
 ##### Important Note:
 - This is a simplified example assuming a specific data format (32-bit integer).
 - Interpreting ArrayBuffers effectively requires understanding the data format and using appropriate DataView methods for reading/writing.
+
+### Time Complexity:
+- DataView Construction: O(1)
+- Setting a value in DataView: O(1)
+- Getting a value from DataView: O(1)
+### Overall Time Complexity O(1)
+Each operation (constructing the DataView, setting a value, and getting a value) is performed in constant time, O(1).
+
 </p>
 </details>
 
@@ -2235,6 +2279,9 @@ const obj = { value }; // Create an object with the interpreted value
 
 console.log(obj); // Output: { value: 12345678 }
 ```
+
+### Time Complexity: O(1)
+
 ##### Explanation:
 - DataViews provide methods for reading/writing data based on a specific format.
 - This approach interprets the data in the DataView (assuming a known format) and creates a new object with the extracted value(s).
@@ -2255,6 +2302,9 @@ const obj = {
 
 console.log(obj); // Output: { value1: ..., value2: ..., ... } (values based on data format)
 ```
+
+### Time Complexity: O(n), where n is the number of properties in the object.
+
 ##### Explanation:
 - For complex data formats in the DataView, you might need to write custom helper functions to interpret different data types (e.g., interpretInt32, interpretFloat64).
 - These functions would read the relevant sections of the DataView and return the extracted values.
@@ -2287,6 +2337,9 @@ fetch(url + "&" + new URLSearchParams(data))
   })
   .catch(error => console.error(error));
 ```
+
+### Time Complexity: O(n), where n is the length of the response text.
+
 ##### Explanation:
 - This approach fetches the JSONP response using fetch.
 - It then extracts the callback name from the response text.
@@ -2302,6 +2355,8 @@ fetch(url + "&" + new URLSearchParams(data))
   - Handling the callback function creation and execution.
   - Extracting the data from the response and providing a Promise-based API for handling success and errors.
 - Using libraries simplifies the process and reduces the risk of security vulnerabilities associated with eval.
+
+### Time Complexity: O(n), where n is the length of the response text.
 
 </p>
 </details>
@@ -2333,6 +2388,10 @@ fetchData("https://api.example.com/data")
 - In case of errors, call reject with the error object.
 ##### Important Note:
 Converting a simple object to a Promise might not be necessary in all cases. Promises are typically used for handling asynchronous operations and managing their results.
+
+### Time Complexity: O(1)
+The complexity is O(1) because the operations inside the Promise constructor and the simulated asynchronous operation have constant time complexity. The setTimeout function's delay does not affect the computational complexity.
+
 </p>
 </details>
 
@@ -2355,6 +2414,10 @@ async function fetchData() {
 
 fetchData();
 ```
+
+### Time Complexity O(1)
+The time complexity is O(1) because the await keyword in the async function pauses the execution until the Promise is resolved, but it does not impact the overall time complexity of the function. The Promise itself resolves in constant time.
+
 ##### Explanation:
 - The await keyword can only be used within async functions.
 - It pauses the execution of the async function until the Promise resolves and then assigns the resolved value to the variable.
@@ -2396,6 +2459,10 @@ console.log(personProxy.job); // Output: Property "job" does not exist on the ob
 - The Proxy constructor creates a proxy object that intercepts operations on the target object (here, person).
 - The handler object defines how these operations are handled.
 - In this example, the get trap handles property access, and the set trap handles property assignment. You can define other traps for operations like deletion (deleteProperty), function calls (apply), etc.
+
+### Time Complexity O(1)
+The time complexity for accessing or setting a property through a Proxy is O(1) because the operation's performance does not depend on the size of the object or the number of properties. The Proxy intercepts the operation and performs the necessary actions directly.
+
 </p>
 </details>
 
@@ -2446,6 +2513,8 @@ if (Reflect.getPrototypeOf(personProxy) === person) {
 - If you need full control over modifying and accessing the data, consider avoiding Proxy objects and directly using a regular object.
 - Proxy objects are valuable for controlling object behavior and intercepting operations, but they might not be suitable for all use cases where direct object manipulation is required.
 
+### Time Complexity: N/A (Not Applicable)
+
 </p>
 </details>
 
@@ -2472,6 +2541,10 @@ if (match) {
 - The pattern string defines the search criteria using special characters and metacharacters.
 - The exec method of the RegExp object is used to search for matches in a given string.
 
+### Time Complexity: O(n)
+- Creating a RegExp object from a string involves parsing the string to build the regular expression pattern.
+- The complexity of this process is linear relative to the length of the pattern string, as each character in the string needs to be processed to construct the regular expression.
+
 Using flags (optional):
 ```javascript
 const patternString = /color=([a-z]+)/i; // Case-insensitive search with flag 'i'
@@ -2493,6 +2566,9 @@ if (match) {
 ##### Important Note:
 - Converting a simple object to a RegExp object might not be necessary in all cases. Regular expressions are specifically used for pattern matching in strings.
 
+### Time Complexity: O(n)
+- Adding flags to a regular expression string does not significantly affect the time complexity.
+- The complexity remains linear relative to the length of the pattern string.
 
 </p>
 </details>
@@ -2517,6 +2593,9 @@ console.log(colorRegExp.test("My favorite color is blue")); // Output: true (tes
 - RegExp objects provide properties like source (the pattern string) and flags (modifiers like case-insensitive search).
 - You can use methods like test to check for matches in strings and exec to retrieve detailed information about the match.
 
+### Time Complexity: O(1)
+- Accessing properties and methods of a RegExp object, such as source, flags, test, exec, etc., has a constant time complexity.
+- These operations directly access the internal properties of the RegExp object without iterating over any data structure.
 </p>
 </details>
 
@@ -2536,6 +2615,10 @@ console.log(Symbol.keyFor(sym1)); // Output: undefined (Symbols don't have a rev
 - The Symbol function creates unique and immutable Symbol objects.
 - You can optionally provide a description string (not used for uniqueness).
 - Symbols are primarily used as property keys to ensure unique object properties that won't conflict with other property names.
+
+### Time Complexity: O(1)
+- Creating a Symbol using the Symbol function has a constant time complexity.
+- The creation of a Symbol is not dependent on the size of any input, as it always creates a new unique Symbol instance.
 
 </p>
 </details>
@@ -2561,6 +2644,10 @@ if (Symbol.keyFor) { // Check for existence of the reverse lookup method (not gu
 ```
 ##### Explanation:
 - While you cannot convert a Symbol to an object, you can use the Symbol object directly for its unique identity and optionally access its description if the Symbol.keyFor method is supported (which might not be available in all environments).
+
+### Time Complexity: O(1)
+- Creating a Symbol object and accessing its description (if available) is a constant-time operation.
+- The complexity does not depend on the size of the description or any other factor.
 
 </p>
 </details>
@@ -2590,6 +2677,10 @@ person = null;
 
 ##### Important Note:
 WeakMaps are useful for scenarios where you want to associate data with objects without preventing those objects from being garbage collected. Consider using Map objects if you need strong references to both keys and values.
+
+### Time Complexity: O(1) for set and get operations
+- The time complexity of set and get operations in a WeakMap is considered to be O(1) on average.
+- This is because the underlying implementation typically uses hashing to store and retrieve key-value pairs, leading to constant-time complexity for these operations in most cases.
 
 </p>
 </details>
@@ -2622,6 +2713,9 @@ console.log(obj); // Output: {} (keys cannot be retrieved)
 - Due to weak references in WeakMaps, iterating over entries doesn't provide access to the original keys.
 - This approach creates a new object and adds the values from the WeakMap, but the keys are lost because they cannot be strongly referenced.
 
+### Time Complexity: O(n)
+Iterating over entries in a WeakMap involves iterating over all key-value pairs in the WeakMap, which has a linear time complexity relative to the number of entries in the WeakMap.
+
 Convert values to a suitable structure if possible:
 ```javascript
 const person = { name: "Alice", age: 30 };
@@ -2638,6 +2732,9 @@ console.log(valuesArray); // Output: [{ city: "New York" }] (if values are suita
 ##### Explanation:
 - If the values in the WeakMap are simple objects or primitives, you might be able to convert them to a suitable structure like an array.
 This approach depends on the type of data stored in the WeakMap.
+
+### Time Complexity: O(n)
+Converting the values of a WeakMap to a suitable structure, like an array, involves iterating over all values in the WeakMap, which has a linear time complexity relative to the number of entries in the WeakMap.
 
 </p>
 </details>
@@ -2662,6 +2759,15 @@ console.log(weakSet.has(apple)); // Output: true (new object with weak reference
 - The WeakSet constructor creates a collection of weakly referenced objects.
 - You can pass an iterable (like an array or another Set) containing the objects to the constructor.
 - However, it's important to note that the original objects in the iterable are not stored in the WeakSet. Weak references are created for the objects themselves.
+
+### Time Complexity
+- Creation: O(n), where n is the number of elements in the iterable passed to the WeakSet constructor.
+- Adding: O(1)
+- Checking Membership: O(1)
+
+##### Explanation:
+- Creating a WeakSet from an iterable involves iterating over the elements in the iterable, resulting in a linear time complexity relative to the number of elements.
+- Adding an element to a WeakSet and checking for membership have constant time complexities, as they involve direct operations on the underlying data structure.
 
 </p>
 </details>
@@ -2689,8 +2795,12 @@ for (const value of weakSet.values()) {
 console.log(obj); // Output: [ /* Converted values or original objects */ ] (conversion depends on value type)
 ```
 ##### Explanation:
-- Iterating over a WeakSet provides access to the weakly referenced objects themselves.
-- If the objects hold simple data or can be converted to a suitable format (like JSON), you might be able
+The code attempts to iterate over a WeakSet and convert its values into a different format, storing them in an array. However, due to the weakly referenced nature of the objects in a WeakSet, direct conversion is limited. The success of conversion depends on the structure and content of the objects. The resulting array (obj) will contain the converted values if successful, or the original objects if conversion fails.
+
+### Time Complexity:
+- Iteration: O(n), where n is the number of elements in the WeakSet.
+- Explanation:
+    - Iterating over a WeakSet involves visiting each element once, resulting in a time complexity linear to the number of elements in the WeakSet.
 
 </p>
 </details>
