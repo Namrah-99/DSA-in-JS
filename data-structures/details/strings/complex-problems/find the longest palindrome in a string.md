@@ -8,7 +8,7 @@ The algorithm preprocesses the input string by adding `#` between each character
 - `processedString`: A new string created by adding `#` between each character of the input string `s`.
 - `center`: The center of the current longest palindrome.
 - `right`: The right boundary of the current longest palindrome.
-- palindromeLengths: An array to store the length of palindromes centered at each index of `processedString`.
+- `palindromeLengths`: An array to store the length of palindromes centered at each index of `processedString`.
 - `maxCenter`: The center of the longest palindrome found so far.
 - `maxLength`: The length of the longest palindrome found so far.
 
@@ -112,7 +112,7 @@ Let's break down the concept of the mirror position and the overall algorithm in
 - For the input string "cbbd", the algorithm would find "bb" as the longest palindromic substring.
 
 In essence, the algorithm uses the concept of mirroring to efficiently expand around potential palindrome centers and keep track of the longest palindrome found so far.
-
+<!--
 ```javascript
 function longestPalindrome(s) {
     if (!s || s.length === 0) return "";
@@ -122,12 +122,11 @@ function longestPalindrome(s) {
     for (let i = 0; i < s.length; i++) {
         processedString += s[i] + "#";
     }
-    console.log(processedString)
-    console.log(processedString.length)
+    console.log('processedString: ', processedString, "processedString.length: ",processedString.length)
     let center = 0, right = 0;
     let palindromeLengths = new Array(processedString.length).fill(0);
     let maxCenter = 0, maxLength = 0;
-    console.log(palindromeLengths)
+    console.log('palindromeLengths: ',palindromeLengths)
     for (let i = 0; i < processedString.length; i++) {
         
         let mirror = 2 * center - i;
@@ -177,7 +176,153 @@ function longestPalindrome(s) {
 
 // Example usage
 console.log(longestPalindrome("babad")); // Output: "aba" or "bab"
-console.log(longestPalindrome("cbbd")); // Output: "bb"
+//console.log(longestPalindrome("cbbd")); // Output: "bb"
+```-->
+### Dry Run the provided code step by step
 ```
-
-
+processedString:  #b#a#b#a#d# processedString.length:  11
+palindromeLengths:  [
+  0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+i :  0 , center:  0 , mirror:  0
+i < right:  false
+i:  0  palindromeLengths[i]:   0
+expandLeft :  -1 , processedString[expandLeft] :  undefined
+expandRight :  1 , processedString[expandRight] :  b
+palindromeLengths[i] :  0 , right 0 , maxLength:  0
+---------------------------------------------------------------------
+i :  1 , center:  0 , mirror:  -1
+i < right:  false
+i:  1  palindromeLengths[i]:   0
+expandLeft :  0 , processedString[expandLeft] :  #
+expandRight :  2 , processedString[expandRight] :  #
+palindromeLengths :  [
+  0, 1, 0, 0, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+expandLeft :  -1 , processedString[expandLeft] :  undefined
+expandRight :  3 , processedString[expandRight] :  a
+palindromeLengths[i] :  1 , right 0 , maxLength:  0
+center :  1 , right :  2
+maxLength:  1 , maxCenter:  1
+---------------------------------------------------------------------
+i :  2 , center:  1 , mirror:  0
+i < right:  false
+i:  2  palindromeLengths[i]:   0
+expandLeft :  1 , processedString[expandLeft] :  b
+expandRight :  3 , processedString[expandRight] :  a
+palindromeLengths[i] :  0 , right 2 , maxLength:  1
+---------------------------------------------------------------------
+i :  3 , center:  1 , mirror:  -1
+i < right:  false
+i:  3  palindromeLengths[i]:   0
+expandLeft :  2 , processedString[expandLeft] :  #
+expandRight :  4 , processedString[expandRight] :  #
+palindromeLengths :  [
+  0, 1, 0, 1, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+expandLeft :  1 , processedString[expandLeft] :  b
+expandRight :  5 , processedString[expandRight] :  b
+palindromeLengths :  [
+  0, 1, 0, 2, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+expandLeft :  0 , processedString[expandLeft] :  #
+expandRight :  6 , processedString[expandRight] :  #
+palindromeLengths :  [
+  0, 1, 0, 3, 0,
+  0, 0, 0, 0, 0,
+  0
+]
+expandLeft :  -1 , processedString[expandLeft] :  undefined
+expandRight :  7 , processedString[expandRight] :  a
+palindromeLengths[i] :  3 , right 2 , maxLength:  1
+center :  3 , right :  6
+maxLength:  3 , maxCenter:  3
+---------------------------------------------------------------------
+i :  4 , center:  3 , mirror:  2
+i < right:  true
+palindromeLengths[i]  0
+i:  4  palindromeLengths[i]:   0
+expandLeft :  3 , processedString[expandLeft] :  a
+expandRight :  5 , processedString[expandRight] :  b
+palindromeLengths[i] :  0 , right 6 , maxLength:  3
+---------------------------------------------------------------------
+i :  5 , center:  3 , mirror:  1
+i < right:  true
+palindromeLengths[i]  0
+i:  5  palindromeLengths[i]:   1
+expandLeft :  3 , processedString[expandLeft] :  a
+expandRight :  7 , processedString[expandRight] :  a
+palindromeLengths :  [
+  0, 1, 0, 3, 0,
+  2, 0, 0, 0, 0,
+  0
+]
+expandLeft :  2 , processedString[expandLeft] :  #
+expandRight :  8 , processedString[expandRight] :  #
+palindromeLengths :  [
+  0, 1, 0, 3, 0,
+  3, 0, 0, 0, 0,
+  0
+]
+expandLeft :  1 , processedString[expandLeft] :  b
+expandRight :  9 , processedString[expandRight] :  d
+palindromeLengths[i] :  3 , right 6 , maxLength:  3
+center :  5 , right :  8
+---------------------------------------------------------------------
+i :  6 , center:  5 , mirror:  4
+i < right:  true
+palindromeLengths[i]  0
+i:  6  palindromeLengths[i]:   0
+expandLeft :  5 , processedString[expandLeft] :  b
+expandRight :  7 , processedString[expandRight] :  a
+palindromeLengths[i] :  0 , right 8 , maxLength:  3
+---------------------------------------------------------------------
+i :  7 , center:  5 , mirror:  3
+i < right:  true
+palindromeLengths[i]  0
+i:  7  palindromeLengths[i]:   1
+expandLeft :  5 , processedString[expandLeft] :  b
+expandRight :  9 , processedString[expandRight] :  d
+palindromeLengths[i] :  1 , right 8 , maxLength:  3
+---------------------------------------------------------------------
+i :  8 , center:  5 , mirror:  2
+i < right:  false
+i:  8  palindromeLengths[i]:   0
+expandLeft :  7 , processedString[expandLeft] :  a
+expandRight :  9 , processedString[expandRight] :  d
+palindromeLengths[i] :  0 , right 8 , maxLength:  3
+---------------------------------------------------------------------
+i :  9 , center:  5 , mirror:  1
+i < right:  false
+i:  9  palindromeLengths[i]:   0
+expandLeft :  8 , processedString[expandLeft] :  #
+expandRight :  10 , processedString[expandRight] :  #
+palindromeLengths :  [
+  0, 1, 0, 3, 0,
+  3, 0, 1, 0, 1,
+  0
+]
+expandLeft :  7 , processedString[expandLeft] :  a
+expandRight :  11 , processedString[expandRight] :  undefined
+palindromeLengths[i] :  1 , right 8 , maxLength:  3
+center :  9 , right :  10
+---------------------------------------------------------------------
+i :  10 , center:  9 , mirror:  8
+i < right:  false
+i:  10  palindromeLengths[i]:   0
+expandLeft :  9 , processedString[expandLeft] :  d
+expandRight :  11 , processedString[expandRight] :  undefined
+palindromeLengths[i] :  0 , right 10 , maxLength:  3
+---------------------------------------------------------------------
+maxCenter :  3 maxLength :  3
+start :  0
+bab
+```
