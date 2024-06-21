@@ -897,8 +897,8 @@ console.log(findLastChar("Hello world", 'x')); // Output: -1 (not found)
 
 Solution 2: Using a Loop in Reverse Order (More Controllable but Potentially Less Efficient):
 ```javascript
-function findFirstChar(str, char) {
-  for (let i = 0; i < str.length; i++) {
+function findLastChar(str, char) {
+  for (let i = str.length - 1; i >0; i--) {
     if (str[i] === char) {
       return i;
     }
@@ -906,8 +906,8 @@ function findFirstChar(str, char) {
   return -1;
 }
 
-console.log(findFirstChar("Hello world", 'l')); // Output: 2
-console.log(findFirstChar("Hello world", 'x')); // Output: -1 (not found)
+console.log(findLastChar("Hello world", 'l')); // Output: 2
+console.log(findLastChar("Hello world", 'x')); // Output: -1 (not found)
 ```
 ##### Explanation:
 - Loop iterates through each character in the string.
