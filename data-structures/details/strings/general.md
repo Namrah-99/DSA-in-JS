@@ -539,6 +539,7 @@ The time complexity of both Solution 1 and Solution 2 for reversing word order i
 <p>
 
 Convert a String to Camel Case:
+
 Solution 1: Using Regular Expression and Replacement (Clear but Potentially Less Efficient):
 ```javascript
 function toCamelCase(str) {
