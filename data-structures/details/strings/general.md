@@ -245,6 +245,7 @@ Loop through each character: Processes each character in the string once, O(n).
 <p>
 
 Find the First Non-Repeated Character:
+
 Solution 1: Using a Character Map (Efficient):
 ```javascript
 function findFirstNonRepeated(str) {
