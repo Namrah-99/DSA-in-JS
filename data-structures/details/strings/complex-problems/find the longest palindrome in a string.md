@@ -2,6 +2,32 @@
 
 The algorithm preprocesses the input string by adding `#` between each character, then iterates through the processed string to find the longest palindromic substring using Manacher's Algorithm.
 
+### How Algorithm Works
+
+1. Preprocess the string:
+    - This step transforms the original string `s` into a new string processedString by adding special characters (`#`) between each character and at the boundaries. This helps to handle both odd and even length palindromes uniformly.
+    - For example, if `s` is `"babad"`, the `processedString` will be "#b#a#b#a#d#".
+
+2. Initialization:
+
+    - `center` and `right` are initialized to 0. These will keep track of the center and right edge of the current longest palindrome.
+    - `palindromeLengths` is an array initialized with zeros. It will store the length of the palindrome centered at each position in processedString.
+    - `maxCenter` and `maxLength` are used to track the center and length of the longest palindrome found.
+
+3. Main loop through the `processedString`:
+
+    - Calculate the mirror position: For each character `i` in `processedString`, calculate its mirror position `mirror` with respect to the current center.
+    - Use previously computed palindrome lengths: If `i` is within the right boundary of the current longest palindrome, use the minimum of the remaining length to the right edge and the palindrome length at the mirror position to initialize `palindromeLengths[i]`.
+    - Expand around center: Expand around `i` to find the maximum length of the palindrome centered at `i`. This is done by comparing characters at positions `expandLeft` and `expandRight` and expanding as long as they are equal.
+    - Update the center and right boundary: If the expanded palindrome at `i` goes beyond the current right boundary, update `center` and `right` to reflect the new palindrome's center and right edge.
+    - Track the longest palindrome: Update `maxCenter` and `maxLength` if the palindrome centered at `i` is longer than the previously found longest palindrome.
+
+4. Calculate the start index of the longest palindrome in the original string:
+    - Convert the center and length of the longest palindrome found in processedString back to the corresponding substring in the original string `s`.
+
+5. Return the longest palindromic substring:
+    - Extract and return the longest palindromic substring from the original string `s` using the computed start index and length.
+
 ## Step by Step Code explanation
 
 ### Initialization:
@@ -326,3 +352,115 @@ maxCenter :  3 maxLength :  3
 start :  0
 bab
 ```
+
+
+<details><summary><b>Another Good Example</b></summary>
+<p>
+Let's break down each step with an easy-to-understand example. We'll use the string "abac" for demonstration.
+
+## Step-by-Step Explanation
+
+##### Calculate the mirror position:
+
+- For each character i in processedString, calculate its mirror position mirror with respect to the current center.
+- Example: Let's say center = 3 and i = 5. The mirror of i is calculated as mirror = 2 * center - i = 2 * 3 - 5 = 1.
+
+### Use previously computed palindrome lengths:
+
+- If i is within the right boundary right of the current longest palindrome, use the minimum of the remaining length to the right edge and the palindrome length at the mirror position to initialize palindromeLengths[i].
+- Example: If right = 6 and i = 5, i is within right. Let’s say palindromeLengths[mirror] = 1 and right - i = 1. We take the minimum of these two, so palindromeLengths[i] = 1.
+
+### Expand around center:
+
+- Expand around i to find the maximum length of the palindrome centered at i. This is done by comparing characters at positions expandLeft and expandRight and expanding as long as they are equal.
+- Example: If i = 5, expandLeft = i - palindromeLengths[i] - 1 = 5 - 1 - 1 = 3 and expandRight = i + palindromeLengths[i] + 1 = 5 + 1 + 1 = 7. We check if processedString[3] equals processedString[7]. If they are equal, we increase palindromeLengths[i].
+
+### Update the center and right boundary:
+
+- If the expanded palindrome at i goes beyond the current right boundary, update center and right to reflect the new palindrome's center and right edge.
+- Example: If i + palindromeLengths[i] = 5 + 2 = 7 is greater than right = 6, we update center = 5 and right = 7.
+
+### Track the longest palindrome:
+
+- Update maxCenter and maxLength if the palindrome centered at i is longer than the previously found longest palindrome.
+- Example: If palindromeLengths[i] = 2 and maxLength = 1, we update maxLength = 2 and maxCenter = 5.
+
+## Full Example: "abac"
+
+### Preprocess the string:
+- Original: "abac"
+- Processed: "#a#b#a#c#"
+
+### Initialize variables:
+- center = 0, right = 0
+- palindromeLengths = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- maxCenter = 0, maxLength = 0
+
+### Iteration through processedString:
+
+i = 0:
+
+- mirror = 2 * 0 - 0 = 0
+- No expansion since i < right is false.
+- center and right remain unchanged.
+
+i = 1:
+
+- mirror = 2 * 0 - 1 = -1
+- No expansion since mirror < 0.
+- Expand around i finds palindrome "a" (length 1).
+- Update center = 1, right = 2.
+- Update maxLength = 1, maxCenter = 1.
+
+i = 2:
+
+- mirror = 2 * 1 - 2 = 0
+- Use palindrome length from mirror, palindromeLengths[2] = min(0, 0) = 0.
+- Expand around i finds palindrome "aba" (length 3).
+- Update center = 2, right = 4.
+- Update maxLength = 3, maxCenter = 2.
+
+i = 3:
+
+- mirror = 2 * 2 - 3 = 1
+- Use palindrome length from mirror, palindromeLengths[3] = min(1, 1) = 1.
+- Expand around i does not find a longer palindrome.
+- No update to center and right.
+
+i = 4:
+
+- mirror = 2 * 2 - 4 = 0
+- Use palindrome length from mirror, palindromeLengths[4] = min(0, 0) = 0.
+- Expand around i finds palindrome "aca" (length 1).
+- Update center = 4, right = 5.
+- No update to maxLength.
+
+i = 5:
+
+- mirror = 2 * 4 - 5 = 3
+- Use palindrome length from mirror, palindromeLengths[5] = min(1, 1) = 1.
+- Expand around i finds no longer palindrome.
+- No update to center and right.
+
+i = 6:
+
+- mirror = 2 * 4 - 6 = 2
+- Use palindrome length from mirror, palindromeLengths[6] = min(1, 0) = 0.
+- No expansion since characters do not match.
+- No update to center and right.
+
+i = 7:
+
+- mirror = 2 * 4 - 7 = 1
+- Use palindrome length from mirror, palindromeLengths[7] = min(1, 1) = 1.
+- Expand around i finds palindrome "c" (length 1).
+- No update to maxLength.
+
+### Final Calculation:
+- Longest palindrome is centered at maxCenter = 2 with maxLength = 3.
+- Convert back to original string indices: (2 - 3) / 2 = -0.5 (floor to 0) and length 3 gives "aba".
+
+### Conclusion:
+The algorithm efficiently finds the longest palindromic substring using a linear time complexity approach by expanding around possible centers and utilizing previously computed palindrome lengths to minimize redundant calculations.
+</p>
+</details>
