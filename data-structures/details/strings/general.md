@@ -779,6 +779,7 @@ Both solutions have a time complexity of O(n), where n is the length of the inpu
 <p>
 
 Replace All Occurrences of a String:
+
 Solution 1: Using replace with Global Flag (Simple and Efficient):
 ```javascript
 function replaceAll(str, searchString, replaceString) {
@@ -811,6 +812,7 @@ function replaceAll(str, searchString, replaceString) {
 
 console.log(replaceAll("Hello world world", "world", "Earth")); // Output: "Hello Earth Earth"
 ```
+
 ##### Explanation:
 - Loop iterates through the string until searchString is not found.
 - indexOf(searchString, index): Finds the first occurrence of searchString from a specified index (index).
@@ -831,6 +833,7 @@ The time complexity for both solutions is O(n), where n is the length of the inp
 <p>
 
 Find the First Occurrence of a Character:
+
 Solution 1: Using indexOf (Simple and Efficient):
 ```javascript
 function findFirstChar(str, char) {
@@ -876,6 +879,7 @@ The time complexity of both solutions is O(n), where n is the length of the inpu
 <p>
 
 Find the Last Occurrence of a Character:
+
 Solution 1: Using lastIndexOf (Simple and Efficient):
 ```javascript
 function findLastChar(str, char) {
@@ -923,6 +927,7 @@ The time complexity for both solutions is O(n), where n is the length of the inp
 <p>
 
 Find the Most Common Character:
+
 Solution 1: Using a Character Map (Efficient):
 ```javascript
 function findMostCommonChar(str) {
@@ -986,6 +991,7 @@ console.log(findMostCommonChar("hello world")); // Output: "l"
 <p>
 
 Find the Longest Substring Without Repeating Characters:
+
 Solution 1: Using Sliding Window (Efficient):
 ```javascript
 function findLongestSubstring(str) {
@@ -1049,7 +1055,6 @@ The time complexity for both solutions is O(n), where n is the length of the inp
 <details><summary><b>Solution</b></summary>
 <p>
 
-Solution 1: Using Sliding Window and Counting (Efficient):
 Solution 1: Using Sliding Window and Counting (Efficient):
 ```javascript
 function findShortestSubstring(str, chars) {
@@ -1168,6 +1173,7 @@ Both Solution 1 (Using Sliding Window and Counting) and Solution 2 (Using Two Lo
 <p>
 
 Pad a String with a Specified Character (Multiple Solutions):
+
 Solution 1: Using String Concatenation (Simple):
 ```javascript
 function padString(text, padChar, targetLength) {
@@ -1204,6 +1210,7 @@ The time complexity for both Solution 1 and Solution 2 is O(n), where n is the t
 <p>
 
 Remove All Vowels from a String (Multiple Solutions):
+
 Solution 1: Using Regular Expression (Efficient):
 ```javascript
 function removeVowels(str) {
@@ -1246,6 +1253,7 @@ The time complexity for both Solution 1 (Using Regular Expression) and Solution 
 <p>
 
 Convert a String to Title Case (Multiple Solutions):
+
 Solution 1: Using Built-in toLowerCase and Splitting (Simple):
 ```javascript
 function toTitleCase(str) {
