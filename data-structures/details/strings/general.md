@@ -996,18 +996,27 @@ Solution 1: Using Sliding Window (Efficient):
 ```javascript
 function findLongestSubstring(str) {
   let longest = 0;
+  let start = 0;
   let left = 0;
   const charSet = new Set();
+
   for (let right = 0; right < str.length; right++) {
     const char = str[right];
+
     while (charSet.has(char)) {
       charSet.delete(str[left]);
       left++;
     }
+
     charSet.add(char);
-    longest = Math.max(longest, right - left + 1);
+
+    if (right - left + 1 > longest) {
+      longest = right - left + 1;
+      start = left;
+    }
   }
-  return str.substring(left, left + longest);
+
+  return str.substring(start, start + longest);
 }
 
 console.log(findLongestSubstring("abcabcbb")); // Output: "abc"
