@@ -1067,10 +1067,10 @@ Solution 1: Using String Concatenation (Simple):
 ```javascript
 function padString(text, padChar, targetLength) {
   let padding = padChar.repeat(targetLength - text.length);
-  return padding.length > 0 ? padding.slice(0, Math.floor(padding.length / 2)) + text + padding.slice(Math.ceil(padding.length / 2)) : text;
+  return padding.length > 0 ? padding.slice(0, Math.ceil(padding.length / 2)) + text + padding.slice(Math.ceil(padding.length / 2)) : text;
 }
 
-console.log(padString("hello", "-", 10)); // Output: "----hello-"
+console.log(padString("hello", "-", 11)); // Output: "---hello---"
 ```
 ##### Explanation:
 - Creates a string of `padChar` repeated enough times to reach the `targetLength`.
@@ -1079,17 +1079,17 @@ console.log(padString("hello", "-", 10)); // Output: "----hello-"
 
 Solution 2: Using `padStart` and `padEnd` (Modern Browsers):
 ```javascript
-function padString(text, padChar, targetLength) {
-  return text.padStart(targetLength, padChar).padEnd(targetLength, padChar);
+function padString(str, length, char = ' ') {
+    return str.padStart(length, char);
 }
 
-console.log(padString("hello", "-", 10)); // Output: "----hello-"
+console.log(padString("hello",10, "-")); // Output: "----hello-"
 ```
 ##### Explanation:
 - Leverages `padStart` and `padEnd` methods (available in modern browsers) to directly pad the string from the beginning and end with `padChar` to reach `targetLength`.
 
 ### Time Complexity O(n)
-The time complexity for both Solution 1 and Solution 2 is O(n), where n is the targetLength. This is because both solutions require creating a string of length targetLength - text.length filled with the padChar, which is an O(n) operation. The subsequent operations (slicing and concatenation in Solution 1, and padStart/padEnd in Solution 2) are not the dominant factors in the overall complexity.
+The time complexity for both Solution 1 and Solution 2 is O(n), where n is the targetLength (difference between the desired length and the length of the input string str). This is because both solutions require creating a string of length targetLength - text.length filled with the padChar, which is an O(n) operation. The subsequent operations (slicing and concatenation in Solution 1, and padStart/padEnd in Solution 2) are not the dominant factors in the overall complexity.
 
 </p>
 </details>
@@ -1595,142 +1595,4 @@ Overall, choose the solution that best suits your needs based on the size of you
 </p>
 </details>
 
-###### 30. Write a function to find the longest substring that is a palindrome.
-<details><summary><b>Solution</b></summary>
-<p>
-
-Longest Palindromic Substring
-
-Solution 1: Dynamic Programming (Efficient):
-```javascript
-function longestPalindrome(str) {
-  const n = str.length;
-  let dp = new Array(n).fill(false); // dp table to store palindrome information
-
-  // Base cases: single characters are palindromes
-  for (let i = 0; i < n; i++) {
-    dp[i][i] = true;
-  }
-
-  // Length 2 substrings
-  let maxLength = 1, start = 0;
-  for (let i = 1; i < n; i++) {
-    if (str[i] === str[i - 1]) {
-      dp[i][i - 1] = true;
-      maxLength = 2;
-      start = i - 1;
-    }
-  }
-
-  // Length 3+ substrings
-  for (let k = 3; k <= n; k++) {
-    for (let i = 0; i <= n - k; i++) {
-      const j = i + k - 1;
-      if (str[i] === str[j] && dp[i + 1][j - 1]) {
-        dp[i][j] = true;
-        maxLength = k;
-        start = i;
-      }
-    }
-  }
-
-  return str.substring(start, start + maxLength);
-}
-
-console.log(longestPalindrome("babad")); // Output: "bab"
-console.log(longestPalindrome("cbbd")); // Output: "bb"
-console.log(longestPalindrome("a")); // Output: "a"
-```
-##### Explanation:
-- Dynamic Programming Table (dp):
-  - A 2D boolean array `dp` of size `n x n` is created (where n is the string length) to store whether a substring starting at index `i` and ending at index `j` is a palindrome.
-  - Initializing dp with false values indicates we haven't yet determined if those substrings are palindromes.
-- Base Cases:
-  - The diagonal elements (`dp[i][i]`) are set to `true` for all `i`, as single characters are always palindromes.
-- Length 2 Substrings:
-  - A loop iterates through strings of length 2 (`i = 1` to `i < n`).
-  - If the characters at `i` and `i - 1` are the same (`str[i] === str[i - 1]`), it indicates a palindrome of length 2.
-  - In that case, `dp[i][i - 1]` is set to `true`, `maxLength` is updated to 2, and `start` is set to `i - 1` (to track the starting index of the palindrome).
-- Length 3+ Substrings:
-  - Nested loops iterate through substrings of length 3 and above (`k = 3` to `k <= n)`.
-  - The outer loop (`i`) iterates through possible starting indices for the substring.
-  - The inner loop (`j`) calculates the ending index based on `i` and `k`.
-  - Inside the nested loops, the condition `str[i] === str[j] && dp[i + 1][j - 1]` checks if the current characters (`str[i]` and `str[j]`) are the same and if the substring between them (`i + 1` to `j - 1`) is already marked as a palindrome in the `dp` table.
-  - If both conditions are met, it means we have found a longer palindrome.
-  - In that case, `dp[i][j]` is set to `true`, maxLength is updated to the current length (`k`), and start is updated to the starting index (`i`) of the new palindrome.
-- Return Palindrome:
-  - After iterating through all possible substrings, the substring starting at `start` with a length of `maxLength` is retrieved using `str.substring(start, start + maxLength)` and returned. This substring represents the longest palindrome found.
-
-Solution 2: Expanding Around Center (Manacher's Algorithm):
-```javascript
-function longestPalindrome(str) {
-  let start = 0, end = 0;
-
-  // Preprocess the string for Manacher's Algorithm
-  const preprocessedStr = preprocessString(str);
-
-  // Expand around center
-  for (let i = 1; i < preprocessedStr.length - 1; i++) {
-    let left = i, right = i;
-
-    // Expand while characters match
-    while (preprocessedStr[left] === preprocessedStr[right]) {
-      left--;
-      right++;
-    }
-
-    // Update longest palindrome if necessary
-    const currentLength = right - left - 1;
-    if (currentLength > end - start) {
-      start = left + 1;
-      end = right - 1;
-    }
-  }
-
-  // Remove padding and return substring
-  return str.substring((start - 1) / 2, (end + 1) / 2);
-}
-
-function preprocessString(str) {
-  const processedStr = ['#'];
-  for (let char of str) {
-    processedStr.push(char, '#');
-  }
-  processedStr.push('#');
-  return processedStr;
-}
-
-console.log(longestPalindrome("babad")); // Output: "bab"
-console.log(longestPalindrome("cbbd")); // Output: "bb"
-console.log(longestPalindrome("a")); // Output: "a"
-```
-##### Explanation:
-- Preprocessing:
-  - The `preprocessString` function takes the original string (`str`) and adds special characters (`#`) to create a new string (`preprocessedStr`) suitable for Manacher's Algorithm.
-  - The `#` characters are inserted between each character in the original string and at the beginning and end. This allows for easier palindrome checks during the expansion phase.
-- Expanding Around Center:
-  - `start` and `end` variables are used to track the starting and ending indices of the current longest palindrome found.
-  - The main loop iterates through each character (`i`) in the `preprocessedStr` (except the first and last characters due to padding).
-  - `left` and `right` pointers are initialized to the current index (`i`).
-  - An inner loop expands outwards from `i` by decrementing `left` and incrementing `right` as long as the characters at `left` and `right` in the `preprocessedStr` are the same. This expansion continues until a mismatch is found.
-  - After the inner loop, the current length of the palindrome centered at `i` is calculated as `right - left - 1` (accounting for the added `#` characters).
-  - If the `currentLength` is greater than the current `end - start` (length of the previously found longest palindrome), it means a new longest palindrome has been discovered.
-  - In that case, `start` and `end` are updated to reflect the new longest palindrome's starting and ending indices within the `preprocessedStr`.
-- Remove Padding and Return Substring:
-  - After iterating through all possible centers, the actual substring representing the longest palindrome is retrieved.
-  - Since the processed string has `#` characters, we need to adjust the indices for the original string. The final substring is returned using `str.substring((start - 1) / 2, (end + 1) / 2)`. This removes the padding characters and extracts the actual palindrome from the original string.
-- Efficiency Comparison:
-  - Solution 1 (Dynamic Programming) generally has a time complexity of O(n^2) and space complexity of O(n^2) due to the `dp` table.
-  - Solution 2 (Expanding Around Center) has a time complexity of O(n) and space complexity of O(n) due to string preprocessing.
-Choose the solution that best suits your needs based on performance requirements and string length. However, Solution 2 might be slightly more complex to understand due to the preprocessing step.
-
-### Time Complexity
-- The time complexity for Solution 1 (Dynamic Programming) is O(n^2), where n is the length of the input string str. This is because the algorithm uses a 2D array dp to store whether substrings are palindromes, leading to nested loops that iterate through all substrings.
-
-- The time complexity for Solution 2 (Expanding Around Center) is O(n), where n is the length of the input string str. This is because the algorithm expands around each character and checks for palindromes, leading to a linear time complexity.
-
-Overall, Solution 2 is more efficient in terms of time complexity for finding the longest palindromic substring.
-
-</p>
-</details>
 
