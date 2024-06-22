@@ -1,0 +1,342 @@
+# Find the Shortest Substring that contains all the characters in a given set
+
+## Solution 1: Sliding Window Technique with Map
+```javascript
+function shortestSubstring(s, t) {
+    if (t.length === 0) return "";
+
+    const charCount = new Map();
+    for (const char of t) {
+        charCount.set(char, (charCount.get(char) || 0) + 1);
+    }
+
+    let required = charCount.size;
+    let left = 0, right = 0;
+    let formed = 0;
+    const windowCounts = new Map();
+    let ans = [-1, 0, 0];
+
+    while (right < s.length) {
+        const char = s[right];
+        windowCounts.set(char, (windowCounts.get(char) || 0) + 1);
+
+        if (charCount.has(char) && windowCounts.get(char) === charCount.get(char)) {
+            formed++;
+        }
+
+        while (left <= right && formed === required) {
+            const char = s[left];
+
+            if (ans[0] === -1 || right - left + 1 < ans[0]) {
+                ans = [right - left + 1, left, right];
+            }
+
+            windowCounts.set(char, windowCounts.get(char) - 1);
+            if (charCount.has(char) && windowCounts.get(char) < charCount.get(char)) {
+                formed--;
+            }
+
+            left++;
+        }
+
+        right++;
+    }
+
+    return ans[0] === -1 ? "" : s.slice(ans[1], ans[2] + 1);
+}
+```
+
+<details><summary><h3>Explanation</h3></summary>
+<p>
+The function shortestSubstring finds the shortest substring in string s that contains all the characters of string t. It uses a sliding window approach with two pointers, left and right, to expand and contract the window to find the optimal substring.
+
+### Initialization:
+
+```javascript
+if (t.length === 0) return "";
+If t is an empty string, there is nothing to search for, so the function returns an empty string.
+```
+
+### Character Count Map:
+
+```javascript
+const charCount = new Map();
+for (const char of t) {
+    charCount.set(char, (charCount.get(char) || 0) + 1);
+}
+```
+A map charCount is created to keep track of the frequency of each character in t.
+
+### Variables Setup:
+
+```javascript
+let required = charCount.size;
+let left = 0, right = 0;
+let formed = 0;
+const windowCounts = new Map();
+let ans = [-1, 0, 0];
+```
+- required keeps track of the number of unique characters in t that need to be present in the current window.
+- left and right are the pointers for the sliding window.
+- formed counts how many unique characters in t are currently present in the required frequency in the window.
+- windowCounts is a map to keep track of the frequency of characters in the current window.
+- ans stores the length of the best (shortest) window found and the start and end indices of this window.
+
+### Expand the Window:
+
+```javascript
+while (right < s.length) {
+    const char = s[right];
+    windowCounts.set(char, (windowCounts.get(char) || 0) + 1);
+
+    if (charCount.has(char) && windowCounts.get(char) === charCount.get(char)) {
+        formed++;
+    }
+```
+
+- Iterate through s with the right pointer.
+- Add the character at right to windowCounts.
+- If the current character's frequency matches its required frequency, increment formed.
+
+### Contract the Window:
+
+```javascript
+    while (left <= right && formed === required) {
+        const char = s[left];
+
+        if (ans[0] === -1 || right - left + 1 < ans[0]) {
+            ans = [right - left + 1, left, right];
+        }
+
+        windowCounts.set(char, windowCounts.get(char) - 1);
+        if (charCount.has(char) && windowCounts.get(char) < charCount.get(char)) {
+            formed--;
+        }
+
+        left++;
+    }
+
+    right++;
+```
+- Once all required characters are formed in the window, try to minimize the window by moving the left pointer.
+- Update ans if the current window is smaller than the previously found best window.
+- Remove the character at left from windowCounts and decrement formed if its frequency falls below the required frequency.
+- Move left to the right to continue minimizing the window.
+
+### Return the Result:
+
+```javascript
+return ans[0] === -1 ? "" : s.slice(ans[1], ans[2] + 1);
+```
+- If no valid window was found, return an empty string.
+- Otherwise, return the substring of s from ans[1] to ans[2] inclusive.
+
+## Dry Run Example
+Let's perform a dry run with the input s = "abdecfabgh" and t = "abc":
+
+### Initialization:
+```
+charCount: { a: 1, b: 1, c: 1 }
+required: 3
+left: 0
+right: 0
+formed: 0
+windowCounts: {}
+ans: [-1, 0, 0]
+```
+Iteration 1 (right = 0):
+```
+char: 'a'
+windowCounts: { a: 1 }
+formed: 1 (because 'a' matches the frequency in charCount)
+```
+Iteration 2 (right = 1):
+```
+char: 'b'
+windowCounts: { a: 1, b: 1 }
+formed: 2 (because 'b' matches the frequency in charCount)
+```
+Iteration 3 (right = 2):
+```
+char: 'd'
+windowCounts: { a: 1, b: 1, d: 1 }
+formed: 2 (no change because 'd' is not in charCount)
+```
+Iteration 4 (right = 3):
+```
+char: 'e'
+windowCounts: { a: 1, b: 1, d: 1, e: 1 }
+formed: 2 (no change because 'e' is not in charCount)
+```
+Iteration 5 (right = 4):
+```
+char: 'c'
+windowCounts: { a: 1, b: 1, d: 1, e: 1, c: 1 }
+formed: 3 (because 'c' matches the frequency in charCount)
+```
+Start Contracting:
+```
+formed equals required, so try to minimize the window:
+left = 0 to left = 1
+char: 'a'
+windowCounts: { a: 0, b: 1, d: 1, e: 1, c: 1 }
+formed: 2 (because 'a' frequency is less than required)
+ans: [5, 0, 4]
+```
+Iteration 6 (right = 5):
+```
+char: 'f'
+windowCounts: { a: 0, b: 1, d: 1, e: 1, c: 1, f: 1 }
+formed: 2 (no change because 'f' is not in charCount)
+```
+Iteration 7 (right = 6):
+```
+char: 'a'
+windowCounts: { a: 1, b: 1, d: 1, e: 1, c: 1, f: 1 }
+formed: 3 (because 'a' matches the frequency in charCount)
+```
+Start Contracting:
+```
+formed equals required, so try to minimize the window:
+left = 1 to left = 2
+char: 'b'
+windowCounts: { a: 1, b: 0, d: 1, e: 1, c: 1, f: 1 }
+formed: 2 (because 'b' frequency is less than required)
+ans: [5, 0, 4] (no change because the new window size is not smaller)
+```
+Continue with the rest of the iterations:
+
+- Follow the same process for the remaining characters 'b', 'g', 'h'.
+- Each time, adjust the windowCounts and update formed accordingly.
+- Contract the window when formed equals required and update ans if a smaller window is found.
+
+### Final Output:
+
+The shortest substring is s.slice(ans[1], ans[2] + 1), which is "abdec".
+### Conclusion
+The function correctly finds the shortest substring containing all characters of t using a sliding window approach. The time complexity of this algorithm is O(S + T), where S is the length of s and T is the length of t. This is efficient and ensures that we find the optimal solution.
+
+</p>
+</details>
+
+## Time Complexity: O(S + T)
+
+- Building the charCount map takes O(T) time.
+- The outer while loop runs in O(S) time because right pointer traverses the entire string s.
+- The inner while loop also runs in O(S) time in total because left pointer only moves forward.
+- Both maps, charCount and windowCounts, require O(1) operations for insertion, update, and lookup because the maximum number of different characters is fixed (128 for ASCII).
+
+## Solution 2: Optimized Sliding Window with Array
+```javascript
+function shortestSubstring(s, t) {
+    if (t.length === 0) return "";
+
+    const charCount = new Array(128).fill(0);
+    for (const char of t) {
+        charCount[char.charCodeAt(0)]++;
+    }
+
+    let required = t.length;
+    let left = 0, right = 0;
+    let minLength = Infinity, minLeft = 0;
+
+    while (right < s.length) {
+        if (charCount[s.charCodeAt(right)] > 0) {
+            required--;
+        }
+        charCount[s.charCodeAt(right)]--;
+        right++;
+
+        while (required === 0) {
+            if (right - left < minLength) {
+                minLength = right - left;
+                minLeft = left;
+            }
+
+            charCount[s.charCodeAt(left)]++;
+            if (charCount[s.charCodeAt(left)] > 0) {
+                required++;
+            }
+            left++;
+        }
+    }
+
+    return minLength === Infinity ? "" : s.substring(minLeft, minLeft + minLength);
+}
+```
+
+<details><summary><b>Explanation</b></summary>
+<p>
+
+
+</p>
+</details>
+
+## Time Complexity: O(S + T)
+
+- Building the charCount array takes O(T) time.
+- The outer while loop runs in O(S) time because right pointer traverses the entire string s.
+- The inner while loop also runs in O(S) time in total because left pointer only moves forward.
+- Array operations (access and update) take O(1) time.
+
+## Solution 3: Using Frequency Maps and Counters
+```javascript
+function shortestSubstring(s, t) {
+    if (s.length === 0 || t.length === 0) return "";
+
+    const required = new Map();
+    for (const char of t) {
+        required.set(char, (required.get(char) || 0) + 1);
+    }
+
+    let left = 0, right = 0, formed = 0;
+    const windowCounts = new Map();
+    const result = { length: Infinity, start: 0, end: 0 };
+
+    while (right < s.length) {
+        const char = s[right];
+        windowCounts.set(char, (windowCounts.get(char) || 0) + 1);
+
+        if (required.has(char) && windowCounts.get(char) === required.get(char)) {
+            formed++;
+        }
+
+        while (left <= right && formed === required.size) {
+            const char = s[left];
+
+            if (right - left + 1 < result.length) {
+                result.length = right - left + 1;
+                result.start = left;
+                result.end = right;
+            }
+
+            windowCounts.set(char, windowCounts.get(char) - 1);
+            if (required.has(char) && windowCounts.get(char) < required.get(char)) {
+                formed--;
+            }
+
+            left++;
+        }
+
+        right++;
+    }
+
+    return result.length === Infinity ? "" : s.substring(result.start, result.end + 1);
+}
+```
+
+<details><summary><b>Explanation</b></summary>
+<p>
+
+
+</p>
+</details>
+
+## Time Complexity: O(S + T)
+
+- Building the required map takes O(T) time.
+- The outer while loop runs in O(S) time because right pointer traverses the entire string s.
+- The inner while loop also runs in O(S) time in total because left pointer only moves forward.
+- Both maps, required and windowCounts, require O(1) operations for insertion, update, and lookup because the maximum number of different characters is fixed (128 for ASCII).
+
+In summary, all three solutions have a time complexity of `O(S + T)`, where S is the length of the string s and T is the length of the string t.
