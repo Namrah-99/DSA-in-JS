@@ -1238,7 +1238,62 @@ Both Solution 1 (Using Character Code Manipulation) and Solution 2 (Using Regula
 
 Check if a String is a Valid Palindrome (Considering Alphanumeric Characters, Ignoring Case):
 
-Solution 1: Using Two Pointers and Character Normalization:
+### Solution 1: Using Two Pointers
+```javascript
+function isPalindrome(s) {
+    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    let left = 0, right = s.length - 1;
+    while (left < right) {
+        if (s[left] !== s[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
+// Example usage
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // Output: true
+console.log(isPalindrome("race a car")); // Output: false
+```
+
+#### Time Complexity O(n)
+- Normalization of the string: O(n), where n is the length of the input string s.
+- Two-pointer traversal: O(n/2) in the worst case, which simplifies to O(n).
+
+### Solution 2: Reversing the String
+```javascript
+function isPalindrome(s) {
+    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const reversed = s.split('').reverse().join('');
+    return s === reversed;
+}
+
+// Example usage
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // Output: true
+console.log(isPalindrome("race a car")); // Output: false
+```
+#### Time Complexity O(n)
+- Normalization of the string: O(n), where n is the length of the input string s.
+- Reversing the string: O(n/2), which simplifies to O(n).
+
+### Solution 3: Using Array Methods
+```javascript
+function isPalindrome(s) {
+    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    return s.split('').every((char, i) => char === s[s.length - 1 - i]);
+}
+
+// Example usage
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // Output: true
+console.log(isPalindrome("race a car")); // Output: false
+```
+#### Time Complexity O(n)
+- Normalization of the string: O(n), where n is the length of the input string s.
+- Array every method: O(n/2), which simplifies to O(n).
+
+### Solution 4: Using Two Pointers and Character Normalization:
 ```javascript
 function isPalindrome(str) {
   let left = 0, right = str.length - 1;
@@ -1273,40 +1328,13 @@ console.log(isPalindrome("hello")); // Output: false
 - Character Comparison: If both pointers encounter alphanumeric characters, they are compared using strict equality (`===`). If they don't match, the string is not a palindrome.
 - Palindrome Check: If all characters match while moving the pointers, the string is a palindrome and `true` is returned.
 
-Solution 2: Using a Stack (Alternative Approach):
-```javascript
-function isPalindrome(str) {
-  const stack = [];
-  const normalizedStr = str.toLowerCase().replace(/\W/g, ""); // Remove non-alphanumeric characters
+### Time Complexity O(n)
 
-  for (let i = 0; i < normalizedStr.length; i++) {
-    stack.push(normalizedStr[i]);
-  }
-
-  while (stack.length > 1) {
-    const first = stack.pop();
-    const last = stack.pop();
-    if (first !== last) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-console.log(isPalindrome("A man, a plan, a canal: Panama")); // Output: true
-console.log(isPalindrome("race car")); // Output: true
-console.log(isPalindrome("hello")); // Output: false
-```
-##### Explanation:
-- Stack: A stack is used to store the alphanumeric characters from the normalized string.
-- Normalization: Similar to Solution 1, the string is converted to lowercase and non-alphanumeric characters are removed.
-- Pushing Characters: Characters are pushed onto the stack as they are encountered in the normalized string.
-- Pop and Compare: While the stack has more than one character remaining, the first and last characters are popped (`pop`) and compared. If they don't match, the string is not a palindrome.
-- Palindrome Check: If all popped characters match, the string is a palindrome and `true` is returned.
-
-### Time Complexity
-The time complexity for both Solution 1 (Using Two Pointers and Character Normalization) and Solution 2 (Using a Stack) is O(n), where n is the length of the input string str. Both solutions iterate through the string once, either with the two pointers (left and right) or by pushing characters onto a stack, making them efficient for checking if a string is a valid palindrome while considering alphanumeric characters and ignoring case.
+- Normalization of the input string: O(n)
+    - The function iterates through each character in the input string once to check if it is alphanumeric. This is done using the charAt method and the match(/\w/) regular expression, which has a time complexity of O(1) for each character.
+- Two-pointer traversal: O(n/2) in the worst case
+    - The function uses two pointers (left and right) to traverse the string. In the worst case scenario, each pointer traverses half of the input string once, resulting in O(n/2) operations.
+Overall, the time complexity is dominated by the normalization step, which is O(n), and the subsequent traversal step adds O(n/2) operations, resulting in a total time complexity of O(n).
 
 </p>
 </details>
