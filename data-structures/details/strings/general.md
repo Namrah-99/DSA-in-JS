@@ -1411,97 +1411,67 @@ console.log(findFirstRepeatedChar("leetcode")); // Output: "l"
 
 Find the second most frequent character in a string:
 
-Solution 1: Using a Hash Table and Sorting (Efficient):
+### Solution 1: Using a Frequency Map
 ```javascript
-function findSecondMostFrequentChar(str) {
-  const charCount = {};
+function secondMostCommonChar(str) {
+    const frequency = new Map();
 
-  // Count character frequencies
-  for (const char of str) {
-    charCount[char] = (charCount[char] || 0) + 1;
-  }
+    // Count the frequency of each character
+    for (const char of str) {
+        frequency.set(char, (frequency.get(char) || 0) + 1);
+    }
 
-  // Convert charCount to an array of [char, count] pairs
-  const charCounts = Object.entries(charCount);
+    // Create an array of [char, count] and sort it by count in descending order
+    const sortedFrequency = Array.from(frequency.entries()).sort((a, b) => b[1] - a[1]);
 
-  // Sort the array by frequency in descending order (most frequent first)
-  charCounts.sort((a, b) => b[1] - a[1]);
-
-  // Return second most frequent character (if it exists)
-  return charCounts.length >= 2 ? charCounts[1][0] : null;
+    // The second most common character is at index 1
+    return sortedFrequency.length > 1 ? sortedFrequency[1][0] : null;
 }
 
-console.log(findSecondMostFrequentChar("abcabcbb")); // Output: "b"
-console.log(findSecondMostFrequentChar("hello")); // Output: "l"
-console.log(findSecondMostFrequentChar("aaa")); // Output: null (no second most frequent)
+// Example usage
+console.log(secondMostCommonChar("aabbbcccc")); // Output: "b"
+console.log(secondMostCommonChar("aabbcc")); // Output: "a" or "b" or "c" (any one of them, depending on the implementation details)
+console.log(secondMostCommonChar("a")); // Output: null
 ```
-##### Explanation:
-- Character Count:
-  - An object `charCount` is used to store the frequency of each character in the string (`str`).
-  - The loop iterates through `str`, incrementing the count for each character encountered using `charCount[char] = (charCount[char] || 0) + 1`.
-- Convert to Array:
-  - `Object.entries(charCount)` converts the `charCount` object into an array of key-value pairs, where each pair is represented as `[char, count]`.
-- Sorting by Frequency:
-  - The `charCounts` array is sorted using `.sort`. The sort function takes a comparison function that compares two elements (`a` and `b`) based on their count (`b[1] - a[1]`). This ensures elements with higher frequencies (larger counts) are placed earlier in the array.
-- Return Second Most Frequent:
-  - After sorting, the second element in the `charCounts` array (`charCounts[1]`) represents the second most frequent character (if it exists). If `charCounts.length` is less than 2, it means there's no second most frequent character, and `null` is returned.
+#### Time Complexity O(n)
+- Counting frequencies: O(n), where n is the length of the input string.
+- Sorting the frequency map: O(m log m), where m is the number of unique characters.
 
-Solution 2: Using Two Loops and Tracking Maximums (Alternative Approach):
+### Solution 2: Frequency Count and Sorting
+
+#### Approach:
+- Count the frequency of each character.
+- Sort the characters based on their frequencies.
+- Return the second most common character.
+
 ```javascript
-function findSecondMostFrequentChar(str) {
-  let firstMaxChar = null, firstMaxCount = 0;
-  let secondMaxChar = null, secondMaxCount = 0;
-
-  // Find the most frequent character
-  for (const char of str) {
-    const count = (str.split(char).length - 1); // Count occurrences by splitting
-    if (count > firstMaxCount) {
-      firstMaxChar = char;
-      firstMaxCount = count;
-    }
+function secondMostCommonChar(str) {
+  const frequencyMap = {};
+  for (let char of str) {
+    frequencyMap[char] = (frequencyMap[char] || 0) + 1;
   }
 
-  // Find the second most frequent character (excluding the most frequent)
-  for (const char of str) {
-    if (char !== firstMaxChar && count < firstMaxCount && count > secondMaxCount) {
-      secondMaxChar = char;
-      secondMaxCount = count;
-    }
-  }
+  const frequencyArray = Object.entries(frequencyMap);
+  frequencyArray.sort((a, b) => b[1] - a[1]);
 
-  return secondMaxChar; // Return second most frequent character (if it exists)
+  return frequencyArray[1] ? frequencyArray[1][0] : null;
 }
 
-console.log(findSecondMostFrequentChar("abcabcbb")); // Output: "b"
-console.log(findSecondMostFrequentChar("hello")); // Output: "l"
-console.log(findSecondMostFrequentChar("aaa")); // Output: null (no second most frequent)
+
+// Example usage
+console.log(secondMostCommonChar("aabbbcccc")); // Output: "b"
+console.log(secondMostCommonChar("aaxbbxcc")); // Output: "a" or "b" or "c" (any one of them, depending on the implementation details)
+console.log(secondMostCommonChar("a")); // Output: null
 ```
-##### Explanation:
-- Finding Most Frequent:
-  - `firstMaxChar` and `firstMaxCount` are initialized to store the most frequent character and its count, respectively.
-  - The loop iterates through `str`. For each character (`char`), `count` is calculated using `str.split(char).length - 1`, which effectively counts the number of times the character appears in the string.
-  - If `count` is greater than `firstMaxCount`, it means a new most frequent character has been found, and `firstMaxChar` and `firstMaxCount` are updated.
-- Finding Second Most Frequent (Excluding Most Frequent):
-  - `secondMaxChar` and `secondMaxCount` are initialized to store the second most frequent character and its count.
-  - The loop iterates through `str` again.
-  - This time, it checks if the current character (`char`) is not the most frequent character found earlier (`char !== firstMaxChar`). This ensures we don't consider the most frequent character again.
-  - The `count` is calculated using the same splitting approach as before.
-  - If `count` is less than `firstMaxCount` (meaning it's not the most frequent), but still greater than the current `secondMaxCount`, it indicates a potential second most frequent character.
-  - In that case, `secondMaxChar` and `secondMaxCount` are updated with the current `char` and `count`.
-- Returning Second Most Frequent:
-- After iterating through the entire string, `secondMaxChar` will hold the second most frequent character (if one exists). By excluding the most frequent character in the second loop, we ensure we identify the next most frequent one.
-- The function returns `secondMaxChar`. If no character qualifies as the second most frequent (e.g., in the case of "aaa"), `secondMaxChar` remains `null`, and the function implicitly returns `null`.
+#### Time Complexity
+- Counting Frequencies: O(n)
+- Creating the Array: O(k)
+- Sorting: O(k log k)
+- Overall: O(n + k log k)
 
-### Time Complexity
-- The time complexity for Solution 1 (Using a Hash Table and Sorting) is O(n log n), where n is the length of the input string str. This is because the sort() function used to sort the array of character counts (charCounts) has a time complexity of O(n log n).
-
-- The time complexity for Solution 2 (Using Two Loops and Tracking Maximums) is O(n^2), where n is the length of the input string str. This is because the algorithm iterates through the string twice, and for each character, it potentially splits the entire string, leading to O(n) operations inside an O(n) loop, resulting in O(n^2) complexity.
-
-In summary:
-
-- Solution 1 is more efficient with a time complexity of O(n log n) due to sorting.
-- Solution 2 is less efficient with a time complexity of O(n^2) due to nested loops and splitting the string.
-
+#### Comparison and Conclusion
+- Both solutions have the same overall time complexity: O(n+klogk), where n is the length of the input string, and k is the number of unique characters.
+- Space complexity is also similar for both solutions as both use a map or an object to store frequencies, and then an array to sort and find the second most common character.
 
 </p>
 </details>
