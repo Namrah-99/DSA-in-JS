@@ -342,6 +342,95 @@ return minLength === Infinity ? "" : s.substring(minLeft, minLeft + minLength);
 - If no valid window was found, return an empty string.
 - Otherwise, return the substring of s from minLeft to minLeft + minLength.
 
+## Dry Run Example
+Let's perform a dry run with the input s = "abdecfabgh" and t = "abc":
+
+Initialization:
+```
+charCount: [0, 0, 0, ..., 1, 1, 1, ..., 0] (ASCII values of 'a', 'b', 'c' incremented)
+required: 3
+left: 0
+right: 0
+minLength: Infinity
+minLeft: 0
+```
+Iteration 1 (right = 0):
+```
+char: 'a'
+charCount: [0, 0, 0, ..., 0, 1, 1, ..., 0]
+required: 2 (because 'a' was needed)
+right: 1
+```
+Iteration 2 (right = 1):
+```
+char: 'b'
+charCount: [0, 0, 0, ..., 0, 0, 1, ..., 0]
+required: 1 (because 'b' was needed)
+right: 2
+```
+Iteration 3 (right = 2):
+```
+char: 'd'
+charCount: [0, 0, 0, ..., 0, 0, 1, ..., 0]
+required: 1 (no change because 'd' is not in t)
+right: 3
+```
+Iteration 4 (right = 3):
+```
+char: 'e'
+charCount: [0, 0, 0, ..., 0, 0, 1, ..., 0]
+required: 1 (no change because 'e' is not in t)
+right: 4
+```
+Iteration 5 (right = 4):
+```
+char: 'c'
+charCount: [0, 0, 0, ..., 0, 0, 0, ..., 0]
+required: 0 (because 'c' was needed)
+right: 5
+```
+Start Contracting:
+```
+required equals 0, so try to minimize the window:
+left = 0 to left = 1
+char: 'a'
+charCount: [0, 0, 0, ..., 1, 0, 0, ..., 0]
+required: 1 (because 'a' was needed again)
+minLength: 5
+minLeft: 0
+```
+Iteration 6 (right = 5):
+```
+char: 'f'
+charCount: [0, 0, 0, ..., 1, 0, 0, ..., 0]
+required: 1 (no change because 'f' is not in t)
+right: 6
+```
+Iteration 7 (right = 6):
+```
+char: 'a'
+charCount: [0, 0, 0, ..., 0, 0, 0, ..., 0]
+required: 0 (because 'a' was needed)
+right: 7
+```
+Start Contracting:
+```
+required equals 0, so try to minimize the window:
+left = 1 to left = 2
+char: 'b'
+charCount: [0, 0, 0, ..., 0, 1, 0, ..., 0]
+required: 1 (because 'b' was needed again)
+minLength: 5 (no change because the new window size is not smaller)
+```
+### Continue with the rest of the iterations:
+
+- Follow the same process for the remaining characters 'b', 'g', 'h'.
+- Each time, adjust the charCount and update required accordingly.
+- Contract the window when required equals 0 and update minLength if a smaller window is found.
+
+### Final Output:
+- The shortest substring is s.substring(minLeft, minLeft + minLength), which is "abdec".
+
 ### Conclusion
 The function correctly finds the shortest substring containing all characters of t using a sliding window approach. The time complexity of this algorithm is O(S + T), where S is the length of s and T is the length of t. This is efficient and ensures that we find the optimal solution.
 
