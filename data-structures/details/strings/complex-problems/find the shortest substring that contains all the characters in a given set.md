@@ -267,7 +267,83 @@ function shortestSubstring(s, t) {
 
 <details><summary><b>Explanation</b></summary>
 <p>
+The function shortestSubstring finds the shortest substring in string s that contains all the characters of string t. It uses a sliding window approach with two pointers, left and right, to expand and contract the window to find the optimal substring.
 
+### Initialization:
+
+```javascript
+if (t.length === 0) return "";
+If t is an empty string, there is nothing to search for, so the function returns an empty string.
+```
+### Character Count Array:
+
+```javascript
+const charCount = new Array(128).fill(0);
+for (const char of t) {
+    charCount[char.charCodeAt(0)]++;
+}
+```
+- An array charCount of size 128 is created (to cover all ASCII characters) and initialized with zeros.
+- The frequency of each character in t is stored in this array based on the ASCII value of the characters.
+### Variables Setup:
+
+```javascript
+let required = t.length;
+let left = 0, right = 0;
+let minLength = Infinity, minLeft = 0;
+```
+- required keeps track of the total number of characters needed from t.
+- left and right are the pointers for the sliding window.
+- minLength keeps track of the length of the best (shortest) window found.
+- minLeft stores the starting index of the best window.
+
+### Expand the Window:
+
+```javascript
+while (right < s.length) {
+    if (charCount[s.charCodeAt(right)] > 0) {
+        required--;
+    }
+    charCount[s.charCodeAt(right)]--;
+    right++;
+```
+- Iterate through s with the right pointer.
+- If the current character is needed (i.e., charCount[s.charCodeAt(right)] > 0), decrement required.
+- Decrement the count of the current character in charCount.
+- Move the right pointer to the right to expand the window.
+
+### Contract the Window:
+
+```javascript
+    while (required === 0) {
+        if (right - left < minLength) {
+            minLength = right - left;
+            minLeft = left;
+        }
+
+        charCount[s.charCodeAt(left)]++;
+        if (charCount[s.charCodeAt(left)] > 0) {
+            required++;
+        }
+        left++;
+    }
+```
+- Once all required characters are included in the window (required === 0), try to minimize the window by moving the left pointer.
+- Update minLength and minLeft if the current window is smaller than the previously found best window.
+- Increment the count of the character at left in charCount.
+- If the current character at left is needed (i.e., charCount[s.charCodeAt(left)] > 0), increment required.
+- Move the left pointer to the right to continue minimizing the window.
+
+### Return the Result:
+
+```javascript
+return minLength === Infinity ? "" : s.substring(minLeft, minLeft + minLength);
+```
+- If no valid window was found, return an empty string.
+- Otherwise, return the substring of s from minLeft to minLeft + minLength.
+
+### Conclusion
+The function correctly finds the shortest substring containing all characters of t using a sliding window approach. The time complexity of this algorithm is O(S + T), where S is the length of s and T is the length of t. This is efficient and ensures that we find the optimal solution.
 
 </p>
 </details>
