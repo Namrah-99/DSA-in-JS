@@ -1021,18 +1021,6 @@ function findLongestSubstring(str) {
 
 console.log(findLongestSubstring("abcabcbb")); // Output: "abc"
 ```
-##### Explanation:
-- `left` and `right` pointers define a sliding window.
-- `charSet` is a Set that stores characters within the current window.
-- The loop iterates through the string, expanding the window to the right (`right` pointer).
-- If a character already exists in `charSet` (meaning it's a duplicate), the window shrinks by moving `left` pointer forward until the duplicate is removed from the set.
-- `longest` is updated to track the maximum window size seen so far.
-
-- Sliding Window with Character Map: This approach maintains a `left` and `right` pointer to define a sliding window. It uses a `charMap` object to store the last seen index of each character.
-- Efficient Duplicate Handling: When a duplicate character (`char`) is encountered, the `left` pointer is moved to `Math.max(left, charMap[char] + 1)`. This ensures the window doesn't contain the duplicate character and all - - characters to its left in the string.
-- Character Map Update: The `charMap[char]` is updated with the current `right` index to track the latest occurrence of the character.
-- Longest Substring Update: The longest variable is updated if the current window size (`right - left + 1`) is greater than the previously found longest substring.
-- Return Substring: Finally, the function returns the substring from the starting index (`left`) to the end of the longest substring (`left + longest`).
 
 Solution 2: Using Two Pointers and a Character Map (Less Efficient):
 ```javascript
