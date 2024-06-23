@@ -436,7 +436,6 @@ obj.methodName = function() {
 
 - Linear Time Operations (O(n)): If the method iterates over an array or a list of length n, it has linear time complexity. For example:
 ```javascript
-Copy code
 obj.methodName = function(arr) {
     for (let i = 0; i < arr.length; i++) {
         console.log(arr[i]);
