@@ -334,7 +334,7 @@ numbers.sort((a, b) => b - a); // descending order
 </p>
 </details>
 
-###### 9. How can you find the index of an element in an array?
+###### 9. How can you reverse an array using both a mutating method and a non-mutating method?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -371,7 +371,7 @@ const reversedLetters = letters.slice().reverse(); // ["a", "b", "c", "d"] (orig
 </p>
 </details>
 
-###### 10. How can you find the index of an element in an array?
+###### 10. How can you split a string into individual characters and words using split() and Array.from()?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -737,6 +737,67 @@ console.log(flattenedConcat); // [1, 2, 3, 4, 5, 6]
 - Time Complexity: O(n)
 - Explanation: The flattenConcat function uses reduce() to iterate through each element of the array. For each element that is an array, it recursively calls flattenConcat. While each concat operation itself is O(n), where n is the length of the accumulator array (acc), the overall time complexity for flattening a deeply nested array still remains O(n) due to the overhead of recursion and concat operations combined.
 
+### Using Array.flat():
+```javascript
+const nestedArray = [1, [2, [3, 4], 5], 6];
+const flattenedArray = nestedArray.flat(Infinity);
+// flattenedArray: [1, 2, 3, 4, 5, 6]
+```
+Time Complexity: O(n), where n is the total number of elements in the nested array. The flat() method flattens the array in one pass.
+
+### Using Recursion:
+```javascript
+function flattenArray(arr) {
+  return arr.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenArray(val)) : acc.concat(val), []);
+}
+
+const nestedArray = [1, [2, [3, 4], 5], 6];
+const flattenedArray = flattenArray(nestedArray);
+// flattenedArray: [1, 2, 3, 4, 5, 6]
+```
+Time Complexity: O(n), where n is the total number of elements in the nested array. The recursive approach traverses each element once.
+
+### Using Array.reduce() with concat():
+```javascript
+function flattenArray(arr) {
+  return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flattenArray(val) : val), []);
+}
+
+const nestedArray = [1, [2, [3, 4], 5], 6];
+const flattenedArray = flattenArray(nestedArray);
+// flattenedArray: [1, 2, 3, 4, 5, 6]
+```
+Time Complexity: O(n), similar to the recursive approach, this approach also traverses each element once.
+
+### Using Array.prototype.flat() and Array.prototype.concat():
+```javascript
+const nestedArray = [1, [2, [3, 4], 5], 6];
+const flattenedArray = [].concat(...nestedArray);
+// flattenedArray: [1, 2, [3, 4], 5, 6]
+```
+Time Complexity: O(n), where n is the total number of elements in the nested array. The spread operator (...) and concat() method flatten the array in one pass.
+
+### Using Iteration:
+```javascript
+function flattenArray(arr) {
+  const stack = [...arr];
+  const result = [];
+  while (stack.length) {
+    const next = stack.pop();
+    if (Array.isArray(next)) {
+      stack.push(...next);
+    } else {
+      result.push(next);
+    }
+  }
+  return result.reverse();
+}
+
+const nestedArray = [1, [2, [3, 4], 5], 6];
+const flattenedArray = flattenArray(nestedArray);
+// flattenedArray: [1, 2, 3, 4, 5, 6]
+```
+Time Complexity: O(n), where n is the total number of elements in the nested array. This iterative approach processes each element once.
 
 </p>
 </details>
@@ -818,12 +879,52 @@ Explanation:
 <details><summary><b>Solution</b></summary>
 <p>
 
+Using reduce() and includes():
+
+```javascript
+function intersection(arr1, arr2) {
+  return arr1.reduce((acc, value) => {
+    if (arr2.includes(value)) {
+      acc.push(value);
+    }
+    return acc;
+  }, []);
+}
+
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+const result = intersection(arr1, arr2);
+// result: [3, 4, 5]
+```
+Time Complexity: O(nm), similar to the first approach, this method also has a time complexity of O(nm).
+
+Using Set and forEach():
+
+```javascript
+function intersection(arr1, arr2) {
+  const set2 = new Set(arr2);
+  const result = new Set();
+  arr1.forEach(value => {
+    if (set2.has(value)) {
+      result.add(value);
+    }
+  });
+  return [...result];
+}
+
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+const result = intersection(arr1, arr2);
+// result: [3, 4, 5]
+```
+Time Complexity: O(n+m), similar to the second approach, this method also has a time complexity of O(n+m).
+
 ```javascript
 const colors1 = ["red", "green", "blue"];
 const colors2 = ["blue", "purple", "yellow"];
 
 // Method 1: Set intersection with has()
-const intersection1 = Array.from(new Set(colors1).filter(x => new Set(colors2).has(x))); // ["blue"]
+const intersection1 = Array.from(new Set(colors1)).filter(x => new Set(colors2).has(x)); // ["blue"]
 
 // Method 2: filter() with includes()
 const intersection2 = colors1.filter(color => colors2.includes(color)); // ["blue"]
@@ -832,7 +933,7 @@ console.log(intersection1); // ["blue"]
 console.log(intersection2); // ["blue"]
 
 // Method 3: Set with includes()
-const intersectionSet = new Set(array1.filter(value => array2.includes(value)));
+const intersectionSet = new Set(colors1.filter(value => colors2.includes(value)));
 const intersection = [...intersectionSet];
 console.log(intersection); // [3, 4, 5]
 ```
@@ -879,11 +980,12 @@ const union1 = Array.from(new Set([...numbers1, ...numbers2])); // [1, 2, 3, 4]
 
 // Method 2: concat() (all elements)
 const union2 = numbers1.concat(numbers2); // [1, 2, 3, 2, 3, 4] (duplicates included)
+const union2 = [...new Set(numbers1.concat(numbers2))]; // [ 1, 2, 3, 4 ]
 
 console.log(union1); // [1, 2, 3, 4]
 console.log(union2); // [1, 2, 3, 2, 3, 4]
 
-const unionSet = new Set([...array1, ...array2]);
+const unionSet = new Set([...numbers1, ...numbers2]);
 const union = [...unionSet];
 console.log(union); // [1, 2, 3, 4, 5, 6, 7]
 ```
@@ -931,32 +1033,19 @@ const letters2 = ["b", "c", "e"];
 const difference1 = letters1.filter(letter => !letters2.includes(letter)); // ["a", "d"]
 
 // Method 2: Set difference (efficient)
-const difference2 = Array.from(new Set(letters1).difference(new Set(letters2))); // ["a", "d"]
+const set1 = new Set(letters1);
+const set2 = new Set(letters2);
+set2.forEach(letter => set1.delete(letter));
+const difference2 = Array.from(set1); // ["a", "d"]
 
 console.log(difference1); // ["a", "d"]
 console.log(difference2); // ["a", "d"]
 ```
-- The first method uses filter with !includes to check if each element in the first array is not present in the second array.
-- The second method leverages sets for efficient difference calculations. It creates sets from both arrays and uses the difference method to find elements present in the first set but not in the second.
 
-### Time Complexity
-
-#### Method 1: filter() with !includes()
-```javascript
-const difference1 = letters1.filter(letter => !letters2.includes(letter));
-```
-- Time Complexity: O(n * m)
-- Explanation: For each element in letters1 (of length n), includes() is called on letters2 (of length m), resulting in a time complexity of O(n * m). This is because includes() has a time complexity of O(m), and it is called for each element in letters1.
-
-#### Method 2: Set difference (efficient)
-```javascript
-const difference2 = Array.from(new Set(letters1).difference(new Set(letters2)));
-```
-- Time Complexity: O(n + m)
-- Explanation: Creating two sets from letters1 and letters2 has a time complexity of O(n + m), where n is the number of elements in letters1 and m is the number of elements in letters2. The difference() operation between the two sets has a time complexity of O(n), as it iterates over the elements in the first set. Overall, the time complexity is O(n + m).
-
-**Note:** Method 2 is more efficient for finding the difference between two arrays, as it has a time complexity of O(n + m) compared to O(n * m) for Method 1.
-
+- Method 1:
+    - Time Complexity: O(n * m), where n is the number of elements in letters1 and m is the number of elements in letters2.
+- Method 2:
+    - Time Complexity: O(n + m), where n is the number of elements in letters1 and m is the number of elements in letters2.
 
 </p>
 </details>
@@ -966,14 +1055,14 @@ const difference2 = Array.from(new Set(letters1).difference(new Set(letters2)));
 <p>
 
 ```javascript
-const array1 = [1, 2, 3, 4, 5];
-const array2 = [3, 4, 5, 6, 7];
+const array1 = ["a", "b", "c", "d"];
+const array2 = ["b", "c", "e"];
 
 const symmetricDifference = [
   ...array1.filter(value => !array2.includes(value)),
   ...array2.filter(value => !array1.includes(value))
 ];
-console.log(symmetricDifference); // [1, 2, 6, 7]
+console.log(symmetricDifference); [ 'a', 'd', 'e' ]
 ```
 
 To find the symmetric difference between two arrays, you can use a combination of the filter and includes methods.
@@ -1124,6 +1213,42 @@ const clone = arr.slice();
 ```
 - Time Complexity: O(n)
 - Explanation: The slice method also creates a new array and copies all elements from the original array into the new array. Similar to the spread operator, it copies each element one by one, resulting in a linear time complexity.
+
+## Deep Cloning
+
+### Using JSON methods: 
+This method works well for arrays or objects containing only JSON-serializable data (no functions or prototype objects). However, it does not support custom serialization/deserialization logic.
+```javascript
+const originalArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+const deepCloneArray = JSON.parse(JSON.stringify(originalArray));
+```
+Time Complexity: O(n), where n is the total number of elements in the array and its nested arrays. The stringify and parse operations each iterate over all elements once.
+
+### Using recursion:
+```javascript
+function deepCloneArray(array) {
+  return array.map(element => Array.isArray(element) ? deepCloneArray(element) : element);
+}
+
+const originalArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+const deepCloneArray = deepCloneArray(originalArray);
+```
+Time Complexity: O(n), where n is the total number of elements in the array and its nested arrays. The map function iterates over each element once, and the recursive call also iterates over all elements once.
+
+### Using a library like Lodash:
+```javascript
+const _ = require('lodash');
+const originalArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+const deepCloneArray = _.cloneDeep(originalArray);
+```
+Time Complexity: O(n), where n is the total number of elements in the array and its nested arrays. Lodash's cloneDeep function iterates over each element once.
+
+### Using the spread operator (for shallow cloning only):
+```javascript
+const originalArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+const deepCloneArray = originalArray.map(subArray => [...subArray]);
+```
+Time Complexity: O(n), where n is the total number of elements in the array and its nested arrays. The map function iterates over each element once, and the spread operator creates a shallow copy of each nested array.
 
 </p>
 </details>
@@ -1347,12 +1472,12 @@ for (let i = 0; i < array.length; i++) {
 }
 
 // Method 3: Modifying the original array (not recommended)
-colors.forEach(string => string.toLowerCase()); // Modifies elements in-place
+colors.forEach(string => string.toUpperCase()); // Modifies elements in-place
 console.log(colors); // ["red", "green", "blue"] (modified if forEach is used)
 ```
 
-- map(string => string.toLowerCase()): Uses the map method and a callback function to convert each string to lowercase.
-- forEach(string => string.toLowerCase()): Iterates through the array using forEach and applies lowercase conversion to each element, modifying the original array.
+- map(string => string.toUpperCase()): Uses the map method and a callback function to convert each string to uppercase.
+- forEach(string => string.toUpperCase()): Iterates through the array using forEach and applies uppercase conversion to each element, modifying the original array.
 
 ### Time Complexity
 #### Method 1: Using the map method
@@ -1413,7 +1538,7 @@ const titleCasePhrases = phrases.map(string =>
 
 console.log(titleCasePhrases); // ["Hello World", "How Are You"]
 ```
-map(string => string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())): Uses map with a complex regular expression to convert each string to title case.
+`map(string => string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()))`: Uses map with a complex regular expression to convert each string to title case.
 
 ### Time Complexity
 #### Method 1: Using the map method with a custom function
@@ -1463,7 +1588,7 @@ for (let i = 0; i < array.length; i++) {
 }
 ```
 
-map(number => number.toString()): Uses map and a callback function to convert each number to a string using toString.
+`map(number => number.toString())`: Uses map and a callback function to convert each number to a string using toString.
 
 ### Time Complexity
 #### Method 1: Using the map method
@@ -1493,8 +1618,11 @@ Both methods produce the same result, but the first method using the map method 
 <p>
 
 ```javascript
+const array = ['2','4','7']
+
 // Method 1: Using the map method
-const numberArray = array.map(str => Number(str));
+const numberArray1 = array.map(str => Number(str));
+console.log(numberArray1)
 
 // Method 2: Using a for loop
 const numberArray = [];
@@ -1517,7 +1645,7 @@ const numbers2 = stringNumbers.map(string => {
 console.log(numbers2); // [10, null, 30]
 ```
 
-map(string => Number(string)): Uses map and a callback function to convert each string to a number using the Number constructor. Note that this might lead to unexpected results if the string is not a valid number.
+`map(string => Number(string))`: Uses map and a callback function to convert each string to a number using the Number constructor. Note that this might lead to unexpected results if the string is not a valid number.
 
 ### Time Complexity
 #### Method 1: Using the map method
@@ -1554,16 +1682,20 @@ In both methods, if there are invalid strings that cannot be converted to number
 <p>
 
 ```javascript
+const array = ['a','','bvc','23','3er','tyt6'];
+
 // Method 1: Using the map method
-const booleanArray = array.map(str => str.toLowerCase() === 'true');
+const booleanArray1 = array.map(str => str.toLowerCase() === 'true');
+console.log(booleanArray1);
 
 // Method 2: Using a for loop
 const booleanArray = [];
 for (let i = 0; i < array.length; i++) {
   booleanArray.push(array[i].toLowerCase() === 'true');
 }
+
 // method 3: Double Negation
-const boolValues2 = truthValues.map(string => !!string); // [true, true, true] (might be misleading)
+const boolValues2 = array.map(string => !!string); // [true, true, true] (might be misleading)
 console.log(boolValues2); // [true, true, true]
 ```
 - Uses double negation (!!) to coerce strings to booleans. However, this might not be ideal for all cases (e.g., "0" becomes true).
@@ -1619,7 +1751,7 @@ const stringBooleans = booleans.map(bool => bool.toString()); // ["true", "false
 console.log(stringBooleans); // ["true", "false", "true"]
 ```
 
-toString() (map): Uses map to convert each boolean to a string using toString.
+- toString() (map): Uses map to convert each boolean to a string using toString.
 
 ### Time Complexity
 #### Method 1: Using the map method
@@ -1671,7 +1803,7 @@ const numberBooleans = booleans.map(bool => Number(bool)); // [1, 0, 1]
 console.log(numberBooleans); // [1, 0, 1]
 ```
 
-Number() (map): Leverages map and the Number constructor to convert booleans to numbers (true becomes 1, false becomes 0).
+- Number() (map): Leverages map and the Number constructor to convert booleans to numbers (true becomes 1, false becomes 0).
 
 ### Time Complexity
 #### Method 1: Using the map method
@@ -1696,8 +1828,8 @@ for (let i = 0; i < array.length; i++) {
 const numberBooleans = booleans.map(bool => Number(bool)); // [1, 0, 1]
 console.log(numberBooleans); // [1, 0, 1]
 ```
-
-This method uses the Number constructor directly on each boolean element to convert it to a number. Since it also iterates over each element once, the time complexity is O(n), where n is the number of elements in the array.
+- Time Complexity: O(n)
+- Explanation: This method uses the Number constructor directly on each boolean element to convert it to a number. Since it also iterates over each element once, the time complexity is O(n), where n is the number of elements in the array.
 
 </p>
 </details>
@@ -1710,17 +1842,17 @@ This method uses the Number constructor directly on each boolean element to conv
 const array = [10, 20, 30];
 
 // Method 1: Using the reduce method
-const sum = array.reduce((acc, curr) => acc + curr, 0);
-
+const sum1 = array.reduce((acc, curr) => acc + curr, 0);
+console.log(sum1); // 60
 // Method 2: Using a for loop
 let sum = 0;
 for (let i = 0; i < array.length; i++) {
   sum += array[i];
 }
-
+console.log(sum); // 60
 // Method 3: Using for...of
-const sum2 = 0;
-for (const num of numbers) {
+let sum2 = 0;
+for (const num of array) {
   sum2 += num;
 }
 console.log(sum2); // 60
@@ -1765,20 +1897,24 @@ for (const num of array) {
 <p>
 
 ```javascript
+let array = [2,5,7,3,4,8]
+
 // Method 1: Using the reduce method
-const sum = array.reduce((acc, curr) => acc + curr, 0);
-const average = sum / array.length;
+const sum1 = array.reduce((acc, curr) => acc + curr, 0);
+const average1 = sum1 / array.length;
+console.log(average1); // 4.83
 
 // Method 2: Using a for loop
-let sum = 0;
+let sum2 = 0;
 for (let i = 0; i < array.length; i++) {
-  sum += array[i];
+  sum2 += array[i];
 }
-const average = sum / array.length;
+const average2 = sum2 / array.length;
+console.log(average2); // 4.83
 
-// method 3
-const average = (numbers.reduce((acc, num) => acc + num, 0) / numbers.length).toFixed(2); // 20.00
-console.log(average); // 20.00
+// Method 3
+const average = (array.reduce((acc, num) => acc + num, 0) / array.length).toFixed(2); // 4.83
+console.log(average); // 4.83
 ```
 
 This approach combines reduce to find the sum and divides by the array length to get the average. Rounding to two decimal places using toFixed(2) is optional.
