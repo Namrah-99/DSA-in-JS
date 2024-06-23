@@ -1433,7 +1433,7 @@ const person = { name: "Alice", age: 30 };
 const shallowCopy = { ...person };
 
 shallowCopy.name = "Bob";
-console.log(person.name); // Output: also "Bob" (changes are reflected in original object)
+console.log(person.name); // Output: still "Alice" (changes don't affect original)
 ```
 
 Time Complexity: O(n) - Where n is the number of own enumerable properties in the person object. The spread syntax { ...person } creates a new object and copies all enumerable own properties of person into it, which requires iterating over all properties of person.
@@ -1456,6 +1456,22 @@ Time Complexity: O(n) - Where n is the number of own enumerable properties in th
 <details><summary><b>Solution</b></summary>
 <p>
 
+Using JSON.parse(JSON.stringify(obj)):
+```javascript
+const person = { name: "Alice", age: 30, address: { city: "New York" } };
+const deepCopy = JSON.parse(JSON.stringify(person));
+
+deepCopy.name = "Bob";
+deepCopy.address.city = "London";
+console.log(person.name); // Output: still "Alice" (original not affected)
+console.log(person.address.city); // Output: still "New York" (deep copy for nested object)
+```
+Time complexity: O(n) - The time complexity of deep cloning an object using JSON.parse(JSON.stringify(obj)) is O(n), where n is the size of the object, including all nested properties. This method involves serializing the object to a JSON string and then parsing that string back into an object, both of which are linear operations.
+##### Explanation:
+- Serialization: JSON.stringify(person) converts the object into a JSON string, which is O(n) in time complexity.
+- Deserialization: JSON.parse(stringifiedObject) converts the JSON string back into an object, also O(n) in time complexity.
+- Overall Complexity: The combined process is linear with respect to the size of the object, making the overall time complexity O(n).
+
 Recursive function (consider circular references):
 ```javascript
 function deepCopy(obj) {
@@ -1475,10 +1491,10 @@ function deepCopy(obj) {
 }
 
 const person = { name: "Alice", age: 30, address: { city: "New York" } };
-const deepCopy = deepCopy(person);
+const deepCopyObj = deepCopy(person);
 
-deepCopy.name = "Bob";
-deepCopy.address.city = "London";
+deepCopyObj.name = "Bob";
+deepCopyObj.address.city = "London";
 console.log(person.name); // Output: still "Alice" (original not affected)
 console.log(person.address.city); // Output: still "New York" (deep copy for nested object)
 ```
