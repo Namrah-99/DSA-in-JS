@@ -1499,6 +1499,18 @@ console.log(person.name); // Output: still "Alice" (original not affected)
 console.log(person.address.city); // Output: still "New York" (deep copy for nested object)
 ```
 
+##### Explanation
+- Primitive and Null Check:
+    - if (obj === null || typeof obj !== "object") { return obj; }
+    - This line checks if obj is either null or a primitive type (such as a number, string, boolean, etc.). If so, it returns the value directly because primitives and null do not require deep copying.
+- Array Handling:
+    - if (obj instanceof Array) { return obj.map(deepCopy); }
+    - This line checks if obj is an instance of Array. If it is, it uses the map method to apply the deepCopy function to each element of the array, ensuring that nested arrays are also deeply copied.
+- Object Handling:
+    - If the object is neither a primitive nor an array, it is assumed to be a plain object. A new empty object (copy) is created.
+    - for (const key in obj) { copy[key] = deepCopy(obj[key]); }
+    - This loop iterates over all properties of the object and recursively applies the deepCopy function to each property. This ensures that nested objects are also deeply copied.
+
 Time Complexity: O(n) - Where n is the total number of primitive values and non-primitive values (objects and arrays) in the person object. The function iterates through all properties of the object recursively, creating copies as it goes.
 
 Third-party libraries (Lodash, for example):
