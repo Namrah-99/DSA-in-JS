@@ -1,4 +1,53 @@
-List of the time and space complexities for each of the mentioned data structures:
+# Factors that determine the time complexity:
+
+### Constant Time Operations (O(1)): 
+If the method performs a fixed number of operations regardless of the size of the input, it has constant time complexity. For example:
+```javascript
+obj.methodName = function() {
+    return this.property; // Assuming accessing `property` is O(1)
+}
+```
+### Linear Time Operations (O(n)): 
+If the method iterates over an array or a list of length n, it has linear time complexity. For example:
+```javascript
+obj.methodName = function(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+    }
+}
+```
+### Quadratic Time Operations (O(n^2)): 
+If the method contains nested loops that iterate over an array or list, it may have quadratic time complexity. For example:
+```javascript
+obj.methodName = function(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            console.log(arr[i], arr[j]);
+        }
+    }
+}
+```
+### Logarithmic Time Operations (O(log n)): 
+If the method involves operations that reduce the problem size by a factor of two (e.g., binary search), it has logarithmic time complexity. For example:
+```javascript
+obj.methodName = function(arr, target) {
+    let left = 0, right = arr.length - 1;
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        if (arr[mid] === target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+```
+
+### Other Complexities: 
+Depending on the operations performed, the method can have other complexities like O(n log n), O(n^3), etc.
+
+To determine the exact time complexity of obj.methodName(), you would need to analyze the code inside methodName. If you provide the code of the method, I can help you determine its time complexity.
+
+# List of the time and space complexities for each of the mentioned data structures:
 
 ## Fundamental Data Structures
 
