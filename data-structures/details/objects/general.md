@@ -476,64 +476,6 @@ To determine the exact time complexity of obj.methodName(), you would need to an
 ###### 15. How do you define a getter and setter for a property in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
-  
-Object.defineProperty:
-```javascript
-const person = {};
-Object.defineProperty(person, "name", {
-  get() {
-    return this._name;
-  },
-  set(value) {
-    this._name = value;
-  }
-});
-
-person.name = "Alice";
-console.log(person.name); // Output: Alice
-```
-Accessors (modern syntax):
-```javascript
-const person = {
-  get name() {
-    return this._name;
-  },
-  set name(value) {
-    this._name = value;
-  }
-};
-
-person.name = "Bob";
-console.log(person.name); // Output: Bob
-```
-Prototype-based getters and setters (advanced):
-```javascript
-function Person() {
-  this._name = undefined;
-}
-
-Person.prototype = {
-  get name() {
-    return this._name;
-  },
-  set name(value) {
-    this._name = value;
-  }
-};
-
-const person = new Person();
-person.name = "Charlie";
-console.log(person.name); // Output: Charlie
-```
-
-### Time Complexity
-In all three examples, the time complexity for defining the properties, creating new instances (where applicable), and using the getters and setters is O(1). This is because these operations involve direct property access or assignment, which are constant time operations in JavaScript.
-</p>
-</details>
-
-###### 16. How do you define a getter and setter for a property in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
 
 In JavaScript, you can define getters and setters for a property in several ways. Here are three common methods:
 
@@ -647,7 +589,7 @@ Each of these methods allows you to create encapsulated properties, providing co
 </p>
 </details>
 
-###### 17. How do you create an object with a specific prototype in JavaScript?
+###### 16. How do you create an object with a specific prototype in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -697,7 +639,7 @@ In both cases, the time complexity is O(1) for creating objects, executing const
 </p>
 </details>
 
-###### 18. How do you check the prototype of an object in JavaScript?
+###### 17. How do you check the prototype of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -731,7 +673,7 @@ Summary:
 </p>
 </details>
 
-###### 19. How do you set the prototype of an object in JavaScript?
+###### 18. How do you set the prototype of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -773,7 +715,7 @@ Summary:
 </p>
 </details>
 
-###### 20. How do you create an object without a prototype in JavaScript?
+###### 19. How do you create an object without a prototype in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -813,7 +755,7 @@ Summary:
 </p>
 </details>
 
-###### 21. How do you check if an object is an instance of a specific class in JavaScript?
+###### 20. How do you check if an object is an instance of a specific class in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -851,7 +793,7 @@ Summary:
 </p>
 </details>
 
-###### 22. How do you define a class in JavaScript?
+###### 21. How do you define a class in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -905,7 +847,7 @@ Summary:
 </p>
 </details>
 
-###### 23. How do you create an instance of a class in JavaScript?
+###### 22. How do you create an instance of a class in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -952,7 +894,7 @@ Summary:
 </p>
 </details>
 
-###### 24. How do you define static methods in a class in JavaScript?
+###### 23. How do you define static methods in a class in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -984,7 +926,7 @@ Summary:
 </p>
 </details>
 
-###### 25. How do you define private properties and methods in a class in JavaScript?
+###### 24. How do you define private properties and methods in a class in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1021,7 +963,7 @@ Summary:
 </p>
 </details>
 
-###### 26. How do you define inheritance in JavaScript?
+###### 25. How do you define inheritance in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1098,7 +1040,7 @@ Summary:
 </p>
 </details>
 
-###### 27. How do you call a superclass method from a subclass method in JavaScript?
+###### 26. How do you call a superclass method from a subclass method in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1154,7 +1096,7 @@ Summary:
 </p>
 </details>
 
-###### 28. How do you override a method in a subclass in JavaScript?
+###### 27. How do you override a method in a subclass in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1200,7 +1142,7 @@ Summary:
 </p>
 </details>
 
-###### 29. How do you check if an object is iterable in JavaScript?
+###### 28. How do you check if an object is iterable in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1241,7 +1183,7 @@ Summary:
 </p>
 </details>
 
-###### 30. How do you iterate over the keys of an object in JavaScript?
+###### 29. How do you iterate over the keys of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1275,7 +1217,7 @@ Summary:
 </p>
 </details>
 
-###### 31. How do you iterate over the values of an object in JavaScript?
+###### 30. How do you iterate over the values of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1311,7 +1253,7 @@ Summary:
 </p>
 </details>
 
-###### 32. How do you iterate over the entries of an object in JavaScript?
+###### 31. How do you iterate over the entries of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1329,7 +1271,7 @@ Time Complexity: O(n) - Where n is the number of own enumerable properties in th
 </p>
 </details>
 
-###### 33. How do you convert an object to an array in JavaScript?
+###### 32. How do you convert an object to an array in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1366,7 +1308,7 @@ Time Complexity: Loop with Spread Syntax O(n) - Iterates over only own enumerabl
 </p>
 </details>
 
-###### 34. How do you convert an array to an object in JavaScript?
+###### 33. How do you convert an array to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1394,7 +1336,7 @@ Time Complexity: Loop with Object Literal Syntax O(n) - Iterates over each eleme
 </p>
 </details>
 
-###### 35. How do you freeze an object in JavaScript?
+###### 34. How do you freeze an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1418,7 +1360,7 @@ Time Complexity: Object.freeze O(1) - Sets a flag on the object to make it immut
 </p>
 </details>
 
-###### 36. How do you seal an object in JavaScript?
+###### 35. How do you seal an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1442,7 +1384,7 @@ Time Complexity: Object.seal O(1) - Sets a flag on the object to make it non-ext
 </p>
 </details>
 
-###### 37. How do you prevent extensions to an object in JavaScript?
+###### 36. How do you prevent extensions to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1460,7 +1402,7 @@ Time Complexity: Object.freeze O(1) - Sets a flag on the object to make it immut
 </p>
 </details>
 
-###### 38. How do you check if an object is frozen, sealed, or extensible in JavaScript?
+###### 37. How do you check if an object is frozen, sealed, or extensible in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1481,7 +1423,7 @@ Time Complexity: Object.isFrozen, Object.isSealed, Object.isExtensible O(1) - Th
 </p>
 </details>
 
-###### 39. How do you create a shallow copy of an object in JavaScript?
+###### 38. How do you create a shallow copy of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1510,7 +1452,7 @@ Time Complexity: O(n) - Where n is the number of own enumerable properties in th
 </p>
 </details>
 
-###### 40. How do you create a deep copy of an object in JavaScript?
+###### 39. How do you create a deep copy of an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1566,7 +1508,7 @@ Third-party libraries like Lodash often provide well-tested deep copy functional
 </p>
 </details>
 
-###### 41. How do you merge two or more objects into one object in JavaScript?
+###### 40. How do you merge two or more objects into one object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1612,7 +1554,7 @@ Summary:
 </p>
 </details>
 
-###### 42. How do you destructure an object in JavaScript?
+###### 41. How do you destructure an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1637,7 +1579,7 @@ You can also rename properties during destructuring.
 </p>
 </details>
 
-###### 43. How do you set default values for object properties in JavaScript?
+###### 42. How do you set default values for object properties in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1678,7 +1620,7 @@ TC for both using optional chaining with nullish coalescing and assigning defaul
 </p>
 </details>
 
-###### 44. How do you get the number of properties in an object in JavaScript?
+###### 43. How do you get the number of properties in an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
