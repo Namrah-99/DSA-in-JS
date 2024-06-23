@@ -1731,6 +1731,7 @@ console.log(personMap); // Output: Map { "name" => "Alice", "age" => 30 }
 Using the spread syntax (modern JS):
 ```javascript
 const person = { name: "Alice", age: 30 };
+console.log(Object.entries(person)) // [ [ 'name', 'Alice' ], [ 'age', 30 ] ]
 const personMap = new Map(Object.entries(person));
 
 console.log(personMap); // Output: Map { "name" => "Alice", "age" => 30 }
@@ -1900,7 +1901,223 @@ The method Object.fromEntries iterates over the array of key-value pairs to cons
 </p>
 </details>
 
-###### 50. How do you convert an object to a query string in JavaScript?
+###### 50. How do you convert an object to a WeakMap object in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+Using the WeakMap constructor with key-value pairs:
+```javascript
+const person = { name: "Alice", age: 30 };
+const details = { city: "New York" };
+
+const personMap = new WeakMap();
+personMap.set(person, details); // Use the object itself as the key (weak reference)
+
+console.log(personMap.get(person)); // Output: { city: "New York" }
+
+// Person object can be garbage collected without affecting the WeakMap
+person = null;
+```
+##### Explanation:
+- The WeakMap constructor creates a collection that holds key-value pairs where keys are weakly referenced.
+- This means the garbage collector can reclaim the memory of the key object if there are no other references to it.
+- In this example, the person object is used as the key, and the details object is the value.
+- When the person object is no longer referenced elsewhere, it can be garbage collected even though it's a key in the WeakMap. The WeakMap itself remains functional as long as it's referenced.
+
+##### Important Note:
+WeakMaps are useful for scenarios where you want to associate data with objects without preventing those objects from being garbage collected. Consider using Map objects if you need strong references to both keys and values.
+
+### Time Complexity: O(1) for set and get operations
+- The time complexity of set and get operations in a WeakMap is considered to be O(1) on average.
+- This is because the underlying implementation typically uses hashing to store and retrieve key-value pairs, leading to constant-time complexity for these operations in most cases.
+
+</p>
+</details>
+
+###### 51. How do you convert a WeakMap object to an object in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+Important Note:
+Directly converting a WeakMap to a standard JavaScript object isn't possible. WeakMaps are designed to hold key-value pairs with weak references to keys, and these weak references cannot be easily converted to a standard object structure.
+
+
+Iterate and create a new object (limited functionality):
+```javascript
+const person = { name: "Alice", age: 30 };
+const details = { city: "New York" };
+
+const weakMap = new WeakMap();
+weakMap.set(person, details);
+
+const obj = {}; // Create a new object to hold extracted data
+for (const [key, value] of weakMap.entries()) {
+  // Key will be inaccessible due to weak reference nature
+  obj[ /* key reference (not possible) */ ] = value; // Add value to the new object
+}
+
+console.log(obj); // Output: {} (keys cannot be retrieved)
+```
+##### Explanation:
+- Due to weak references in WeakMaps, iterating over entries doesn't provide access to the original keys.
+- This approach creates a new object and adds the values from the WeakMap, but the keys are lost because they cannot be strongly referenced.
+
+### Time Complexity: O(n)
+Iterating over entries in a WeakMap involves iterating over all key-value pairs in the WeakMap, which has a linear time complexity relative to the number of entries in the WeakMap.
+
+Convert values to a suitable structure if possible:
+```javascript
+const person = { name: "Alice", age: 30 };
+const details = { city: "New York" };
+
+const weakMap = new WeakMap();
+weakMap.set(person, details);
+
+// Assuming values are simple objects or primitives
+const valuesArray = Array.from(weakMap.values()); // Extract values as an array
+
+console.log(valuesArray); // Output: [{ city: "New York" }] (if values are suitable for conversion)
+```
+##### Explanation:
+- If the values in the WeakMap are simple objects or primitives, you might be able to convert them to a suitable structure like an array.
+This approach depends on the type of data stored in the WeakMap.
+
+### Time Complexity: O(n)
+Converting the values of a WeakMap to a suitable structure, like an array, involves iterating over all values in the WeakMap, which has a linear time complexity relative to the number of entries in the WeakMap.
+
+</p>
+</details>
+
+###### 52. How do you convert an object to a WeakSet object in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+Using the WeakSet constructor with iterable of objects:
+```javascript
+const set1 = new Set(["apple", "banana", "orange"]); // Regular Set (strong references)
+const weakSet = new WeakSet(set1); // Convert elements to weakly referenced objects
+
+console.log(weakSet.has(set1)); // Output: false (original set object not in WeakSet)
+
+const apple = { name: "apple" }; // Create a new object
+weakSet.add(apple);
+
+console.log(weakSet.has(apple)); // Output: true (new object with weak reference added)
+```
+##### Explanation:
+- The WeakSet constructor creates a collection of weakly referenced objects.
+- You can pass an iterable (like an array or another Set) containing the objects to the constructor.
+- However, it's important to note that the original objects in the iterable are not stored in the WeakSet. Weak references are created for the objects themselves.
+
+### Time Complexity
+- Creation: O(n), where n is the number of elements in the iterable passed to the WeakSet constructor.
+- Adding: O(1)
+- Checking Membership: O(1)
+
+##### Explanation:
+- Creating a WeakSet from an iterable involves iterating over the elements in the iterable, resulting in a linear time complexity relative to the number of elements.
+- Adding an element to a WeakSet and checking for membership have constant time complexities, as they involve direct operations on the underlying data structure.
+
+</p>
+</details>
+
+###### 53. How do you convert a WeakSet object to an object in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+##### Important Note:
+- Directly converting a WeakSet to a standard JavaScript object isn't possible. Similar to WeakMaps, WeakSets hold weak references to objects, and these references cannot be easily converted to a standard object structure.
+
+Iterate and potentially convert values (limited functionality):
+```javascript
+const apple = { name: "apple" };
+const banana = { name: "banana" };
+
+const weakSet = new WeakSet([apple, banana]);
+
+const obj = []; // Create an array to hold converted values (if possible)
+for (const value of weakSet.values()) {
+  // `value` will be the weakly referenced object
+  obj.push( /* convert value if possible */ value); // Limited conversion based on value type
+}
+
+console.log(obj); // Output: [ /* Converted values or original objects */ ] (conversion depends on value type)
+```
+##### Explanation:
+The code attempts to iterate over a WeakSet and convert its values into a different format, storing them in an array. However, due to the weakly referenced nature of the objects in a WeakSet, direct conversion is limited. The success of conversion depends on the structure and content of the objects. The resulting array (obj) will contain the converted values if successful, or the original objects if conversion fails.
+
+### Time Complexity:
+- Iteration: O(n), where n is the number of elements in the WeakSet.
+- Explanation:
+    - Iterating over a WeakSet involves visiting each element once, resulting in a time complexity linear to the number of elements in the WeakSet.
+
+</p>
+</details>
+
+###### 54. How do you convert an object to a Promise object in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+Using the Promise constructor (resolve or reject based on logic):
+```javascript
+function fetchData(url) {
+  return new Promise((resolve, reject) => {
+    // Simulate asynchronous operation (e.g., fetch data)
+    setTimeout(() => {
+      const data = { name: "Alice", age: 30 };
+      resolve(data); // Resolve the Promise with the data
+    }, 1000);
+  });
+}
+
+fetchData("https://api.example.com/data")
+  .then(data => console.log(data)) // Handle successful data retrieval
+  .catch(error => console.error(error)); // Handle errors during the promise execution
+```
+##### Explanation:
+- The Promise constructor takes an executor function with resolve and reject callbacks.
+- Inside the executor, you perform the asynchronous operation (e.g., simulated here).
+- Upon successful completion, call resolve with the data.
+- In case of errors, call reject with the error object.
+##### Important Note:
+Converting a simple object to a Promise might not be necessary in all cases. Promises are typically used for handling asynchronous operations and managing their results.
+
+### Time Complexity: O(1)
+The complexity is O(1) because the operations inside the Promise constructor and the simulated asynchronous operation have constant time complexity. The setTimeout function's delay does not affect the computational complexity.
+
+</p>
+</details>
+
+###### 55. How do you convert a Promise object to an object in JavaScript?
+<details><summary><b>Solution</b></summary>
+<p>
+
+##### Important Note:
+- Promises are designed to represent the eventual completion (or failure) of an asynchronous operation. They don't directly hold an object value initially.
+
+Solutions (2 - alternative approaches):
+
+Using then and destructuring (access resolved value):
+```javascript
+async function fetchData() {
+  const promise = new Promise((resolve) => resolve({ name: "Alice", age: 30 }));
+  const data = await promise; // Wait for the Promise to resolve
+  console.log(data); // Output: { name: "Alice", age: 30 }
+}
+
+fetchData();
+```
+
+### Time Complexity O(1)
+The time complexity is O(1) because the await keyword in the async function pauses the execution until the Promise is resolved, but it does not impact the overall time complexity of the function. The Promise itself resolves in constant time.
+
+##### Explanation:
+- The await keyword can only be used within async functions.
+- It pauses the execution of the async function until the Promise resolves and then assigns the resolved value to the variable.
+</p>
+</details>
+
+###### 56. How do you convert an object to a query string in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1946,7 +2163,7 @@ The loop iterates over each property of the object, and the operations inside th
 </p>
 </details>
 
-###### 51. How do you convert a query string to an object in JavaScript?
+###### 57. How do you convert a query string to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -1993,7 +2210,7 @@ While the loop approach works for simple cases, URLSearchParams is generally pre
 </p>
 </details>
 
-###### 52. How do you convert an object to a FormData object in JavaScript?
+###### 58. How do you convert an object to a FormData object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2022,7 +2239,7 @@ Note that you can directly append Blobs or File objects for file uploads.
 </p>
 </details>
 
-###### 53. How do you convert a FormData object to an object in JavaScript?
+###### 59. How do you convert a FormData object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2035,7 +2252,7 @@ Unfortunately, due to limitations in the FormData API, directly converting it to
 </p>
 </details>
 
-###### 54. How do you convert an object to a URLSearchParams object in JavaScript?
+###### 60. How do you convert an object to a URLSearchParams object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2066,7 +2283,7 @@ console.log(params); // URLSearchParams object with key-value pairs
 </p>
 </details>
 
-###### 55. How do you convert a URLSearchParams object to an object in JavaScript?
+###### 61. How do you convert a URLSearchParams object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2087,7 +2304,7 @@ The time complexity for Object.fromEntries when used with URLSearchParams is O(n
 </p>
 </details>
 
-###### 56. How do you convert an object to a Blob object in JavaScript?
+###### 62. How do you convert an object to a Blob object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2127,7 +2344,7 @@ This approach involves the same steps as the first scenario for creating the JSO
 </p>
 </details>
 
-###### 57. How do you convert a Blob object to an object in JavaScript?
+###### 63. How do you convert a Blob object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2161,7 +2378,7 @@ reader.readAsText(blob);  // Read the Blob content as text
 </p>
 </details>
 
-###### 58. How do you convert an object to a TypedArray object in JavaScript?
+###### 64. How do you convert an object to a TypedArray object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2187,7 +2404,7 @@ The overall complexity is linear with respect to the number of elements in the i
 </p>
 </details>
 
-###### 59. How do you convert a TypedArray object to an object in JavaScript?
+###### 65. How do you convert a TypedArray object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2215,7 +2432,7 @@ Object Assignment: Each assignment obj[i] = typedArray[i] is an O(1) operation.
 </p>
 </details>
 
-###### 60. How do you convert an object to an ArrayBuffer object in JavaScript?
+###### 66. How do you convert an object to an ArrayBuffer object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2250,7 +2467,7 @@ Encoding the string using TextEncoder and creating an ArrayBuffer from the Uint8
 </p>
 </details>
 
-###### 61. How do you convert an ArrayBuffer object to an object in JavaScript?
+###### 67. How do you convert an ArrayBuffer object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2284,7 +2501,7 @@ Each operation (constructing the DataView, setting a value, and getting a value)
 </p>
 </details>
 
-###### 62. How do you convert an object to a DataView object in JavaScript?
+###### 68. How do you convert an object to a DataView object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2305,7 +2522,7 @@ Here are some additional points to keep in mind:
 </p>
 </details>
 
-###### 63. How do you convert a DataView object to an object in JavaScript?
+###### 69. How do you convert a DataView object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2359,7 +2576,7 @@ console.log(obj); // Output: { value1: ..., value2: ..., ... } (values based on 
 </p>
 </details>
 
-###### 64. How do you convert an object to a JSONP object in JavaScript?
+###### 70. How do you convert an object to a JSONP object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 JSONP itself isn't a JavaScript object but a technique for cross-origin requests. The response from a JSONP request is JSON data wrapped in a function call. Here's how to extract the actual object from a JSONP response in JavaScript:
@@ -2408,70 +2625,9 @@ fetch(url + "&" + new URLSearchParams(data))
 </p>
 </details>
 
-###### 65. How do you convert an object to a Promise object in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
 
-Using the Promise constructor (resolve or reject based on logic):
-```javascript
-function fetchData(url) {
-  return new Promise((resolve, reject) => {
-    // Simulate asynchronous operation (e.g., fetch data)
-    setTimeout(() => {
-      const data = { name: "Alice", age: 30 };
-      resolve(data); // Resolve the Promise with the data
-    }, 1000);
-  });
-}
 
-fetchData("https://api.example.com/data")
-  .then(data => console.log(data)) // Handle successful data retrieval
-  .catch(error => console.error(error)); // Handle errors during the promise execution
-```
-##### Explanation:
-- The Promise constructor takes an executor function with resolve and reject callbacks.
-- Inside the executor, you perform the asynchronous operation (e.g., simulated here).
-- Upon successful completion, call resolve with the data.
-- In case of errors, call reject with the error object.
-##### Important Note:
-Converting a simple object to a Promise might not be necessary in all cases. Promises are typically used for handling asynchronous operations and managing their results.
-
-### Time Complexity: O(1)
-The complexity is O(1) because the operations inside the Promise constructor and the simulated asynchronous operation have constant time complexity. The setTimeout function's delay does not affect the computational complexity.
-
-</p>
-</details>
-
-###### 66. How do you convert a Promise object to an object in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
-
-##### Important Note:
-- Promises are designed to represent the eventual completion (or failure) of an asynchronous operation. They don't directly hold an object value initially.
-
-Solutions (2 - alternative approaches):
-
-Using then and destructuring (access resolved value):
-```javascript
-async function fetchData() {
-  const promise = new Promise((resolve) => resolve({ name: "Alice", age: 30 }));
-  const data = await promise; // Wait for the Promise to resolve
-  console.log(data); // Output: { name: "Alice", age: 30 }
-}
-
-fetchData();
-```
-
-### Time Complexity O(1)
-The time complexity is O(1) because the await keyword in the async function pauses the execution until the Promise is resolved, but it does not impact the overall time complexity of the function. The Promise itself resolves in constant time.
-
-##### Explanation:
-- The await keyword can only be used within async functions.
-- It pauses the execution of the async function until the Promise resolves and then assigns the resolved value to the variable.
-</p>
-</details>
-
-###### 67. How do you convert an object to a Proxy object in JavaScript?
+###### 71. How do you convert an object to a Proxy object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2513,7 +2669,7 @@ The time complexity for accessing or setting a property through a Proxy is O(1) 
 </p>
 </details>
 
-###### 68. How do you convert a Proxy object to an object in JavaScript?
+###### 72. How do you convert a Proxy object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2565,7 +2721,7 @@ if (Reflect.getPrototypeOf(personProxy) === person) {
 </p>
 </details>
 
-###### 69. How do you convert an object to a RegExp object in JavaScript?
+###### 73. How do you convert an object to a RegExp object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2620,7 +2776,7 @@ if (match) {
 </p>
 </details>
 
-###### 70. How do you convert a RegExp object to an object in JavaScript?
+###### 74. How do you convert a RegExp object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2646,7 +2802,7 @@ console.log(colorRegExp.test("My favorite color is blue")); // Output: true (tes
 </p>
 </details>
 
-###### 71. How do you convert an object to a Symbol object in JavaScript?
+###### 75. How do you convert an object to a Symbol object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2670,7 +2826,7 @@ console.log(Symbol.keyFor(sym1)); // Output: undefined (Symbols don't have a rev
 </p>
 </details>
 
-###### 72. How do you convert a Symbol object to an object in JavaScript?
+###### 76. How do you convert a Symbol object to an object in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -2695,159 +2851,6 @@ if (Symbol.keyFor) { // Check for existence of the reverse lookup method (not gu
 ### Time Complexity: O(1)
 - Creating a Symbol object and accessing its description (if available) is a constant-time operation.
 - The complexity does not depend on the size of the description or any other factor.
-
-</p>
-</details>
-
-###### 73. How do you convert an object to a WeakMap object in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
-
-Using the WeakMap constructor with key-value pairs:
-```javascript
-const person = { name: "Alice", age: 30 };
-const details = { city: "New York" };
-
-const personMap = new WeakMap();
-personMap.set(person, details); // Use the object itself as the key (weak reference)
-
-console.log(personMap.get(person)); // Output: { city: "New York" }
-
-// Person object can be garbage collected without affecting the WeakMap
-person = null;
-```
-##### Explanation:
-- The WeakMap constructor creates a collection that holds key-value pairs where keys are weakly referenced.
-- This means the garbage collector can reclaim the memory of the key object if there are no other references to it.
-- In this example, the person object is used as the key, and the details object is the value.
-- When the person object is no longer referenced elsewhere, it can be garbage collected even though it's a key in the WeakMap. The WeakMap itself remains functional as long as it's referenced.
-
-##### Important Note:
-WeakMaps are useful for scenarios where you want to associate data with objects without preventing those objects from being garbage collected. Consider using Map objects if you need strong references to both keys and values.
-
-### Time Complexity: O(1) for set and get operations
-- The time complexity of set and get operations in a WeakMap is considered to be O(1) on average.
-- This is because the underlying implementation typically uses hashing to store and retrieve key-value pairs, leading to constant-time complexity for these operations in most cases.
-
-</p>
-</details>
-
-###### 74. How do you convert a WeakMap object to an object in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
-
-Important Note:
-Directly converting a WeakMap to a standard JavaScript object isn't possible. WeakMaps are designed to hold key-value pairs with weak references to keys, and these weak references cannot be easily converted to a standard object structure.
-
-
-Iterate and create a new object (limited functionality):
-```javascript
-const person = { name: "Alice", age: 30 };
-const details = { city: "New York" };
-
-const weakMap = new WeakMap();
-weakMap.set(person, details);
-
-const obj = {}; // Create a new object to hold extracted data
-for (const [key, value] of weakMap.entries()) {
-  // Key will be inaccessible due to weak reference nature
-  obj[ /* key reference (not possible) */ ] = value; // Add value to the new object
-}
-
-console.log(obj); // Output: {} (keys cannot be retrieved)
-```
-##### Explanation:
-- Due to weak references in WeakMaps, iterating over entries doesn't provide access to the original keys.
-- This approach creates a new object and adds the values from the WeakMap, but the keys are lost because they cannot be strongly referenced.
-
-### Time Complexity: O(n)
-Iterating over entries in a WeakMap involves iterating over all key-value pairs in the WeakMap, which has a linear time complexity relative to the number of entries in the WeakMap.
-
-Convert values to a suitable structure if possible:
-```javascript
-const person = { name: "Alice", age: 30 };
-const details = { city: "New York" };
-
-const weakMap = new WeakMap();
-weakMap.set(person, details);
-
-// Assuming values are simple objects or primitives
-const valuesArray = Array.from(weakMap.values()); // Extract values as an array
-
-console.log(valuesArray); // Output: [{ city: "New York" }] (if values are suitable for conversion)
-```
-##### Explanation:
-- If the values in the WeakMap are simple objects or primitives, you might be able to convert them to a suitable structure like an array.
-This approach depends on the type of data stored in the WeakMap.
-
-### Time Complexity: O(n)
-Converting the values of a WeakMap to a suitable structure, like an array, involves iterating over all values in the WeakMap, which has a linear time complexity relative to the number of entries in the WeakMap.
-
-</p>
-</details>
-
-###### 75. How do you convert an object to a WeakSet object in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
-
-Using the WeakSet constructor with iterable of objects:
-```javascript
-const set1 = new Set(["apple", "banana", "orange"]); // Regular Set (strong references)
-const weakSet = new WeakSet(set1); // Convert elements to weakly referenced objects
-
-console.log(weakSet.has(set1)); // Output: false (original set object not in WeakSet)
-
-const apple = { name: "apple" }; // Create a new object
-weakSet.add(apple);
-
-console.log(weakSet.has(apple)); // Output: true (new object with weak reference added)
-```
-##### Explanation:
-- The WeakSet constructor creates a collection of weakly referenced objects.
-- You can pass an iterable (like an array or another Set) containing the objects to the constructor.
-- However, it's important to note that the original objects in the iterable are not stored in the WeakSet. Weak references are created for the objects themselves.
-
-### Time Complexity
-- Creation: O(n), where n is the number of elements in the iterable passed to the WeakSet constructor.
-- Adding: O(1)
-- Checking Membership: O(1)
-
-##### Explanation:
-- Creating a WeakSet from an iterable involves iterating over the elements in the iterable, resulting in a linear time complexity relative to the number of elements.
-- Adding an element to a WeakSet and checking for membership have constant time complexities, as they involve direct operations on the underlying data structure.
-
-</p>
-</details>
-
-###### 76. How do you convert a WeakSet object to an object in JavaScript?
-<details><summary><b>Solution</b></summary>
-<p>
-
-##### Important Note:
-- Directly converting a WeakSet to a standard JavaScript object isn't possible. Similar to WeakMaps, WeakSets hold weak references to objects, and these references cannot be easily converted to a standard object structure.
-
-Iterate and potentially convert values (limited functionality):
-```javascript
-const apple = { name: "apple" };
-const banana = { name: "banana" };
-
-const weakSet = new WeakSet([apple, banana]);
-
-const obj = []; // Create an array to hold converted values (if possible)
-for (const value of weakSet.values()) {
-  // `value` will be the weakly referenced object
-  obj.push( /* convert value if possible */ value); // Limited conversion based on value type
-}
-
-console.log(obj); // Output: [ /* Converted values or original objects */ ] (conversion depends on value type)
-```
-##### Explanation:
-The code attempts to iterate over a WeakSet and convert its values into a different format, storing them in an array. However, due to the weakly referenced nature of the objects in a WeakSet, direct conversion is limited. The success of conversion depends on the structure and content of the objects. The resulting array (obj) will contain the converted values if successful, or the original objects if conversion fails.
-
-### Time Complexity:
-- Iteration: O(n), where n is the number of elements in the WeakSet.
-- Explanation:
-    - Iterating over a WeakSet involves visiting each element once, resulting in a time complexity linear to the number of elements in the WeakSet.
 
 </p>
 </details>
