@@ -1564,20 +1564,64 @@ Time Complexity: O(n + m), where n is the number of properties in obj1 and m is 
 
 Using a loop for selective merging:
 ```javascript
-const obj1 = { name: "Alice", age: 30 };
-const obj2 = { city: "New York", age: 28 }; // Overwrites age from obj1
-const mergedObj = Object.assign({}, obj1, obj2);
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3, d: 4 };
 
-console.log(mergedObj); // Output: { name: "Alice", age: 28, city: "New York" }
+const merged = {};
+[obj1, obj2].forEach(obj => {
+    for (let key in obj) {
+        merged[key] = obj[key];
+    }
+});
+console.log(merged); // { a: 1, b: 2, c: 3, d: 4 }
 ```
 
-Time Complexity: O(n + m), where n is the number of properties in obj1 and m is the number of properties in obj2. The loop or Object.assign function iterates over all properties of the source objects to copy them into the target object. Note: The code provided here for "loop for selective merging" is the same as Object.assign, thus it has the same complexity.
+Time Complexity: O(n) - Merge objects by iterating over them and copying their key-value pairs into a new object. The time complexity for this method is O(n), where n is the total number of key-value pairs in all objects.
+
+Using a library like Lodash: 
+```javascript
+const _ = require('lodash');
+
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3, d: 4 };
+
+const merged = _.merge({}, obj1, obj2);
+console.log(merged); // { a: 1, b: 2, c: 3, d: 4 }
+```
+
+Time Complexity: O(n) - The time complexity of _.merge() can be considered to be O(n), where n is the total number of key-value pairs in all objects being merged. This is because the function needs to iterate over each key-value pair in all objects to perform the merge operation. However, the exact time complexity may vary depending on the size and structure of the objects being merged.
+
+Using Object.assign() with Array.reduce() (for merging multiple objects):
+```javascript
+const objs = [{ a: 1 }, { b: 2 }, { c: 3 }];
+const merged = objs.reduce((acc, obj) => Object.assign(acc, obj), {});
+// merged: { a: 1, b: 2, c: 3 }
+```
+
+Time Complexity: O(n*m), where n is the total number of key-value pairs in all objects and m is the number of objects being merged. This is because reduce() iterates over each object and Object.assign() copies key-value pairs.
+
+Using a Loop:
+```javascript
+const objs = [{ a: 1 }, { b: 2 }, { c: 3 }];
+const merged = {};
+for (let obj of objs) {
+  for (let key in obj) {
+    merged[key] = obj[key];
+  }
+}
+// merged: { a: 1, b: 2, c: 3 }
+```
+
+Time Complexity: O(n*m), similar to the reduce approach, this approach iterates over each object and key-value pair.
 
 Summary:
 
 - Using Spread Syntax: O(n + m)
 - Using Object.assign: O(n + m)
-- Using a Loop for Selective Merging: O(n + m)
+- Using a Loop for Selective Merging: O(n)
+- Using a library like Lodash: O(n)
+- Using Object.assign() with Array.reduce() (for merging multiple objects): O(n*m)
+- Using a Loop: O(n*m)
 
 </p>
 </details>
