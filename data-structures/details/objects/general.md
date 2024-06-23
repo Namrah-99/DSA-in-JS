@@ -321,7 +321,8 @@ Therefore, the overall time complexity is O(n + m), which simplifies to O(n) if 
 The time complexity of Lodash's _.isEqual function is O(n), where n is the number of properties in the objects being compared. Lodash's _.isEqual function is optimized for deep comparison, including handling circular references, arrays, and nested objects efficiently.
 
 #### 3. Using a Custom Recursive Function
-The time complexity of a custom recursive function for deep equality comparison depends on the implementation, but generally, it can be approximated as O(n), where n is the number of properties in the objects being compared. This assumes a well-implemented function that checks all properties recursively.
+- The time complexity of a custom recursive function for deep equality comparison depends on the implementation, but generally, it can be approximated as O(n), where n is the number of properties in the objects being compared. This assumes a well-implemented function that checks all properties recursively.
+- The time complexity of the deepEqual function is O(n) in the worst case, where n is the total number of properties in the objects being compared. This complexity arises because each property of the object and its sub-objects are compared recursively. Additionally, the use of `Object.keys()` and `Array.includes()` both have a time complexity of O(m), where m is the number of keys, making the overall complexity proportional to the size of the nested structure.
 
 In summary:
 
