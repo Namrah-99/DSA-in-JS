@@ -218,7 +218,7 @@ const lastIndexOfE = letters.lastIndexOf("e"); // 4
 </p>
 </details>
 
-###### 6. How can you find the index of an element in an array?
+###### 6. How can you remove the element at specific index from an array in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -257,7 +257,7 @@ const newArray = array.filter((_, index) => index !== 2); // Remove element at i
 </p>
 </details>
 
-###### 7. How can you find the index of an element in an array?
+###### 7. How do you merge two arrays into one in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
@@ -296,7 +296,7 @@ const combinedColors2 = colors1.concat(colors2); // ["red", "green", "blue", "pu
 </p>
 </details>
 
-###### 8. How can you find the index of an element in an array?
+###### 8. How do you sort an array of numbers in both ascending and descending order in JavaScript?
 <details><summary><b>Solution</b></summary>
 <p>
 
