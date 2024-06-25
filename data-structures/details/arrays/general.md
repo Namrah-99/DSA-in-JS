@@ -3913,14 +3913,15 @@ Both methods have a linear time complexity, but filter() is generally faster bec
 <p>
 
 ```javascript
+const array = [2,6,7,3,9,5,1,7];
 // Method 1: Using slice() and reverse():
-const nthElementFromEnd = array.slice().reverse()[n - 1];
-console.log(nthElementFromEnd);
+const nthElementFromEnd = array.slice().reverse()[4 - 1];
+console.log(nthElementFromEnd); // 9
 
 
 // Method 2: Using length:
-const nthElementFromEnd2 = array[array.length - n];
-console.log(nthElementFromEnd2);
+const nthElementFromEnd2 = array[array.length - 4];
+console.log(nthElementFromEnd2); // 9
 ```
 
 ### Time Complexity
@@ -3949,24 +3950,12 @@ const actualSum = numbers.reduce((sum, num) => sum + num, 0);
 
 console.log("Missing number:", expectedSum - actualSum);
 
-// Method 2: Use Array Methods and Filtering
-const numbers = [1, 2, 3, 5]; // Missing number is 4
-
-const expectedLength = numbers.length + 1; // Calculate expected length
-const actualLength = new Set(numbers).size; // Get the actual number of unique elements
-
-const missingNumber = expectedLength > actualLength
-  ? 1 // Missing number is at index 0 (assuming sequence starts from 1)
-  : numbers.filter((num, i) => num !== (i + 1)).pop(); // Find element not matching expected index + 1
-
-console.log("Missing number:", missingNumber);
-
-// Method 3: XOR method
+// Method 2: XOR method
 const numbers = [1, 2, 3, 5]; // Missing number is 4
 function findMissingNumber(arr) {
-    let missing = arr.length + 1;
+    let missing = arr.length + 1; // expected length of the array if no number is missing
     for (let i = 0; i < arr.length; i++) {
-        missing ^= (i + 1) ^ arr[i];
+        missing ^= (i + 1) ^ arr[i]; // XORs missing with (i + 1) (the expected value at that index) and with arr[i] (the actual value at that index)
     }
     return missing;
 }
@@ -3974,19 +3963,96 @@ console.log(findMissingNumber(numbers));
 ```
 
 ### Time Complexity
-#### Method 1:  reduce with Expected Sum
+#### Method 1: reduce with Expected Sum
   - Time Complexity: O(n)
   - The reduce() method iterates through the numbers array, adding each element to the sum. This operation takes O(n) time, where n is the length of the array.
 
-#### Method 2: Use Array Methods and Filtering
+#### Method 2: XOR method
   - Time Complexity: O(n)
-  - The filter() method iterates through the numbers array, checking each element against the condition (num !== (i + 1)). This operation also takes O(n) time, where n is the length of the array.
-
-#### Method 3: XOR method
-  - Time Complexity: O(n)
+  - Explanation: The function uses an XOR operation (^=) to find the missing number. XORing a number with itself results in 0, and XORing a number with 0 results in the number itself. By XORing all the numbers in the array with their expected values in the sequence, the missing number will remain.
   - The findMissingNumber() function uses a for loop to iterate through the arr array, performing a bitwise XOR operation at each iteration. This operation also takes O(n) time, where n is the length of the array.
 
-All three methods have a linear time complexity, with Method 1 being slightly more efficient because it only requires a single pass through the array. However, for small arrays, the difference in performance may not be noticeable.
+#### Method 3: Using Arithmetic Progression Formula
+  - Time Complexity: O(n)
+```javascript
+function findMissingNumber(arr) {
+  const n = arr.length + 1;
+  const expectedSum = (n * (n + 1)) / 2;
+  const actualSum = arr.reduce((acc, curr) => acc + curr, 0);
+  return expectedSum - actualSum;
+}
+
+const numbers = [1, 2, 3, 5, 6, 7, 8];
+console.log(findMissingNumber(numbers)); // Output: 4
+````
+
+#### Method 4: Using XOR Operation
+  - Time Complexity: O(n)
+```javascript
+function findMissingNumber(arr) {
+  const n = arr.length + 1;
+  let xor = 0;
+  for (let i = 1; i <= n; i++) {
+    xor ^= i;
+  }
+  for (let i = 0; i < arr.length; i++) {
+    xor ^= arr[i];
+  }
+  return xor;
+}
+
+const numbers = [1, 2, 3, 5, 6, 7, 8];
+console.log(findMissingNumber(numbers)); // Output: 4
+```
+
+#### Method 5: Using Set
+  - Time Complexity: O(n)
+```javascript
+function findMissingNumber(arr) {
+  const n = arr.length + 1;
+  const set = new Set(arr);
+  for (let i = 1; i <= n; i++) {
+    if (!set.has(i)) {
+      return i;
+    }
+  }
+  return -1; // If no missing number found
+}
+
+const numbers = [1, 2, 3, 5, 6, 7, 8];
+console.log(findMissingNumber(numbers)); // Output: 4
+```
+
+#### Method 6: Using Gauss's Formula
+  - Time Complexity: O(1)
+```javascript
+function findMissingNumber(arr) {
+  const n = arr.length + 1;
+  const expectedSum = (n * (n + 1)) / 2;
+  const actualSum = arr.reduce((acc, curr) => acc + curr, 0);
+  return expectedSum - actualSum;
+}
+
+const numbers = [1, 2, 3, 5, 6, 7, 8];
+console.log(findMissingNumber(numbers)); // Output: 4
+```
+
+#### Method 7: Using Sorting
+  - Time Complexity: O(n log n)
+```javascript
+function findMissingNumber(arr) {
+  arr.sort((a, b) => a - b);
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] !== i + 1) {
+      return i + 1;
+    }
+  }
+  return arr.length + 1; // If no missing number found
+}
+
+const numbers = [1, 2, 3, 5, 6, 7, 8];
+console.log(findMissingNumber(numbers)); // Output: 4
+```
 </p>
 </details>
 
@@ -4046,42 +4112,90 @@ Here's a breakdown of the time complexity:
 <details><summary><b>Solution</b></summary>
 <p>
 
+#### Method 1: Using map and split
+This method uses Array.prototype.map to iterate through each string and String.prototype.split to convert each string into an array of characters.
+
 ```javascript
-// Method 1:  map and split:
-const words = ["apple", "banana", "apple", "orange", "banana"];
-function convertTo2DArray(arr) {
-    return arr.map(str => str.split(''));
-}
-console.log(convertTo2DArray(words))
-
-// Method 2: Nested for...of Loops:
 const stringArray = ["hello", "world"];
+const char2DArray = stringArray.map(str => str.split(''));
 
-const charArray = [];
-for (const str of stringArray) {
-  const charSubArray = [];
-  for (const char of str) {
-    charSubArray.push(char);  // Add each character to the sub-array
-  }
-  charArray.push(charSubArray); // Add the sub-array of characters to the main array
-}
-
-console.log(charArray); // [["h", "e", "l", "l", "o"], ["w", "o", "r", "l", "d"]]
+console.log(char2DArray);
+// Output: [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
 ```
 
-- Method 1: This method iterates through the string array, using map to create a new array where each element is a sub-array of characters obtained by splitting the original string.
-- Method 3: This method iterates through the string array using outer and inner loops. The outer loop iterates through each string, and the inner loop iterates through each character, creating a new sub-array for each string.
+#### Method 2: Using forEach and split
+This method uses Array.prototype.forEach to iterate through each string and String.prototype.split to convert each string into an array of characters. The resulting arrays are then pushed into a new 2D array.
 
-### Time Complexity
-#### Method 1: map and split
-  - Time Complexity: O(nm)
-  - The map() function iterates through the words array, and for each element, it calls the split() function, which iterates through the string and creates an array of characters. Therefore, the total time complexity is O(nm), where n is the length of the words array and m is the average length of a string in the array.
+```javascript
+const stringArray = ["hello", "world"];
+const char2DArray = [];
 
-#### Method 2: Nested for...of Loops
-  - Time Complexity: O(nm)
-  - The outer loop iterates through the stringArray (n times), and for each iteration, it iterates through each character of the string (m times) using the inner loop. Therefore, the total time complexity is also O(nm), where n is the length of the stringArray and m is the average length of a string in the array.
+stringArray.forEach(str => {
+  char2DArray.push(str.split(''));
+});
 
-In both methods, the time complexity is quadratic because they both involve iterating through the input array and then iterating through each element of that array to create a new 2D array.
+console.log(char2DArray);
+// Output: [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
+```
+
+#### Method 3: Using a for loop and split
+This method uses a traditional for loop to iterate through each string and String.prototype.split to convert each string into an array of characters.
+
+```javascript
+const stringArray = ["hello", "world"];
+const char2DArray = [];
+
+for (let i = 0; i < stringArray.length; i++) {
+  char2DArray.push(stringArray[i].split(''));
+}
+
+console.log(char2DArray);
+// Output: [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
+```
+
+#### Method 4: Using reduce and split
+This method uses Array.prototype.reduce to build the 2D array of characters by converting each string into an array of characters using String.prototype.split and accumulating the results.
+
+```javascript
+const stringArray = ["hello", "world"];
+const char2DArray = stringArray.reduce((acc, str) => {
+  acc.push(str.split(''));
+  return acc;
+}, []);
+
+console.log(char2DArray);
+// Output: [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
+```
+
+#### Method 5: Using map with a function
+This method defines a function to convert a string to an array of characters and then uses Array.prototype.map to apply this function to each string in the array.
+
+```javascript
+const stringArray = ["hello", "world"];
+
+function stringToCharArray(str) {
+  return str.split('');
+}
+
+const char2DArray = stringArray.map(stringToCharArray);
+
+console.log(char2DArray);
+// Output: [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
+```
+
+#### Method 6: Using Array.from
+This method uses Array.from to create an array from each string, effectively converting it to an array of characters.
+
+```javascript
+const stringArray = ["hello", "world"];
+const char2DArray = stringArray.map(str => Array.from(str));
+
+console.log(char2DArray);
+// Output: [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
+```
+
+All these methods have a time complexity of O(n), where n is the total number of characters in all strings combined, because each character in the input strings is processed exactly once. Choose the one that best fits your coding style or the specific constraints of your project.
+
 </p>
 </details>
 
@@ -4089,8 +4203,18 @@ In both methods, the time complexity is quadratic because they both involve iter
 <details><summary><b>Solution</b></summary>
 <p>
 
+The idea is to concatenate one of the arrays with itself and then check if the other array is a subarray of this concatenated array.
+
+This code effectively determines if two arrays are circularly identical by checking for the pattern of one array within the other array at different starting positions using a combined array.
+
+Strategy:
+
+- Concatenate One Array with Itself: By concatenating one array with itself, you create a larger array that contains all possible rotations of the original array. For example, if you have an array [1, 2, 3, 4] and you concatenate it with itself, you get [1, 2, 3, 4, 1, 2, 3, 4].
+
+- Check for the Other Array as a Subarray: Once you have the concatenated array, you can check if the other array is a subarray (a continuous sequence of elements) within this larger array. If the other array is a subarray of the concatenated array, it means that the two arrays are circularly identical. For example, if the other array is [3, 4, 1, 2], you can find this sequence within [1, 2, 3, 4, 1, 2, 3, 4].
+
+#### Method 1:
 ```javascript
-// Method 1: 
 function areCircularlyIdentical(arr1, arr2) {
   // Check if lengths are equal, otherwise not circularly identical
   if (arr1.length !== arr2.length) {
@@ -4130,36 +4254,7 @@ const arr2 = [5, 6, 4];
 const areIdentical = areCircularlyIdentical(arr1, arr2);
 console.log("Arrays are circularly identical:", areIdentical);
 
-// Method 2: 
-function areCircularlyIdentical(arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-
-  const combined = arr1.concat(arr1);
-
-  for (let i = 0; i < arr1.length; i++) {
-    const sliced = combined.slice(i, i + arr2.length); // Get sub-array of length arr2.length
-    if (sliced.every((element, index) => element === arr2[index])) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// Example usage
-const arr1 = [1, 2, 3];
-const arr2 = [2, 3, 1];
-
-const areIdentical = areCircularlyIdentical(arr1, arr2);
-console.log("Arrays are circularly identical:", areIdentical); // Output: true
 ```
-
-This code effectively determines if two arrays are circularly identical by checking for the pattern of one array within the other array at different starting positions using a combined array.
-
-### Time Complexity
-#### Method 1:
 The time complexity for Method 1 is O(n*m), where n is the length of the first array and m is the length of the second array. 
 
 Here's a breakdown:
@@ -4168,16 +4263,89 @@ Here's a breakdown:
 - The inner loop also iterates through the second array (of length m), so that's O(m).
 - Since these are nested, the total time complexity is O(n*m).
 
-#### Method 2:
-The time complexity for Method 2 is also O(n*m), where n is the length of the first array and m is the length of the second array. 
+#### Method 2: Using Array.prototype.join and String.prototype.includes
+This method converts the arrays to strings and checks if the string representation of the second array is a substring of the concatenated string of the first array.
 
-Here's a breakdown:
+```javascript
+function areCircularlyIdentical(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  const str1 = arr1.join(',');
+  const str2 = arr2.join(',');
+  return (str1 + ',' + str1).includes(str2);
+}
 
-- The outer loop iterates through the first array (of length n), so that's O(n).
-- The inner loop iterates through a sub-array of length m, so that's O(m).
-- Since these are nested, the total time complexity is O(n*m).
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 1, 2];
+console.log(areCircularlyIdentical(arr1, arr2)); // true
+```
+#### Method 3: Using Array.prototype.concat and Array.prototype.slice
+This method concatenates the first array with itself and checks if the second array is a subarray of this concatenated array.
 
-In both methods, the time complexity is quadratic because they both involve iterating through the input arrays in a nested manner.
+```javascript
+function areCircularlyIdentical(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  const concatenated = arr1.concat(arr1);
+  for (let i = 0; i < arr1.length; i++) {
+    if (concatenated.slice(i, i + arr2.length).every((val, index) => val === arr2[index])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 1, 2];
+console.log(areCircularlyIdentical(arr1, arr2)); // true
+```
+#### Method 4: Using Array.prototype.join and String.prototype.indexOf
+This method converts the arrays to strings and uses indexOf to check if the string representation of the second array is a substring of the concatenated string of the first array.
+
+```javascript
+function areCircularlyIdentical(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  const str1 = arr1.join(',');
+  const str2 = arr2.join(',');
+  return (str1 + ',' + str1).indexOf(str2) !== -1;
+}
+
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 1, 2];
+console.log(areCircularlyIdentical(arr1, arr2)); // true
+```
+#### Method 5: Using Array.prototype.every
+This method iterates through possible starting positions and checks if all elements in the second array match the elements in the first array starting from that position.
+
+```javascript
+function areCircularlyIdentical(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1.every((val, index) => val === arr2[(index + i) % arr2.length])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 1, 2];
+console.log(areCircularlyIdentical(arr1, arr2)); // true
+```
+#### Method 6: Using Array.prototype.reduce
+This method checks if the second array is a rotation of the first array by checking all rotations using reduce.
+```javascript
+function areCircularlyIdentical(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  const concatenated = arr1.concat(arr1);
+  return concatenated.reduce((isIdentical, _, i) => 
+    isIdentical || (i <= arr1.length && arr2.every((val, j) => val === concatenated[i + j])), false);
+}
+
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 1, 2];
+console.log(areCircularlyIdentical(arr1, arr2)); // true
+```
+These methods efficiently check if two arrays are circularly identical with a time complexity of O(n), where n is the length of the arrays. Choose the method that best fits your needs and coding style.
+
 </p>
 </details>
 
