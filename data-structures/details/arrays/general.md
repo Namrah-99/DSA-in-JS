@@ -3259,6 +3259,28 @@ for (let i = 0; i < numbers.length; i++) {
 }
 
 console.log(firstNonRepeatingIndex !== null ? firstNonRepeatingIndex : -1); // 2 (or -1 if no non-repeating element)
+
+// Method 3: Using Map
+function firstNonRepeatingIndex(arr) {
+  const frequencyMap = new Map();
+
+  // First pass: count frequencies
+  for (const num of arr) {
+    frequencyMap.set(num, (frequencyMap.get(num) || 0) + 1);
+  }
+
+  // Second pass: find the first element with frequency of 1
+  for (let i = 0; i < arr.length; i++) {
+    if (frequencyMap.get(arr[i]) === 1) {
+      return i;
+    }
+  }
+
+  return -1; // If no non-repeating element is found
+}
+
+const array = [2, 3, 4, 2, 3, 4, 5];
+console.log(firstNonRepeatingIndex(array)); // Output: 6
 ```
 
 Method 2: The second approach iterates through the array, building a frequency object. Then, it iterates through the array again to find the index of the first element with a count of 1 (meaning it appears only once).
@@ -3373,40 +3395,66 @@ In all three methods, the time complexity is linear, but Method 2 is more effici
 <details><summary><b>Solution</b></summary>
 <p>
 
+#### 1. Using filter()
+The filter() method creates a new array with all elements that pass the test implemented by the provided function. This method runs in O(n) time complexity.
+
 ```javascript
 const array = [1, 2, 3, 4, 5, 6];
+const condition = num => num % 2 === 0; // Condition to keep only even numbers
 
-// Method 1: Using filter()
-const filteredArray = array.filter(item => item % 2 === 0);
+const filteredArray = array.filter(item => !condition(item));
+console.log(filteredArray); // [1, 3, 5]
+```
+#### 2. Using a single pass with push()
+Create a new array and push elements that do not satisfy the condition. This approach runs in O(n) time complexity.
 
-console.log(filteredArray); // [2, 4, 6]
+```javascript
+const array = [1, 2, 3, 4, 5, 6];
+const condition = num => num % 2 === 0; // Condition to remove even numbers
 
-// Method 2: Loops through the array and uses splice
-const numbers = [10, 20, 30, 40, 50];
-const condition = num => num < 30; // Remove elements less than 30
-
-let i = 0; // Index to keep track of modified array
-while (i < numbers.length) {
-  if (condition(numbers[i])) {
-    numbers.splice(i, 1); // Remove the element at index i (1 element)
-  } else {
-    i++; // Move to the next element if not removed
+const result = [];
+for (let i = 0; i < array.length; i++) {
+  if (!condition(array[i])) {
+    result.push(array[i]);
   }
 }
 
-console.log(numbers); // [30, 40, 50]
+console.log(result); // [1, 3, 5]
 ```
+#### 3. Using reduce()
+The reduce() method applies a function against an accumulator and each element in the array to reduce it to a single value. This method can also be used to filter out elements, running in O(n) time complexity.
 
-- Method 2: A loop iterates through the array.
-    - If the current element (numbers[i]) satisfies the condition (condition(numbers[i])), splice is used to remove that element at index i (removing 1 element).
-    - If the condition is not met, the i index is incremented to move to the next element.
-    - This process continues until the entire array is scanned.
+```javascript
+const array = [1, 2, 3, 4, 5, 6];
+const condition = num => num % 2 === 0; // Condition to remove even numbers
 
-### Time Complexity
-#### Method 2: A loop iterates through the array.
-  - If the current element (numbers[i]) satisfies the condition (condition(numbers[i])), splice is used to remove that element at index i (removing 1 element).
-  - If the condition is not met, the i index is incremented to move to the next element.
-  - This process continues until the entire array is scanned.
+const filteredArray = array.reduce((acc, item) => {
+  if (!condition(item)) {
+    acc.push(item);
+  }
+  return acc;
+}, []);
+
+console.log(filteredArray); // [1, 3, 5]
+```
+#### 4. Using forEach()
+This method iterates over each element in the array and pushes elements that do not satisfy the condition to a new array. This also runs in O(n) time complexity.
+
+```javascript
+const array = [1, 2, 3, 4, 5, 6];
+const condition = num => num % 2 === 0; // Condition to remove even numbers
+
+const result = [];
+array.forEach(item => {
+  if (!condition(item)) {
+    result.push(item);
+  }
+});
+
+console.log(result); // [1, 3, 5]
+```
+#### Summary:
+All the above methods have a time complexity of O(n), where n is the number of elements in the array. The filter() method is the most concise and idiomatic solution in JavaScript, while other methods provide more flexibility for additional processing within the loop.
 
 </p>
 </details>
