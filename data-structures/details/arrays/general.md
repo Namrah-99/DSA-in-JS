@@ -3818,12 +3818,16 @@ const rotateBy2 = 2;
 array2.unshift(...array2.splice(-rotateBy2));
 console.log(array2);
 
-// Method 3: Using forEach
-const newArray2 = [];const array = [1, 2, 3, 4, 5];
-array.forEach(element => {
-  newArray2.push(element === 3 ? 10 : element);
-});
-console.log(newArray2); // [1, 2, 10, 4, 5]
+// Method 3: Using reverse()
+const rotateArray = (arr, k) => {
+  k = k % arr.length; // ensures that k is reduced to a value within the range of 0 to arr.length - 1
+  return [...arr.slice(-k), ...arr.slice(0, -k)];
+};
+
+const array3 = [1, 2, 3, 4, 5];
+const rotateBy3 = 2;
+const rotatedArray3 = rotateArray(array3, rotateBy3);
+console.log(rotatedArray3); // [4, 5, 1, 2, 3]
 ```
 
 - Method 1: slice and concat
@@ -3838,9 +3842,9 @@ console.log(newArray2); // [1, 2, 10, 4, 5]
 - Time Complexity: O(1)
 - Explanation: The splice() method removes and returns a part of the original array (from the end), which is stored in a new variable. The unshift() method adds an element at the beginning of this new array. This operation takes constant time, O(1).
 
-#### Method 3: Using foreach
+#### Method 3: Using reverse()
 - Time Complexity: O(n)
-- Explanation: The forEach() method iterates through each element of the original array and adds it to a new array if it's not equal to 3. This operation takes O(n) time, where n is the length of the original array.
+- Explanation: This method uses a custom function that utilizes slice() to rotate the array by the specified positions.
 
 Note that in Method 2, splice() and unshift() operations take constant time, but overall the operation takes O(1) time because they are performed only once.
 </p>
