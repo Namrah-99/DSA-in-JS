@@ -2241,51 +2241,27 @@ Method 2: reduce with object creation: Creates an object to store element counts
 <details><summary><b>Solution</b></summary>
 <p>
 
+- Similar to finding the most common element, this approach iterates through the array, building a frequency object.
+- It then iterates through the frequency object to find the element with the lowest count (least common).
+
+#### Method 1: Using the reduce method and an object to store frequencies
 ```javascript
+const array = [10, 20, 30, 10, 10, 20, 40];
+
 // Method 1: Using the reduce method and an object to store frequencies
 const freq = array.reduce((acc, curr) => {
   acc[curr] = (acc[curr] || 0) + 1;
   return acc;
 }, {});
-const leastCommon = Object.keys(freq).reduce((a, b) => freq[a] < freq[b] ? a : b);
-
-// Method 2: Object to store frequency and finding the min frequency
-const numbers = [10, 20, 30, 10, 10, 20, 40];
-
-const frequency = {};
-for (const num of numbers) {
-  frequency[num] = (frequency[num] || 0) + 1; // Initialize count if not present
-}
-
-let leastCommon = null;
-let minCount = Infinity; // Initialize with a high value
-for (const num in frequency) {
-  if (frequency[num] < minCount) {
-    leastCommon = num;
-    minCount = frequency[num];
-  }
-}
-
-console.log(leastCommon); // 40 (assuming all elements appear at least once)
-```
-
-- Similar to finding the most common element, this approach iterates through the array, building a frequency object.
-- It then iterates through the frequency object to find the element with the lowest count (least common).
-
-### Time Complexity
-#### Method 1: Using the reduce method and an object to store frequencies
-```javascript
-const freq = array.reduce((acc, curr) => {
-  acc[curr] = (acc[curr] || 0) + 1;
-  return acc;
-}, {});
-const leastCommon = Object.keys(freq).reduce((a, b) => freq[a] < freq[b] ? a : b);
+const leastCommon1 = Object.keys(freq).reduce((a, b) => freq[a] < freq[b] ? a : b);
+console.log(leastCommon1);
 ```
 - Time Complexity: O(n)
 - Explanation: In this method, the array is iterated over once using the reduce method to create an object with frequencies. This operation has a time complexity of O(n). The subsequent reduction to find the least common element also has a time complexity of O(n) since it iterates over the keys of the frequency object. Overall, the time complexity is O(n).
 
 #### Method 2: Object to store frequency and finding the min frequency
 ```javascript
+// Method 2: Object to store frequency and finding the min frequency
 const numbers = [10, 20, 30, 10, 10, 20, 40];
 
 const frequency = {};
@@ -2307,6 +2283,71 @@ console.log(leastCommon); // 40 (assuming all elements appear at least once)
 - Time Complexity: O(n)
 - Explanation: This method also uses a single loop to iterate over the array and create a frequency object. The subsequent loop to find the least common element also has a time complexity of O(n) since it iterates over the keys of the frequency object. Overall, the time complexity is O(n).
 
+#### Method 3: Using a Single Pass to Track Minimum Frequency While Building the Frequency Map
+```javascript
+// Method 3: Using a Single Pass to Track Minimum Frequency While Building the Frequency Map
+function findLeastCommonElement(arr) {
+  const frequency = {};
+  let leastCommon = null;
+  let minCount = Infinity;
+
+  // Build the frequency map and find the element with the minimum frequency in one pass
+  arr.forEach(num => {
+    frequency[num] = (frequency[num] || 0) + 1;
+    if (frequency[num] < minCount) {
+      minCount = frequency[num];
+      leastCommon = num;
+    }
+  });
+
+  // Check again in case of last entry for the minimum frequency
+  for (const num in frequency) {
+    if (frequency[num] === minCount) {
+      leastCommon = num;
+      break;
+    }
+  }
+
+  return leastCommon;
+}
+
+const numbers = [10, 20, 30, 10, 10, 20, 40];
+console.log(findLeastCommonElement(numbers)); // Output: 30 or 40
+```
+
+#### Method 4: Using Map for Improved Readability
+```javascript
+function findLeastCommonElement(arr) {
+  const frequency = new Map();
+
+  // Step 1: Build the frequency map
+  arr.forEach(num => {
+    frequency.set(num, (frequency.get(num) || 0) + 1);
+  });
+
+  // Step 2: Find the element with the minimum frequency
+  let leastCommon = null;
+  let minCount = Infinity;
+
+  frequency.forEach((count, num) => {
+    if (count < minCount) {
+      leastCommon = num;
+      minCount = count;
+    }
+  });
+
+  return leastCommon;
+}
+
+const numbers = [10, 20, 30, 10, 10, 20, 40];
+console.log(findLeastCommonElement(numbers)); // Output: 30 or 40
+```
+
+#### Time Complexity
+
+All these solutions have a linear time complexity of `O(n)` because:
+- Building the frequency map takes O(n) time.
+- Finding the element with the minimum frequency in the map takes O(n) time, but it can be done in a single pass for efficiency.
 
 </p>
 </details>
@@ -2403,7 +2444,6 @@ console.log(filteredNumbers); // [20, 30]
 
 
 // Method 2: splice() (with caution): Removes elements from an array and (optionally) replaces them with other elements. It modifies the original array, so use it with care.
-JavaScript
 const numbers = [10, 20, 30, 10, 10];
 numbers.splice(1, 2); // Remove 20 and 30 (starting from index 1)
 
@@ -2517,6 +2557,21 @@ const mergedArray = array1.concat(array2, array3);
 
 // Method 2: Using the spread operator
 const mergedArray = [...array1, ...array2, ...array3];
+
+// Method 3: Using Array.prototype.concat
+const arrays = [[1, 2], [3, 4], [5, 6]];
+const mergedArray = [].concat.apply([], arrays);
+console.log(mergedArray); // Output: [1, 2, 3, 4, 5, 6]
+
+// Method 4: Using Array.prototype.flat
+const arrays = [[1, 2], [3, 4], [5, 6]];
+const mergedArray = arrays.flat();
+console.log(mergedArray); // Output: [1, 2, 3, 4, 5, 6]
+
+// Method 5: Using Array.prototype.reduce
+const arrays = [[1, 2], [3, 4], [5, 6]];
+const mergedArray = arrays.reduce((acc, curr) => acc.concat(curr), []);
+console.log(mergedArray); // Output: [1, 2, 3, 4, 5, 6]
 ```
 
 - concat(): Concatenates multiple arrays (spread syntax can be used for readability).
@@ -2539,6 +2594,15 @@ const mergedArray = [...array1, ...array2, ...array3];
 - Explanation:
     - The spread operator ... also creates a new array and iterates over each element of array1, array2, and array3 to copy them into the new array.
     - Similar to the concat method, if array1 has n elements, array2 has m elements, and array3 has p elements, the time complexity is O(n + m + p).
+
+Time Complexity Analysis
+All these solutions have a time complexity of O(n), where n is the total number of elements across all arrays. The steps involve iterating through each element exactly once and merging them into a new array.
+
+Here's why:
+- concat with apply: The concat method iterates through each array once, and apply ensures it is done in a single call.
+- Spread operator: The spread operator effectively spreads elements from each array into a new array, also iterating through each element once.
+- flat method: The flat method iterates through the nested arrays and flattens them in one pass.
+- reduce method: The reduce method accumulates elements from each array into a single array in one pass.
 </p>
 </details>
 
