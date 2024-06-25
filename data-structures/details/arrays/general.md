@@ -2620,7 +2620,6 @@ const difference = array2.filter(num => !array1.includes(num)); // [5, 6]
 console.log(difference); // [5, 6]
 
 // Method 2: Set difference: Utilizes the Set data structure to efficiently remove duplicates and find the difference.
-JavaScript
 const set1 = new Set(array1);
 const difference = array2.filter(num => !set1.has(num)); // [5, 6]
 
@@ -2822,39 +2821,7 @@ Method 1 is significantly more efficient than Method 2 for checking the uniquene
 <details><summary><b>Solution</b></summary>
 <p>
 
-```javascript
-// Method 1: Loop with counters: Iterates through the array, keeping track of the current sequence length and the longest sequence found so far.
-const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
-const value = 2;
-let currentCount = 0;
-let longestCount = 0;
-for (const num of numbers) {
-  if (num === value) {
-    currentCount++;
-  } else {
-    longestCount = Math.max(longestCount, currentCount);
-    currentCount = 0;
-  }
-}
-longestCount = Math.max(longestCount, currentCount); // Account for potential sequence at the end
-console.log(longestCount); // 3 (longest sequence of 2s)
-
-// Method 2: reduce with conditional accumulation: Uses reduce to iterate through the array and build the longest sequence length based on conditions.
-const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
-const value = 2;
-
-const longestCount = numbers.reduce((longest, num) => {
-  return (num === value) ? Math.max(longest + 1, 0) : longest; // Update or reset based on value
-}, 0); // Initialize longest with 0
-
-console.log(longestCount); // 3 (longest sequence of 2s)
-```
-
-- The first approach uses a loop with counters to track the current sequence length and the longest sequence encountered so far.
-- The second approach utilizes reduce to iterate and conditionally update the longest variable. If the current element matches the value, the longest is potentially extended by 1. Otherwise, it's reset to 0 to start counting a new sequence.
-
-### Time Complexity
-#### Method 1: Loop with Counters
+#### Solution 1: Loop with Counters
 ```javascript
 const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
 const value = 2;
@@ -2876,26 +2843,91 @@ console.log(longestCount); // 3 (longest sequence of 2s)
     - The for loop iterates through the array once, taking O(n) time, where n is the length of the array.
     - Inside the loop, the operations (conditional check, increment, assignment) are all O(1) constant-time operations.
     - Therefore, the overall time complexity is O(n).
-#### Method 2: Reduce with Conditional Accumulation
+
+#### Solution 2: Iterative Approach
+This approach iterates through the array once, tracking the length of the current consecutive sequence and updating the maximum length whenever the sequence is broken.
+
 ```javascript
-const numbers = [1, 2, 2, 3, 4, 2, 2, 2, 5];
-const value = 2;
+function longestConsecutiveSequence(arr, target) {
+  let maxLength = 0;
+  let currentLength = 0;
 
-const longestCount = numbers.reduce((longest, num) => {
-  return (num === value) ? Math.max(longest + 1, 0) : longest; // Update or reset based on value
-}, 0); // Initialize longest with 0
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      currentLength++;
+      if (currentLength > maxLength) {
+        maxLength = currentLength;
+      }
+    } else {
+      currentLength = 0;
+    }
+  }
 
-console.log(longestCount); // 3 (longest sequence of 2s)
+  return maxLength;
+}
+
+const array = [1, 2, 2, 2, 3, 2, 2, 2, 2, 4, 2, 2];
+const target = 2;
+console.log(longestConsecutiveSequence(array, target)); // Output: 4
 ```
-- Time Complexity: O(n)
-- Explanation:
-    - The reduce method iterates through the array once, taking O(n) time, where n is the length of the array.
-    - The operations inside the reduce callback (conditional check, arithmetic operations, and Math.max function) are all O(1) constant-time operations.
-    - Therefore, the overall time complexity is O(n).
-- Summary
-    - Method 1: Loop with Counters has a time complexity of O(n).
-    - Method 2: Reduce with Conditional Accumulation also has a time complexity of O(n).
-    - Both methods are efficient and have the same linear time complexity for finding the longest sequence of a specified value in an array.
+
+#### Solution 2: Using reduce Method
+The reduce method can be used to iterate through the array and track the consecutive sequence lengths.
+
+```javascript
+function longestConsecutiveSequence(arr, target) {
+  return arr.reduce((acc, val) => {
+    if (val === target) {
+      acc.currentLength++;
+      acc.maxLength = Math.max(acc.maxLength, acc.currentLength);
+    } else {
+      acc.currentLength = 0;
+    }
+    return acc;
+  }, { maxLength: 0, currentLength: 0 }).maxLength;
+}
+
+const array = [1, 2, 2, 2, 3, 2, 2, 2, 2, 4, 2, 2];
+const target = 2;
+console.log(longestConsecutiveSequence(array, target)); // Output: 4
+```
+
+#### Solution 3: Functional Programming with map and reduce
+Using map to create an array of lengths of consecutive sequences and then using reduce to find the maximum length.
+
+```javascript
+function longestConsecutiveSequence(arr, target) {
+  const lengths = arr.map((val, idx, array) => {
+    if (val !== target) return 0;
+    if (idx === 0 || array[idx - 1] !== target) {
+      let length = 1;
+      while (array[idx + length] === target) {
+        length++;
+      }
+      return length;
+    }
+    return 0;
+  });
+
+  return lengths.reduce((max, length) => Math.max(max, length), 0);
+}
+
+const array = [1, 2, 2, 2, 3, 2, 2, 2, 2, 4, 2, 2];
+const target = 2;
+console.log(longestConsecutiveSequence(array, target)); // Output: 4
+```
+
+### Time Complexity Analysis
+All of these solutions have a time complexity of O(n), where n is the length of the array. The steps involve iterating through the array once and performing constant-time operations during each iteration.
+
+Here's why:
+
+- Iterative Approach: Iterates through the array once, updating counters in constant time.
+- reduce Method: Processes each element once and updates the accumulators in constant time.
+- map and reduce Combination: The map method iterates through the array once, and the reduce method iterates through the resulting lengths once, making it linear overall.
+
+Each method efficiently tracks the longest consecutive sequence of the target value in linear time. Choose the method that best fits your coding style and preference.
+
 </p>
 </details>
 
