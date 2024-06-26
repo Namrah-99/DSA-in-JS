@@ -1,5 +1,7 @@
 ## Websites
 
+- https://frontendfreaks.vercel.app/batch/dsa/time-complexity
+
 - https://jschallenger.com/
 
 - https://neetcode.io/practice
@@ -21,4 +23,38 @@
 
 - https://www.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/#dsa-full-form
 
+- https://www.geeksforgeeks.org/data-structures/
+
+## Practice Problems form 
+- (General) https://alphagtest.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/
+- (General) https://leetcode.com/problemset/all-code-essentials/?page=1
+- (General) https://www.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/#dsa-full-form
 - 
+- https://www.geeksforgeeks.org/explore?page=1&sprint=94ade6723438d94ecf0c00c3937dad55&sortBy=submissions&sprint_name=Love%20Babbar%20Sheet
+
+- https://www.techinterviewhandbook.org/grind75
+
+- https://leetcode.com/studyplan/top-interview-150/
+
+- https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions
+
+- https://neetcode.io/practice
+
+- https://neetcode.io/practice
+
+- https://leetcode.com/explore/featured/card/top-interview-questions-easy/
+
+- https://leetcode.com/studyplan/top-100-liked/
+
+
+General Helping Material 
+
+- (Course) https://techdevguide.withgoogle.com/paths/data-structures-and-algorithms/?programming_languages=javascript 
+
+- (YT Channel) https://www.youtube.com/@WilliamFiset-videos/playlists
+
+- https://github.com/ashishps1/awesome-leetcode-resources?tab=readme-ov-file
+
+- https://www.coursera.org/learn/algorithms-part1
+
+- https://www.youtube.com/watch?v=t2CEgPsws3U
