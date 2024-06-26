@@ -58,3 +58,19 @@ General Helping Material
 - https://www.coursera.org/learn/algorithms-part1
 
 - https://www.youtube.com/watch?v=t2CEgPsws3U
+
+
+---
+
+### Final list
+- https://www.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/?ref=lbp
+- https://alphagtest.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/
+- https://www.geeksforgeeks.org/top-10-algorithms-in-interview-questions/
+
+- https://www.techinterviewhandbook.org/grind75
+- https://neetcode.io/practice
+- https://leetcode.com/studyplan/top-interview-150/
+- https://leetcode.com/studyplan/top-100-liked/
+- https://leetcode.com/discuss/general-discussion/460599/blind-75-leetcode-questions
+- https://leetcode.com/explore/featured/card/top-interview-questions-easy/
+
