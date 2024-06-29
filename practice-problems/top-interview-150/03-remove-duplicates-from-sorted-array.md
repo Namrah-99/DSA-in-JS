@@ -25,22 +25,41 @@ The approach to solving this problem efficiently is to use the `two-pointer tech
 
 ## Solution Code
 ```javascript
-var removeDuplicates = function(nums) {
-   if(!nums.length) return 0
-   
-   let i=0;
-   for(let j=1;j<nums.length;j++){
-       if(nums[j]!==nums[i]){
-           i++;
-           nums[i]=nums[j]
-       }
-   }
-   return i+1
+var removeDuplicates = function (nums) {
+    // If the array is empty, return 0 as there are no elements.
+    if (!nums.length) return 0
+    // Initialize a pointer i to keep track of the position of the last unique element.
+    let i = 0;
+
+    // Iterate through the array starting from the second element.
+    for (let j = 1; j < nums.length; j++) {
+        // If the current element is not equal to the element at position i,
+        // it means we have found a new unique element.
+        if (nums[j] !== nums[i]) {
+            // Move the pointer i to the next position.
+            i++;
+            // Update the position i with the new unique element.
+            nums[i] = nums[j];
+        }
+    }
+
+    // Return the count of unique elements, which is i + 1.
+    return i + 1;
 };
 
 // Example usage:
-console.log(removeDuplicates([1, 1, 2])); // Output: 2, nums = [1, 2, _]
-console.log(removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4])); // Output: 5, nums = [0, 1, 2, 3, 4, _, _, _, _, _]
+
+// Test case 1:
+// Input array has duplicates: [1, 1, 2]
+// After removing duplicates: [1, 2, _]
+// Output: 2 (number of unique elements)
+console.log(removeDuplicates([1, 1, 2])); // Output: 2
+
+// Test case 2:
+// Input array has duplicates: [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+// After removing duplicates: [0, 1, 2, 3, 4, _, _, _, _, _]
+// Output: 5 (number of unique elements)
+console.log(removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4])); // Output: 5
 ```
 ## Complexity Analysis
 #### Time Complexity
