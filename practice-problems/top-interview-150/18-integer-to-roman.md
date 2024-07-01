@@ -87,6 +87,24 @@ console.log(intToRoman(58)); // Output: "LVIII"
 console.log(intToRoman(1994)); // Output: "MCMXCIV"
 ```
 
+## Output
+```
+num:  1994
+value:  1000  num:  1994  index:  0  symbols[index]:  M
+M
+994
+value:  900  num:  994  index:  1  symbols[index]:  CM
+MCM
+94
+value:  90  num:  94  index:  5  symbols[index]:  XC
+MCMXC
+4
+value:  4  num:  4  index:  11  symbols[index]:  IV
+MCMXCIV
+0
+MCMXCIV
+```
+
 ## Complexity Analysis
 - **Time Complexity:** The time complexity of the solution is `O(n)`, where n is the number of digits in the input number. This is because we iterate through each value in the values array, and for each value, we might append the corresponding symbol multiple times until the remaining number is less than the current value.
 - **Space Complexity:** The space complexity is `O(1)` because we are using a constant amount of extra space to store the mappings and the resultant Roman numeral string. The space used by the output string is not considered extra space.
