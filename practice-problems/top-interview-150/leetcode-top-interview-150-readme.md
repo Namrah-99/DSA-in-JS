@@ -4,5 +4,6 @@
 - Two pointer Approach
 - Greedy Approach
 - Dynamic Programming Approach
+- Sliding Window
 
 For More Details: https://github.com/Namrah-99/DSA-in-JS/tree/main/approaches-and-algorithms
