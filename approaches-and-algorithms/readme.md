@@ -4,7 +4,7 @@
 - Dynamic Programming (DP)
 - Greedy Approach
 - Two Pointer Approach
-
+- Sliding Window
 
 ## Techniques 
 All techniques used in `algorithm design` to solve specific types of problems efficiently
@@ -47,6 +47,24 @@ All techniques used in `algorithm design` to solve specific types of problems ef
 - When you need to reduce the time complexity compared to naive methods (like O(n^2) solutions).
 - **Examples:** Finding pairs in a sorted array that sum to a target (two sum problem), finding triplets in a sorted array that sum to a target (three sum problem).
 
+## Sliding Window Approach
+**Definition:** The sliding window technique is used to solve problems involving arrays or lists by maintaining a window (subset of elements) that slides over the data structure to analyze or process a subset of elements efficiently.
+
+##### Characteristics:
+- **Fixed or Variable Window Size:** The window can be of a fixed size or variable size, adjusting dynamically based on conditions.
+- **Efficient Traversal:** Instead of recalculating values for each new subset, it updates the result by adding the new element and removing the old one that is out of the window.
+- **Two Pointers:** Typically involves two pointers (or indices) representing the start and end of the window.
+
+##### When to Use Sliding Window Approach:
+- When dealing with problems that require analyzing or processing a contiguous subset of elements.
+- When you need to optimize the time complexity from O(n^2) to O(n) by avoiding redundant calculations.
+- **Examples:** Maximum sum subarray of size k, longest substring without repeating characters, minimum size subarray sum.
+
+##### Example Problems:
+- Maximum Sum Subarray of Size K: Find the maximum sum of any contiguous subarray of size K.
+- Longest Substring Without Repeating Characters: Find the length of the longest substring without repeating characters.
+- Minimum Size Subarray Sum: Find the minimal length of a contiguous subarray with a sum at least S.
+
 ## Problems solved by the Above mentioned techniques 
 
 ### Dynamic Programming (DP)
@@ -72,6 +90,13 @@ All techniques used in `algorithm design` to solve specific types of problems ef
 - Merge Two Sorted Arrays: Merge two sorted arrays into a single sorted array.
 - Trapping Rain Water: Calculate how much water can be trapped after raining between bars in an elevation map.
 
+### Sliding Window Approach
+- Maximum Sum Subarray of Size K: Find the maximum sum of any contiguous subarray of size K.
+- Longest Substring Without Repeating Characters: Find the length of the longest substring without repeating characters.
+- Minimum Size Subarray Sum: Find the minimal length of a contiguous subarray with a sum at least S.
+- Permutation in String: Check if one string is a permutation of another string within a sliding window.
+- Longest Substring with At Most K Distinct Characters: Find the length of the longest substring with at most K distinct characters.
+
 ## Additional Problems
 There are also problems that can be solved using combinations of these techniques or by adapting them creatively:
 
@@ -86,5 +111,7 @@ These techniques are powerful tools in the algorithm designer's toolbox, each su
 - **Greedy Approach:** Use when the problem satisfies the greedy-choice property and optimal substructure can be proven by making locally optimal choices. It’s often used for optimization problems where a locally optimal choice leads to a globally optimal solution.
 
 - **Two Pointer Approach:** Use when dealing with sorted arrays or intervals where you need to find pairs, triplets, or subarrays that satisfy specific conditions efficiently. It’s suitable for problems where you can use two pointers (or indices) to navigate through the array.
+
+- **Sliding Window Approach:** Use when you need to analyze or process a subset of elements in a contiguous block. It’s suitable for problems involving subarrays or substrings where the window size can be fixed or variable.
 
 In practice, the choice often depends on the specific problem constraints, input size, and the properties of the problem itself (like whether it exhibits overlapping subproblems, optimal substructure, or requires searching through sorted data).
