@@ -1,3 +1,83 @@
+# 36. Valid Sudoku
+
+## Leetcode Problem
+https://leetcode.com/problems/valid-sudoku/description/?envType=study-plan-v2&envId=top-interview-150
+
+## Problem Explanation
+To determine if a given 9x9 Sudoku board is valid, we need to ensure that all the filled cells (i.e., cells containing digits 1-9) adhere to the following rules:
+- Each row must contain the digits 1-9 without repetition.
+- Each column must contain the digits 1-9 without repetition.
+- Each of the nine 3x3 sub-boxes must contain the digits 1-9 without repetition.
+We can implement this validation using a straightforward approach by utilizing sets to keep track of seen digits in each row, column, and 3x3 sub-box. Here’s how we can do it:
+
+## Steps:
+- Create three sets for each row, each column, and each 3x3 sub-box to store the seen digits.
+- Traverse each cell in the board:
+  
+     - For each digit, check if it already exists in the corresponding row, column, or sub-box set.
+     - If it does, the board is invalid.
+     - If it doesn’t, add the digit to the respective sets.
+
+- If no duplicates are found in any row, column, or sub-box, the board is valid.
+
+
+## Solution Code
+```javascript
+var isValidSudoku = function(board) {
+    const rows = Array.from({length:9},()=>new Set())
+    const cols = Array.from({length:9},()=>new Set())
+    const boxes = Array.from({length:9},()=>new Set())
+
+    for(let r=0; r<9; r++){
+        for(let c=0; c<9; c++){
+            let char = board[r][c];
+            
+            if(char==='.') continue;
+            
+            let boxesIndex = Math.floor(r/3) * 3 + Math.floor(c/3);
+            
+            if(rows[r].has(char) || cols[c].has(char) || boxes[boxesIndex].has(char)){
+                console.log('Duplicate Found (Invalid Sudoku)')
+                return false
+            }
+            
+            rows[r].add(char);
+            cols[c].add(char);
+            boxes[boxesIndex].add(char);
+        }
+    }
+    
+    return true
+};
+
+// Example usage
+const board1 = [
+    ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+    ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+    [".", "9", "8", ".", ".", ".", ".", "6", "."],
+    ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+    ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+    ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+    [".", "6", ".", ".", ".", ".", "2", "8", "."],
+    [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+    [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+];
+
+const board2 = [
+    ["8", "3", ".", ".", "7", ".", ".", ".", "."],
+    ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+    [".", "9", "8", ".", ".", ".", ".", "6", "."],
+    ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+    ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+    ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+    [".", "6", ".", ".", ".", ".", "2", "8", "."],
+    [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+    [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+];
+
+console.log('Output: ',isValidSudoku(board1)); // Output: true
+console.log('Output: ',isValidSudoku(board2)); // Output: false
+```
 
 ## Visual representation of the board with sub-box indices:
 In a 9x9 Sudoku board, there are 9 sub-boxes of size 3x3. These sub-boxes can be indexed from 0 to 8 as follows:
@@ -247,3 +327,18 @@ Duplicate Found (Invalid Sudoku)
 ______________________________________________________________________________________________________________________
 Output:  false
 ```
+
+## Explanation:
+- We create three arrays of sets: `rows`, `cols`, and `boxes` to store the digits we have encountered for each row, column, and 3x3 sub-box respectively.
+- We iterate over each cell in the board:
+        - If the cell is not empty (`.`), we compute the index for the corresponding 3x3 sub-box.
+        - We check if the digit already exists in the corresponding row, column, or sub-box set.
+        - If it does, the board is invalid.
+        - Otherwise, we add the digit to the respective sets.
+- If we complete the iteration without finding any duplicates, the board is valid and we return `true`.
+
+## Complexity Analysis
+### Time Complexity:
+The time complexity of this solution is `O(n)`, where `n` is the total number of cells in the board. Since the board is always 9x9, `n=81`.
+
+This solution effectively checks all the constraints for a valid Sudoku board with a time complexity of `O(n)` and space complexity of `O(1)`, considering the fixed size of the board (9x9).
