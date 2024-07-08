@@ -23,43 +23,51 @@ To solve the problem, the solution involves two main steps:
 
 ## Solution Code
 ```javascript
-var gameOfLife = function(board) {
+var gameOfLife = function (board) {
+    // console.log('Original Matrix : ', board)
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[0].length; j++) {
-            let cell = board[i][j];
-            let neighbors = getNeighbors(i, j, board);
-            if (cell == 0 && neighbors == 3) {
-                board[i][j] = 2; // Dead cell becomes live
+            let cell = board[i][j]
+            let neighbours = getNeighbors(i, j, board);
+            if (cell === 0 && neighbours === 3) {
+                board[i][j] = 2; // reAlive
             }
-            if (cell == 1 && (neighbors < 2 || neighbors > 3)) {
-                board[i][j] = -1; // Live cell becomes dead
+            if (cell === 1 && (neighbours < 2 || neighbours > 3)) {
+                board[i][j] = -1; // Died
             }
         }
     }
+
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[0].length; j++) {
-            if (board[i][j] == -1) board[i][j] = 0; // Finalize dead state
-            if (board[i][j] == 2) board[i][j] = 1; // Finalize live state
+            if (board[i][j] === 2) board[i][j] = 1;
+            if (board[i][j] === -1) board[i][j] = 0;
         }
     }
-    return board;
+
+    // return board
+
 };
 
-var getNeighbors = function(r, c, board) {
-    let radius = [-1, 0, +1], count = 0;
+var getNeighbors = function (r, c, board) {
+    // console.log('r: ', r, ' c: ', c)
+    let radius = [-1, 0, 1], count = 0;
     for (let i = 0; i < radius.length; i++) {
         for (let j = 0; j < radius.length; j++) {
-            if (!(radius[i] == 0 && radius[j] == 0) && board[r + radius[i]] != null) {
-                let neighbor = board[r + radius[i]][c + radius[j]];
-                if (Math.abs(neighbor) == 1) count += 1; 
+            // console.log('board[r + radius[i]]: ', board[r + radius[i]], ' r + radius[i] ', r + radius[i])
+            if (!(radius[i] === 0 && radius[j] === 0) && board[r + radius[i]] != null) {
+                let neighbour = board[r + radius[i]][c + radius[j]];
+                if (Math.abs(neighbour) === 1) count++;
             }
         }
+
     }
-    return count;
+    return count
 };
 
 // Example usage:
-console.log(gameOfLife([[0,1,0],[0,0,1],[1,1,1],[0,0,0]])); // Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+console.log('Output: ',gameOfLife([[0,1,0],[0,0,1],[1,1,1],[0,0,0]])); // Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+// console.log(gameOfLife([[1,1],[1,0]])); // Output: [[1,1],[1,1]]
 ```
 
 ## Output
