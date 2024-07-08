@@ -65,7 +65,9 @@ console.log(gameOfLife([[0,1,0],[0,0,1],[1,1,1],[0,0,0]])); // Output: [[0,0,0],
 ## Output
 ```css
 board:  0,1,0,0,0,1,1,1,1,0,0,0
+
 i:  0  j:  0  board:  0,1,0,0,0,1,1,1,1,0,0,0
+
 ------------- radius.length:  3
 r:  0  c:  0  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  
 r:  0  c:  0  i:  0  j:  1  radius[i]:  -1  radius[j]:  0 count:  0  board[r + radius[i]]:  
@@ -83,7 +85,9 @@ r:  0  c:  0  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  1  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  0
 -------------
 neighbors:  1
+
 _________
+
 i:  0  j:  1  board:  0,1,0,0,0,1,1,1,1,0,0,0
 ------------- radius.length:  3
 r:  0  c:  1  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  
@@ -102,7 +106,9 @@ r:  0  c:  1  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  0  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  1
 -------------
 neighbors:  1
+
 _________
+
 i:  0  j:  2  board:  0,-1,0,0,0,1,1,1,1,0,0,0
 ------------- radius.length:  3
 r:  0  c:  2  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  
@@ -121,7 +127,9 @@ r:  0  c:  2  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  2  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  
 -------------
 neighbors:  2
+
 _________
+
 i:  1  j:  0  board:  0,-1,0,0,0,1,1,1,1,0,0,0
 ------------- radius.length:  3
 r:  1  c:  0  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  0,-1,0
@@ -143,7 +151,9 @@ r:  1  c:  0  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  2  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  1
 -------------
 neighbors:  3
+
 _________
+
 i:  1  j:  1  board:  0,-1,0,2,0,1,1,1,1,0,0,0
 ------------- radius.length:  3
 r:  1  c:  1  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  0,-1,0
@@ -165,7 +175,9 @@ r:  1  c:  1  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  4  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  1
 -------------
 neighbors:  5
+
 _________
+
 i:  1  j:  2  board:  0,-1,0,2,0,1,1,1,1,0,0,0
 ------------- radius.length:  3
 r:  1  c:  2  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  0,-1,0
@@ -187,7 +199,9 @@ r:  1  c:  2  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  3  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  
 -------------
 neighbors:  3
+
 _________
+
 i:  2  j:  0  board:  0,-1,0,2,0,1,1,1,1,0,0,0
 ------------- radius.length:  3
 r:  2  c:  0  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  2,0,1
@@ -209,7 +223,9 @@ r:  2  c:  0  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  1  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  0
 -------------
 neighbors:  1
+
 _________
+
 i:  2  j:  1  board:  0,-1,0,2,0,1,-1,1,1,0,0,0
 ------------- radius.length:  3
 r:  2  c:  1  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  2,0,1
@@ -231,7 +247,9 @@ r:  2  c:  1  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  3  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  0
 -------------
 neighbors:  3
+
 _________
+
 i:  2  j:  2  board:  0,-1,0,2,0,1,-1,1,1,0,0,0
 ------------- radius.length:  3
 r:  2  c:  2  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  2,0,1
@@ -253,7 +271,9 @@ r:  2  c:  2  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  2  board[r + ra
 ^^^^^^^^^^^^^^^  neighbor:  
 -------------
 neighbors:  2
+
 _________
+
 i:  3  j:  0  board:  0,-1,0,2,0,1,-1,1,1,0,0,0
 ------------- radius.length:  3
 r:  3  c:  0  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  -1,1,1
@@ -272,7 +292,9 @@ r:  3  c:  0  i:  2  j:  1  radius[i]:  1  radius[j]:  0 count:  2  board[r + ra
 r:  3  c:  0  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  2  board[r + radius[i]]:  
 -------------
 neighbors:  2
+
 _________
+
 i:  3  j:  1  board:  0,-1,0,2,0,1,-1,1,1,0,0,0
 ------------- radius.length:  3
 r:  3  c:  1  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  -1,1,1
@@ -291,7 +313,9 @@ r:  3  c:  1  i:  2  j:  1  radius[i]:  1  radius[j]:  0 count:  3  board[r + ra
 r:  3  c:  1  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  3  board[r + radius[i]]:  
 -------------
 neighbors:  3
+
 _________
+
 i:  3  j:  2  board:  0,-1,0,2,0,1,-1,1,1,0,2,0
 ------------- radius.length:  3
 r:  3  c:  2  i:  0  j:  0  radius[i]:  -1  radius[j]:  -1 count:  0  board[r + radius[i]]:  -1,1,1
@@ -310,7 +334,9 @@ r:  3  c:  2  i:  2  j:  1  radius[i]:  1  radius[j]:  0 count:  2  board[r + ra
 r:  3  c:  2  i:  2  j:  2  radius[i]:  1  radius[j]:  1 count:  2  board[r + radius[i]]:  
 -------------
 neighbors:  2
+
 _________
+
 Output:  0,0,0,1,0,1,0,1,1,0,1,0
 ```
 
@@ -548,6 +574,23 @@ Surrounding cells:
 | f | g | h |
 +---+---+---+
 ```
+
+```css
+    j        0       1      2
+i
+         +-------+------+------+
+0        | -1,-1 | -1,0 | -1,1 |
+         +-------+------+------+
+1        |  0,-1 | 0,0  |  0,1 |
+         +-------+------+------+
+2        |  1,-1 | 1,0  |  1,1 |
+         +-------+------+------+
+
+radius = [ -1 , 0 , 1 ]
+radius[i] = radius[0] = -1
+radius[j] = radius[2] =  1
+```
+
 - radius array [-1, 0, +1] corresponds to the relative positions of the neighbors.
 - The nested loop checks all these positions around (r, c).
 ### Step-by-Step Neighbor Checking
