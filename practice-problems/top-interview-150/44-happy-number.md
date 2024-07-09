@@ -57,3 +57,6 @@ console.log(isHappy(2)); // Output: false
 ### Space Complexity:
 - The space complexity is `O(n)` due to the hash set visited potentially storing all numbers up to `n` in the worst case.
 - Auxiliary space used by other variables (like `sum` and `digit`) is constant `O(1)` space.
+
+
+This algorithm efficiently determines whether a number `n` is a happy number using a hash table approach with `O(n)` time complexity. It ensures that the solution is optimal and performs well within the given constraints, handling large inputs effectively.
