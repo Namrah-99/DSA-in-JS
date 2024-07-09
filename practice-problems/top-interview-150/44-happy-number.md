@@ -59,4 +59,4 @@ console.log(isHappy(2)); // Output: false
 - Auxiliary space used by other variables (like `sum` and `digit`) is constant `O(1)` space.
 
 
-This algorithm efficiently determines whether a number `n` is a happy number using a hash table approach with `O(n)` time complexity. It ensures that the solution is optimal and performs well within the given constraints, handling large inputs effectively.
+This algorithm efficiently determines whether a number `n` is a happy number using a `hash table approach` with `O(n)` time complexity. It ensures that the solution is optimal and performs well within the given constraints, handling large inputs effectively.
