@@ -184,6 +184,7 @@ class LinkedList {
             let temp = this.head;
             this.head = this.head.next;
             temp = null;
+            this.size--;
             return this.head;
         }
     
@@ -206,6 +207,7 @@ class LinkedList {
     
         // Delete the node
         temp = null;
+        this.size--;
         return this.head;
     }
 }
