@@ -171,6 +171,43 @@ class LinkedList {
         }
         this.size--;
     }
+    
+    // Delete a node at a specific position
+    deleteAtPosition(position) {
+        // If the list is empty or the position is invalid
+        if (this.head === null || position < 1) {
+            return this.head;
+        }
+    
+        // If the head needs to be deleted
+        if (position === 1) {
+            let temp = this.head;
+            this.head = this.head.next;
+            temp = null;
+            return this.head;
+        }
+    
+        // Traverse to the node before the position to be deleted
+        let current = this.head;
+        for (let i = 1; i < position - 1 && current !== null; i++) {
+            current = current.next;
+        }
+    
+        // If the position is out of range
+        if (current === null || current.next === null) {
+            return this.head;
+        }
+    
+        // Store the node to be deleted
+        let temp = current.next;
+    
+        // Update the links to bypass the node to be deleted
+        current.next = current.next.next;
+    
+        // Delete the node
+        temp = null;
+        return this.head;
+    }
 }
 
 // Example usage
@@ -187,6 +224,8 @@ list.deleteFromBeginning();
 list.deleteFromEnd();
 list.deleteNode(1.5);
 list.traverse(); // Output: 1, 2
+console.log('deleteAtPosition:', list.deleteAtPosition(2));
+list.traverse(); // Output: 1
 console.log('Length:', list.getLength()); // Output: Length: 2
 ```
 
