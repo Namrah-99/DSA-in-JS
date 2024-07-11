@@ -288,3 +288,5 @@ console.log('Length:', list.getLength()); // Output: Length: 2
 - Searching: `O(n)`
 - Finding Length: `O(1)`
 - Traversal (Forward/Backward): `O(n)`
+
+- https://www.geeksforgeeks.org/doubly-linked-list-tutorial-2/?ref=lbp
