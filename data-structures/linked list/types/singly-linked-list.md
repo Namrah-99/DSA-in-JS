@@ -241,4 +241,5 @@ console.log('Length:', list.getLength()); // Output: Length: 2
   - deleteFromBeginning removes the node at the start of the linked list.
   - deleteFromEnd removes the node at the end of the linked list.
   - deleteNode removes a node with a specific value from the linked list.
+  - deleteAtPosition removes a node at a specific position in linked list.
 
