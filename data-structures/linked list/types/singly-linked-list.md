@@ -243,3 +243,42 @@ console.log('Length:', list.getLength()); // Output: Length: 2
   - deleteNode removes a node with a specific value from the linked list.
   - deleteAtPosition removes a node at a specific position in linked list.
 
+## Complexity Analysis
+### Time Complexity
+- Traversal (traverse)
+        - Time Complexity: `O(n)`
+        - Explanation: The method traverses all the nodes in the list, where n is the number of nodes.
+- Search (search)
+        - Time Complexity: `O(n)`
+        - Explanation: In the worst case, the method searches through all nodes until it finds the target node or reaches the end of the list.
+- Get Length (getLength)
+        - Time Complexity: `O(1)`
+        - Explanation: The length is stored in a variable and returned directly.
+
+- Insertion
+    - Insert at the Beginning (insertAtBeginning)
+        - Time Complexity: `O(1)`
+        - Explanation: The new node is inserted directly at the head of the list.
+    - Insert at the End (insertAtEnd)
+        - Time Complexity: `O(n)`
+        - Explanation: In the worst case, the method traverses the entire list to insert the node at the end.
+    - Insert at a Specific Position (insertAtPosition)
+        - Time Complexity: `O(n)`
+        - Explanation: In the worst case, the method traverses the list to the specified position.
+
+- Deletion
+    - Delete from the Beginning (deleteFromBeginning)
+        - Time Complexity: `O(1)`
+        - Explanation: The head node is removed directly.
+    - Delete from the End (deleteFromEnd)
+        - Time Complexity: `O(n)`
+        - Explanation: In the worst case, the method traverses the entire list to find and remove the last node.
+    - Delete a Specific Node (deleteNode)
+        - Time Complexity: `O(n)`
+        - Explanation: In the worst case, the method traverses the entire list to find the node with the specified value.
+    - Delete at a Specific Position (deleteAtPosition)
+        - Time Complexity: `O(n)`
+        - Explanation: In the worst case, the method traverses the entire list to reach the specified position.
+### Space Complexity
+- Overall Space Complexity: `O(n)`
+- Explanation: The space complexity is `O(n)` for storing n nodes in the list, where each node occupies constant space.
