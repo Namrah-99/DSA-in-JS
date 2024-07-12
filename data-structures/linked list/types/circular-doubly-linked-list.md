@@ -250,6 +250,223 @@ console.log("Search for 10:", circularDLL.search(10)); // Output: Search for 10:
 console.log("Search for 100:", circularDLL.search(100)); // Output: Search for 100: false
 ```
 
+## Edge Cases Handled:
+- Get Length
+    - The method is straightforward and doesn't have edge cases as it simply returns the length of the list.
+    ```javascript
+    getLength() {
+        return this.length;
+    }
+    ```
+- Insert at Beginning
+    - Inserting into an empty list.
+    - Inserting into a non-empty list.
+    ```javascript
+    insertAtBeginning(data) {
+        const newNode = new Node(data);
+        if (this.head === null) {
+            this.head = newNode;
+            this.tail = newNode;
+            newNode.next = newNode;
+            newNode.prev = newNode;
+        } else {
+            newNode.next = this.head;
+            newNode.prev = this.tail;
+            this.head.prev = newNode;
+            this.tail.next = newNode;
+            this.head = newNode;
+        }
+        this.length++;
+    }
+    ```
+- Insert at End
+    - Inserting into an empty list.
+    - Inserting into a non-empty list.
+    ```javascript
+    insertAtEnd(data) {
+        const newNode = new Node(data);
+        if (this.head === null) {
+            this.head = newNode;
+            this.tail = newNode;
+            newNode.next = newNode;
+            newNode.prev = newNode;
+        } else {
+            newNode.next = this.head;
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.head.prev = newNode;
+            this.tail = newNode;
+        }
+        this.length++;
+    }
+    ```
+- Insert at Position
+    - Inserting at an invalid position (negative or greater than the length).
+    - Inserting at the beginning.
+    - Inserting at the end.
+    - Inserting at a specific valid position.
+    ```javascript
+    insertAtPosition(data, position) {
+        if (position < 0 || position > this.length) {
+            console.log("Invalid position.");
+            return;
+        }
+    
+        if (position === 0) {
+            this.insertAtBeginning(data);
+            return;
+        }
+    
+        if (position === this.length) {
+            this.insertAtEnd(data);
+            return;
+        }
+    
+        const newNode = new Node(data);
+        let current = this.head;
+        let count = 0;
+    
+        while (count < position - 1) {
+            current = current.next;
+            count++;
+        }
+    
+        newNode.next = current.next;
+        newNode.prev = current;
+        current.next.prev = newNode;
+        current.next = newNode;
+    
+        this.length++;
+    }
+    ```
+- Delete at Beginning
+    - Deleting from an empty list.
+    - Deleting from a list with one node.
+    - Deleting from a list with multiple nodes.
+    ```javascript
+    deleteAtBeginning() {
+        if (this.head === null) {
+            console.log("List is empty.");
+            return;
+        }
+    
+        if (this.head === this.tail) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.head = this.head.next;
+            this.head.prev = this.tail;
+            this.tail.next = this.head;
+        }
+    
+        this.length--;
+    }
+    ```
+- Delete at End
+    - Deleting from an empty list.
+    - Deleting from a list with one node.
+    - Deleting from a list with multiple nodes.
+    ```javascript
+    deleteAtEnd() {
+        if (this.head === null) {
+            console.log("List is empty.");
+            return;
+        }
+    
+        if (this.head === this.tail) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.tail = this.tail.prev;
+            this.tail.next = this.head;
+            this.head.prev = this.tail;
+        }
+    
+        this.length--;
+    }
+    ```
+- Delete at Position
+    - Deleting from an invalid position (negative or greater than or equal to the length).
+    - Deleting from the beginning.
+    - Deleting from the end.
+    - Deleting from a specific valid position.
+    ```javascript
+    deleteAtPosition(position) {
+        if (position < 0 || position >= this.length) {
+            console.log("Invalid position.");
+            return;
+        }
+    
+        if (position === 0) {
+            this.deleteAtBeginning();
+            return;
+        }
+    
+        if (position === this.length - 1) {
+            this.deleteAtEnd();
+            return;
+        }
+    
+        let current = this.head;
+        let count = 0;
+    
+        while (count < position) {
+            current = current.next;
+            count++;
+        }
+    
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+    
+        this.length--;
+    }
+    ```
+- Search
+    - Searching in an empty list.
+    - Searching for a value that exists.
+    - Searching for a value that doesn't exist.
+    ```javascript
+    search(data) {
+        let current = this.head;
+        let found = false;
+    
+        if (!current) {
+            return found;
+        }
+    
+        do {
+            if (current.data === data) {
+                found = true;
+                break;
+            }
+            current = current.next;
+        } while (current !== this.head);
+    
+        return found;
+    }
+    ```
+- Traverse
+    - Traversing an empty list.
+    - Traversing a list with one or more nodes.
+    ```javascript
+    traverse() {
+        let current = this.head;
+        let result = [];
+        
+        if (!current) {
+            console.log("List is empty.");
+            return;
+        }
+    
+        do {
+            result.push(current.data);
+            current = current.next;
+        } while (current !== this.head);
+    
+        console.log(result.join(" -> "));
+    }
+    ```
+
 ## Complexity Analysis
 
 1. Insertion Operations
