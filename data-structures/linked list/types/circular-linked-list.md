@@ -195,6 +195,180 @@ list.traverse(); // Output: 1, 2
 console.log('Length:', list.getLength()); // Output: Length: 2
 ```
 
+## Edge Cases for Each Operation
+- `search(value)`
+  - List is empty: Immediately returns false since there are no nodes to search.
+  - Element not found: Traverses the entire list and returns false if the value is not found.
+  ```javascript
+    search(value) {
+        if (this.head === null) return false;
+        let current = this.head;
+        do {
+            if (current.value === value) {
+                return true;
+            }
+            current = current.next;
+        } while (current !== this.head);
+        return false;
+    }
+  ```
+- `getLength()`
+  - No specific edge cases; it simply returns the size of the list.
+  ```javascript
+    getLength() {
+        return this.size;
+    }
+  ```
+- `insertAtBeginning(value)`
+  - List is empty: Sets the new node's next to itself and assigns it as the head.
+  - List is not empty: Updates the head pointer and adjusts the last node's next pointer.
+  ```javascript
+    insertAtBeginning(value) {
+        const newNode = new Node(value);
+        if (this.head === null) {
+            newNode.next = newNode;
+            this.head = newNode;
+        } else {
+            let current = this.head;
+            while (current.next !== this.head) {
+                current = current.next;
+            }
+            newNode.next = this.head;
+            current.next = newNode;
+            this.head = newNode;
+        }
+        this.size++;
+    }
+  ```
+- `insertAtEnd(value)`
+  - List is empty: Sets the new node's next to itself and assigns it as the head.
+  - List is not empty: Traverses to the end and updates pointers to include the new node.
+  ```javascript
+    insertAtEnd(value) {
+        const newNode = new Node(value);
+        if (this.head === null) {
+            newNode.next = newNode;
+            this.head = newNode;
+        } else {
+            let current = this.head;
+            while (current.next !== this.head) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = this.head;
+        }
+        this.size++;
+    }
+  ```
+- `insertAtPosition(value, position)`
+  - Invalid position: Throws an error if the position is out of range.
+  - Insert at the beginning: Uses insertAtBeginning method.
+  - Insert at the end: Uses insertAtEnd method.
+  - Insert in the middle: Traverses to the specified position and updates pointers.
+  ```javascript
+    insertAtPosition(value, position) {
+        if (position < 0 || position > this.size) {
+            throw new Error("Invalid position");
+        }
+        if (position === 0) {
+            this.insertAtBeginning(value);
+        } else if (position === this.size) {
+            this.insertAtEnd(value);
+        } else {
+            const newNode = new Node(value);
+            let current = this.head;
+            let index = 0;
+            while (index < position - 1) {
+                current = current.next;
+                index++;
+            }
+            newNode.next = current.next;
+            current.next = newNode;
+            this.size++;
+        }
+    }
+  ```
+- `deleteFromBeginning()`
+  - List is empty: Simply returns as there are no nodes to delete.
+  - Only one node: Sets the head to null.
+  - Multiple nodes: Updates the head pointer and adjusts the last node's next pointer.
+  ```javascript
+    deleteFromBeginning() {
+        if (this.head === null) return;
+        if (this.head.next === this.head) {
+            this.head = null;
+        } else {
+            let current = this.head;
+            while (current.next !== this.head) {
+                current = current.next;
+            }
+            current.next = this.head.next;
+            this.head = this.head.next;
+        }
+        this.size--;
+    }
+  ```
+- `deleteFromEnd()`
+  - List is empty: Simply returns as there are no nodes to delete.
+  - Only one node: Sets the head to null.
+  - Multiple nodes: Traverses to the end and updates pointers to exclude the last node.
+  ```javascript
+    deleteFromEnd() {
+        if (this.head === null) return;
+        if (this.head.next === this.head) {
+            this.head = null;
+        } else {
+            let current = this.head;
+            let previous = null;
+            while (current.next !== this.head) {
+                previous = current;
+                current = current.next;
+            }
+            previous.next = this.head;
+        }
+        this.size--;
+    }
+  ```
+- `deleteAtPosition(position)`
+  - Invalid position: Throws an error if the position is out of range.
+  - Delete at the beginning: Uses deleteFromBeginning method.
+  - Delete at the end: Uses deleteFromEnd method.
+  - Delete in the middle: Traverses to the specified position and updates pointers.
+  ```javascript
+    deleteAtPosition(position) {
+        if (position < 0 || position >= this.size) {
+            throw new Error("Invalid position");
+        }
+        if (position === 0) {
+            this.deleteFromBeginning();
+        } else if (position === this.size - 1) {
+            this.deleteFromEnd();
+        } else {
+            let current = this.head;
+            let index = 0;
+            while (index < position - 1) {
+                current = current.next;
+                index++;
+            }
+            current.next = current.next.next;
+            this.size--;
+        }
+    }
+  ```
+- `traverse()`
+  - List is empty: Simply returns as there are no nodes to traverse.
+  - List is not empty: Traverses and prints all nodes' values.
+  ```javascript
+    traverse() {
+        if (this.head === null) return;
+        let current = this.head;
+        do {
+            console.log(current.value);
+            current = current.next;
+        } while (current !== this.head);
+    }
+  ```
+
 ## Complexity Analysis
 - Insertion at Beginning/End: `O(n)`
   - Because you need to find the last node to make the circular connection.
