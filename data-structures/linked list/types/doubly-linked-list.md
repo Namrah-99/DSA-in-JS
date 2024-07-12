@@ -223,6 +223,182 @@ console.log('Length:', list.getLength()); // Output: Length: 2
 - Traversal:
   - Forward Traversal: Traverses the list from head to tail.
   - Backward Traversal: Traverses the list from tail to head.
+ 
+
+## Edge Cases Handled
+- `search(value)`
+    - Empty list: The loop checks if the list is empty by starting with this.head and returns false if no nodes are found.
+    ```javascript
+    search(value) {
+        let current = this.head;
+        while (current !== null) {
+            if (current.value === value) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    ```
+- `getLength()`
+    - No special edge cases: This simply returns the size of the list which is maintained during insertion and deletion.
+    ```javascript
+    getLength() {
+        return this.size;
+    }
+    ```
+- `insertAtBeginning(value)`
+    - Empty list: If this.head is null, both this.head and this.tail are set to the new node.
+    - Non-empty list: Adjusts pointers of the new node and the current head.
+    ```javascript
+    insertAtBeginning(value) {
+        const newNode = new Node(value);
+        if (this.head === null) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            newNode.next = this.head;
+            this.head.prev = newNode;
+            this.head = newNode;
+        }
+        this.size++;
+    }
+    ```
+- `insertAtEnd(value)`
+    - Empty list: If this.tail is null, both this.head and this.tail are set to the new node.
+    - Non-empty list: Adjusts pointers of the new node and the current tail.
+    ```javascript
+    insertAtEnd(value) {
+        const newNode = new Node(value);
+        if (this.tail === null) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+        this.size++;
+    }
+    ```
+- `insertAtPosition(value, position)`
+    - Invalid position: Throws an error if position is less than 0 or greater than this.size.
+    - Insertion at the beginning: Calls insertAtBeginning if position is 0.
+    - Insertion at the end: Calls insertAtEnd if position equals this.size.
+    - Insertion in the middle: Adjusts pointers of the new node and the nodes at position - 1 and position.
+    ```javascript
+    insertAtPosition(value, position) {
+        if (position < 0 || position > this.size) {
+            throw new Error("Invalid position");
+        }
+        if (position === 0) {
+            this.insertAtBeginning(value);
+        } else if (position === this.size) {
+            this.insertAtEnd(value);
+        } else {
+            const newNode = new Node(value);
+            let current = this.head;
+            let index = 0;
+            while (index < position) {
+                current = current.next;
+                index++;
+            }
+            newNode.prev = current.prev;
+            newNode.next = current;
+            current.prev.next = newNode;
+            current.prev = newNode;
+            this.size++;
+        }
+    }
+    ```
+- `deleteFromBeginning()`
+    - Empty list: If this.head is null, simply returns.
+    - Single element list: If this.head.next is null, sets both this.head and this.tail to null.
+    - Multiple elements: Adjusts the head pointer to the next node and sets its prev to null.
+    ```javascript
+    deleteFromBeginning() {
+        if (this.head === null) {
+            return;
+        }
+        if (this.head.next === null) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.head = this.head.next;
+            this.head.prev = null;
+        }
+        this.size--;
+    }
+    ```
+- `deleteFromEnd()`
+    - Empty list: If this.tail is null, simply returns.
+    - Single element list: If this.tail.prev is null, sets both this.head and this.tail to null.
+    - Multiple elements: Adjusts the tail pointer to the previous node and sets its next to null.
+    ```javascript
+    deleteFromEnd() {
+        if (this.tail === null) {
+            return;
+        }
+        if (this.tail.prev === null) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.tail = this.tail.prev;
+            this.tail.next = null;
+        }
+        this.size--;
+    }
+    ```
+- `deleteAtPosition(position)`
+    - Invalid position: Throws an error if position is less than 0 or greater than or equal to this.size.
+    - Deletion at the beginning: Calls deleteFromBeginning if position is 0.
+    - Deletion at the end: Calls deleteFromEnd if position equals this.size - 1.
+    - Deletion in the middle: Adjusts pointers of the nodes at position - 1 and position + 1.
+    ```javascript
+    deleteAtPosition(position) {
+        if (position < 0 || position >= this.size) {
+            throw new Error("Invalid position");
+        }
+        if (position === 0) {
+            this.deleteFromBeginning();
+        } else if (position === this.size - 1) {
+            this.deleteFromEnd();
+        } else {
+            let current = this.head;
+            let index = 0;
+            while (index < position) {
+                current = current.next;
+                index++;
+            }
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            this.size--;
+        }
+    }
+    ```
+- `forwardTraversal()`
+    - Empty list: If the list is empty, the while loop condition current !== null prevents any action.
+    ```javascript
+    forwardTraversal() {
+        let current = this.head;
+        while (current !== null) {
+            console.log(current.value);
+            current = current.next;
+        }
+    }
+    ```
+- `backwardTraversal()`
+    - Empty list: If the list is empty, the while loop condition current !== null prevents any action.
+    ```javascript
+    backwardTraversal() {
+        let current = this.tail;
+        while (current !== null) {
+            console.log(current.value);
+            current = current.prev;
+        }
+    }
+    ```
+In summary, the code handles edge cases such as dealing with empty lists, single-element lists, and invalid positions during insertions and deletions. It ensures the integrity of the list is maintained by properly updating node pointers during each operation.
 
 ## Complexity Analysis
 
