@@ -27,3 +27,142 @@ Get all the details in depth related to stack from "https://www.geeksforgeeks.or
 - Backtracking
 - Undo/redo operations
 
+## Implementation of Stack Data Structure:
+The basic operations that can be performed on a stack include push, pop, and peek. There are two ways to implement a stack –
+
+### Using Array
+In an array-based implementation, the `push` operation is implemented by incrementing the index of the top element and storing the new element at that index. The `pop` operation is implemented by returning the value stored at the top index and then decrementing the index of the top element.
+
+```javascript
+let t = -1;
+let MAX = 1000;
+let arrStack = Array(MAX).fill(0);
+
+function isEmpty(){
+        if(t < 0){
+        console.log('Stack underflows');
+        return true
+    }else{
+        return false
+    }
+}
+
+function isFull(){
+    if(t >= MAX-1){
+        console.log('Stack overflows');
+        return true
+    }else{
+        return false
+    }
+}
+
+function push(data){
+    if(isFull()){
+        return false
+    }else{
+        t+=1; 
+        arrStack[t] = data;
+        console.log(data,'pushed')
+        return true;
+    }
+}
+
+function pop(){
+    if(isEmpty()){
+        return 0
+    }else{
+        let ele = arrStack[t];
+        t-=1;
+        return ele;
+    }
+}
+
+function peek(){
+    if(isEmpty()){
+        return 0
+    }else{
+        let ele = arrStack[t];
+        return ele
+    }
+}
+
+function print(){
+    console.log('_____________________')
+    for(let i = t; i > -1; i--){
+        console.log(arrStack[i])
+    }
+    console.log('_____________________')
+}
+
+push(2);
+push(4);
+push(1);
+print();
+pop();
+console.log('peek ele: ',peek());
+print();
+```
+
+### Using Linked List
+In a linked list-based implementation, the `push` operation is implemented by creating a new node with the new element and setting the next pointer of the current top node to the new node. The `pop` operation is implemented by setting the next pointer of the current top node to the next node and returning the value of the current top node.
+
+```javascript
+let root;
+
+class Node {
+    constructor(data){
+        this.data = data;
+        this.next = null;
+    }
+}
+
+function isEmpty(){
+    return root === null;
+}
+
+function push(data){
+    let newNode = new Node(data);
+    
+    if(isEmpty()){
+        root = newNode;
+    }else{
+        newNode.next = root;
+        root = newNode;
+    }
+}
+
+function pop(){
+    if(isEmpty()){
+        console.log('Stack is empty')
+    }else{
+        let poppedNode = root;
+        root = root.next;
+        return poppedNode.data;
+    }
+}
+
+function peek(){
+     if(isEmpty()){
+        console.log('Stack is empty')
+    }else{
+        return root.data;
+    }
+}
+
+function print(){
+    console.log('_________')
+    let current = root;
+    while(current){
+        console.log('data: ',current.data)
+        current = current.next;
+    }
+}
+
+push(2);
+push(4);
+push(3);
+print()
+console.log('popped ele: ',pop());
+print()
+console.log('peek ele: ',peek())
+```
