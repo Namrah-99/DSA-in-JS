@@ -1053,6 +1053,116 @@ Output
 Diameter of tree is : 4
 ```
 
+<details><summary><h2><b>Code with Console logs</b></h2></summary>
+<div>
+  
+  ```javascript
+// Javascript implementation to find
+// diameter of a tree using
+// DFS in ONE TRAVERSAL
+
+let maxN = 10005;
+
+// The array to store the
+// height of the nodes
+let height=new Array(maxN);
+
+// Adjacency List to store
+// the tree
+let tree=new Array(maxN);
+for(let i=0;i<maxN;i++)
+{
+    height[i]=0;
+    tree[i]=[];
+}
+
+// variable to store diameter
+// of the tree
+let diameter = 0;
+
+// Function to add edge between
+// node u to node v
+function addEdge(u,v)
+{
+    // add edge from u to v
+    tree[u].push(v);
+ 
+    // add edge from v to u
+    tree[v].push(u);
+}
+
+function dfs(cur,par)
+{
+    console.log('*******  DFS(cur,par) = DFS(',cur,',',par, ')  ', 'tree[cur].length: ',tree[cur].length, 'tree[cur]: ',tree[cur])
+    // Variables to store the height of children
+    // of cur node with maximum heights
+    let max1 = 0;
+    let max2 = 0;
+ 
+    // going in the adjacency list 
+    // of the current node
+    for (let u=0;u<tree[cur].length;u++) {
+        //  console.log('loop: u: ',u, ', tree[cur][u] : ',tree[cur][u])
+        // if that node equals parent discard it
+        if (tree[cur][u] == par)
+            continue;
+ 
+        // calling dfs for child node
+        dfs(tree[cur][u], cur);
+ 
+         console.log('DFS(',cur,',',par, ')  ,   tree[cur][u] = ', 'tree[',cur,'][',u,']',' = ',tree[cur][u],'   height[cur] = ',height[cur])
+        // calculating height of nodes
+        height[cur] = Math.max(height[cur], 
+        height[tree[cur][u]]);
+
+        // getting the height of children
+        // of cur node with maximum height
+        if (height[tree[cur][u]] >= max1) {
+            max2 = max1;
+            max1 = height[tree[cur][u]];
+            console.log('max1 = ',max1, '  , max2 = ',max2)
+        }
+        else if (height[tree[cur][u]] > max2) {
+            max2 = height[tree[cur][u]];
+            console.log('max2 = ',max2)
+        }
+        console.log('___________________________________________________________end loop iteration');
+    }
+    console.log('DFS(',cur,',',par, ')  ,   diameter = ',diameter,'   height[cur] = ',height[cur], '  max2 = ',max2, '  max1 = ',max1)
+    height[cur] += 1;
+ 
+    // Diameter of a tree can be calculated as
+    // diameter passing through the node
+    // diameter doesn't includes the cur node
+    diameter = Math.max(diameter, height[cur]);
+    diameter = Math.max(diameter, max1 + max2 + 1);
+    console.log('------------------------------------------------------------------------- DFS end');
+}
+
+// Driver Code
+
+// n is the number of nodes in tree
+let n = 7;
+
+// Adding edges to the tree
+addEdge(1, 2);
+addEdge(1, 3);
+addEdge(1, 4);
+addEdge(2, 5);
+addEdge(4, 6);
+addEdge(4, 7);
+
+// Calling the dfs function to
+// calculate the diameter of tree
+console.log('tree: ',tree)
+console.log('height: ',height)
+dfs(1, 0);
+console.log('height: ',height)
+document.write("Diameter of tree is : " +(diameter - 1))
+  ```
+</div>
+</details>
+
 - Time Complexity: `O(N)`, Where `N` is the number of nodes in given binary tree.
 - Auxiliary Space: `O(N)`
   
