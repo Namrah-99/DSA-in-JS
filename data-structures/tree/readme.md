@@ -476,8 +476,6 @@ Level of 5 is 2
 ### Alternative Approach 02: 
 The given problem can be solved with the help of `level order traversal` of given binary tree.
 ```javascript
-Javascript
-
 // JavaScript program to print level in which X is present in
 // binary tree
  
@@ -543,6 +541,7 @@ Output
 ## Search a Node in Tree
 Given a Binary tree and a node. The task is to search and check if the given node exists in the binary tree or not. If it exists, print YES otherwise print NO.
 
+### Approach:
 The idea is to use any of the tree traversals to traverse the tree and while traversing check if the current node matches with the given node. Print YES if any node matches with the given node and stop traversing further and if the tree is completely traversed and none of the node matches with the given node then print NO.
 
 ```javascript
@@ -610,8 +609,458 @@ YES
 
 ## Find the Parent of a Node
 
+Given a tree and a node, the task is to find the parent of the given node in the tree. Print -1 if the given node is the root node.
+### Examples
+```css 
+Input: Node = 3
+     1
+   /   \
+  2     3
+ / \
+4   5
+Output: 1
+
+Input: Node = 1
+     1
+   /   \
+  2     3
+ /       \
+4         5
+         /
+        6
+Output: -1
+```
+### Approach: 
+Write a recursive function that takes the current node and its parent as the arguments (root node is passed with -1 as its parent). If the current node is equal to the required node then print its parent and return else call the function recursively for its children and the current node as the parent.
+
+```javascript
+/* A binary tree node has data, pointer 
+to left child and a pointer 
+to right child */
+class Node 
+{
+    constructor(data)
+    {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+};
+ 
+// Recursive function to find the
+// parent of the given node
+function findParent(node, val, parent)
+{
+    if (node == null)
+        return;
+ 
+    // If current node is the required node
+    if (node.data == val) 
+    {
+ 
+        // Print its parent
+        document.write(parent);
+    }
+    else
+    {
+ 
+        // Recursive calls for the children
+        // of the current node
+        // Current node is now the new parent
+        findParent(node.left, val, node.data);
+        findParent(node.right, val, node.data);
+    }
+}
+ 
+// Driver code
+var root = new Node(1);
+root.left = new Node(2);
+root.right = new Node(3);
+root.left.left = new Node(4);
+root.left.right = new Node(5);
+var node = 3;
+ 
+findParent(root, node, -1);
+``` 
+```css
+Output: 
+1
+ ```
+- Time Complexity: `O(N)`
+- Auxiliary Space: `O(N)` 
 
 ## Diameter of a Tree
+
+The diameter of an N-ary tree is the longest path present between any two nodes of the tree. These two nodes must be two leaf nodes. The following examples have the longest path[diameter] shaded.
+
+```css
+           O
+        /  |  \
+      O    4    O
+    / | \      / \
+  4   5   O   O   6                Diameter = 8
+         / \   \
+        O   2   O
+       /
+      O   
+```
+
+```css
+           2
+        /     \
+      3         O
+    / |       / | \
+  4   5      O  3  O                Diameter = 10
+              \      \
+                O      O
+               / \      \
+              3   O      O
+                   \      \
+                    O      O
+                   /
+                  O
+
+```
+
+The path can either start from one of the nodes and go up to one of the LCAs (lowest common ancestors) of these nodes and again come down to the deepest node of some other subtree or can exist as a diameter of one of the child of the current node. 
+
+The solution will exist in any one of these: 
+
+- Diameter of one of the children of the current node 
+- Sum of Height of the highest two subtree + 1 
+
+<details><summary><h2><b>Approach 01</b></h2></summary>
+<div>
+
+```javascript
+// Javascript program to find the
+// height of an N-ary tree
+    
+    // Structure of a node of an n-ary tree
+    class Node{
+        
+        // Utility function to create a new tree node
+        constructor(key)
+        {
+            this.key=key;
+            this.child=[];
+        }
+    }
+    
+    // Utility function that will
+    // return the depth
+    // of the tree
+    function depthOfTree(ptr)
+    {
+        // Base case
+    if (ptr == null)
+        return 0;
+ 
+    let maxdepth = 0;
+ 
+    // Check for all children and find
+    // the maximum depth
+    for (let it=0;it< ptr.child.length;it++)
+ 
+        maxdepth = Math.max(maxdepth,
+                     depthOfTree(ptr.child[it]));
+ 
+    return maxdepth + 1;
+    }
+     
+    // Function to calculate the diameter
+// of the tree
+    function diameter(ptr)
+    {
+        // Base case
+    if (ptr == null)
+        return 0;
+ 
+    // Find top two highest children
+    let max1 = 0, max2 = 0;
+    for (let it=0;it< ptr.child.length;it++)
+    {
+        let h = depthOfTree(ptr.child[it]);
+        if (h > max1)
+        {
+            max2 = max1;
+            max1 = h;
+        }
+        else if (h > max2)
+        max2 = h;
+    }
+ 
+    // Iterate over each child for diameter
+    let maxChildDia = 0;
+    for (let it=0;it< ptr.child.length;it++)
+        maxChildDia = Math.max(maxChildDia,
+                          diameter(ptr.child[it]));
+ 
+    return Math.max(maxChildDia, max1 + max2 + 1);
+    }
+    
+    // Driver Code
+    
+    /* Let us create below tree
+    *         A
+    *         / / \ \
+    *     B F D E
+    *     / \     | /|\
+    *     K J G C H I
+    *     /\         \
+    * N M         L
+    */
+    let root = new Node('A');
+    (root.child).push(new Node('B'));
+    (root.child).push(new Node('F'));
+    (root.child).push(new Node('D'));
+    (root.child).push(new Node('E'));
+    (root.child[0].child).push(new Node('K'));
+    (root.child[0].child).push(new Node('J'));
+    (root.child[2].child).push(new Node('G'));
+    (root.child[3].child).push(new Node('C'));
+    (root.child[3].child).push(new Node('H'));
+    (root.child[3].child).push(new Node('I'));
+    (root.child[0].child[0].child).push(new Node('N'));
+    (root.child[0].child[0].child).push(new Node('M'));
+    (root.child[3].child[2].child).push(new Node('L'));
+ 
+    document.write(diameter(root) + "\n");
+```
+```css
+Output
+7
+```
+
+### Complexity Analysis
+- The time complexity of the `diameter(ptr)` function in an N-ary tree is `O(n^2)`, where `n` is the number of nodes in the tree. This is because for each node, we potentially traverse all its children to calculate their depths, and then for each child, we calculate the diameter recursively, leading to a quadratic time complexity.
+
+- The space complexity is `O(h)`, where `h` is the height of the tree. This is due to the recursive calls in the `depthOfTree(ptr)` function and the depth of the function call stack during the execution of `diameter(ptr)`.
+
+### Overall:
+- Time complexity: `O(n^2)`
+- Space complexity: `O(h)`
+
+</div>
+</details>
+
+Optimizations to above solution:  We can find diameter without calculating depth of the tree making small changes in the above solution, similar to finding diameter of binary tree.
+
+<details><summary><h2><b>Approach 02</b></h2></summary>
+<div>
+
+```javascript
+// Javascript program to find the height of an N-ary
+// tree
+
+// Structure of a node of an n-ary tree
+// Structure of a node of an n-ary tree
+    class Node{
+        
+        // Utility function to create a new tree node
+        constructor(key)
+        {
+            this.key=key;
+            this.child=[];
+        }
+    }
+    let diameter_of_tree = 0;
+
+function diameter(ptr)
+{
+    // Base case
+    // Base case
+    if (ptr == null)
+        return 0;
+
+    // Find top two highest children
+    let max1 = 0, max2 = 0;
+    for (let it=0;it< ptr.child.length;it++)
+    {
+        let h = diameter(ptr.child[it]);
+        if (h > max1)
+        max2 = max1, max1 = h;
+        else if (h > max2)
+        max2 = h;
+    }
+
+    // Find whether our node can be part of diameter
+    diameter_of_tree = Math.max(max1 + max2 + 1,diameter_of_tree);
+
+    return Math.max(max1,max2) + 1;
+}
+
+
+          /* Let us create below tree
+         *            A
+         *         / / \ \
+         *        B F   D E
+         *       / \   / /|\
+         *      K   J G C H I
+         *     /\         |
+         *    N  M        L
+         */
+    let root = new Node('A');
+    (root.child).push(new Node('B'));
+    (root.child).push(new Node('F'));
+    (root.child).push(new Node('D'));
+    (root.child).push(new Node('E'));
+    (root.child[0].child).push(new Node('K'));
+    (root.child[0].child).push(new Node('J'));
+    (root.child[2].child).push(new Node('G'));
+    (root.child[3].child).push(new Node('C'));
+    (root.child[3].child).push(new Node('H'));
+    (root.child[3].child).push(new Node('I'));
+    (root.child[0].child[0].child).push(new Node('N'));
+    (root.child[0].child[0].child).push(new Node('M'));
+    (root.child[3].child[2].child).push(new Node('L'));
+    
+    diameter(root,diameter_of_tree);
+    
+    console.log(diameter_of_tree);
+```
+```css
+Output
+7
+```
+### Complexity Analysis:
+- **Time Complexity:** The time complexity of the diameter function is `O(n)`, where `n` is the number of nodes in the tree.
+
+**Reasoning:** The function diameter traverses each node and its children exactly once. Within each call, it performs a loop to compute heights, which is linear with respect to the number of children (constant for each node in average case). Therefore, the overall time complexity is `O(n)`.
+- **Space Complexity:** The space complexity is also `O(n)`.
+
+**Reasoning:** This is due to the recursive nature of the diameter function, which utilizes the call stack. In the worst case, the call stack depth can be equal to the height of the tree, which is `O(n)` in the case of a skewed tree. Additionally, the space used for storing nodes and their children also contributes to the space complexity.
+</div>
+</details>
+
+<details><summary><h2><b>Approach 03</b></h2></summary>
+<div>
+  
+## Another Approach to get diameter using DFS in one traversal:
+
+The diameter of a tree can be calculated as for every node
+
+- The current node isn’t part of diameter (i.e Diameter lies on one of the children of the current node).
+- The current node is part of diameter (i.e Diameter passes through the current node).
+
+  **Note**: Adjacency List has been used to store the Tree.
+
+<details><summary><h2><b>Explanation</b></h2></summary>
+<div>
+  
+### Initialization:
+  
+- The code initializes two arrays: `height` to store the height of nodes and `tree` as an adjacency list to represent the tree structure.
+- `diameter` is initialized to `0`, which will store the maximum diameter found during the traversal.
+
+```javascript
+let maxN = 10005;
+let height = new Array(maxN);
+let tree = new Array(maxN);
+
+// Initialize height and tree arrays
+for (let i = 0; i < maxN; i++) {
+    height[i] = 0;
+    tree[i] = [];
+}
+
+let diameter = 0;
+```
+
+### Adding Edges:
+- The `addEdge` function is used to add edges between nodes u and v in both directions since the tree is undirected.
+```javascript
+function addEdge(u, v) {
+    tree[u].push(v);
+    tree[v].push(u);
+}
+
+// Adding edges to the tree
+addEdge(1, 2);
+addEdge(1, 3);
+addEdge(1, 4);
+addEdge(2, 5);
+addEdge(4, 6);
+addEdge(4, 7);
+```
+- This creates the following tree structure:
+```markdown
+     1
+    /|\
+   2 3 4
+  /    /\
+ 5    6 7
+```
+
+### DFS Function:
+- The `dfs` function performs a Depth-First Search starting from node `cur` and ignoring its parent `par`.
+- It calculates heights of nodes and determines the diameter of the tree using the logic provided.
+```javascript
+function dfs(cur, par) {
+    let max1 = 0;
+    let max2 = 0;
+
+    // Traverse through each child of the current node `cur`
+    for (let u = 0; u < tree[cur].length; u++) {
+        if (tree[cur][u] === par) // If the child is the parent, skip it
+            continue;
+
+        // Recursively call DFS for the child node
+        dfs(tree[cur][u], cur);
+
+        // Update `height` of the current node `cur`
+        height[cur] = Math.max(height[cur], height[tree[cur][u]]);
+
+        // Update `max1` and `max2` based on heights of children
+        if (height[tree[cur][u]] >= max1) {
+            max2 = max1;
+            max1 = height[tree[cur][u]];
+        } else if (height[tree[cur][u]] > max2) {
+            max2 = height[tree[cur][u]];
+        }
+    }
+
+    // Increment the height of the current node
+    height[cur] += 1;
+
+    // Calculate the diameter passing through the current node `cur`
+    diameter = Math.max(diameter, height[cur]);
+    diameter = Math.max(diameter, max1 + max2 + 1);
+}
+```
+### Execution:
+- The DFS is called from the root node `1` with `par = 0` (no parent).
+- It recursively calculates heights and updates `max1`, `max2`, and `diameter` accordingly.
+
+### Output:
+- After the DFS completes, the variable `diameter` holds the calculated diameter of the tree.
+- The result is displayed by subtracting `1` from `diameter` (since the diameter calculated includes the nodes).
+
+### Dry Run Explanation:
+During the execution of DFS from node `1`:
+
+- DFS(1, 0):
+  - Iterates over children 2, 3, 4.
+  - Calculates heights and updates max1, max2.
+  - Computes the diameter based on the heights of nodes.
+- DFS(2, 1), DFS(3, 1), DFS(4, 1):
+  - Each explores their respective children, updating heights and calculating max1, max2, and the diameter.
+- Final Diameter Calculation:
+  - After completing DFS, diameter holds the maximum diameter found in the tree.
+
+```css
+Output
+Diameter of tree is : 4
+```
+
+- Time Complexity: `O(N)`, Where `N` is the number of nodes in given binary tree.
+- Auxiliary Space: `O(N)`
+  
+</div>
+</details>
+
+</div>
+</details>
 
 
 ## Find all Leaf nodes
