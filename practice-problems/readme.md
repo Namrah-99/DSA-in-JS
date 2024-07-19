@@ -87,5 +87,8 @@ General Helping Material
 - https://playcode.io/javascript
 - https://hackr.io/javascript/compiler
 
+
+Explain the following problem "" Solve it in a way that time complexity should be O(n) and space complexity should be O(1), tell about all edge cases handled and what optimal approach we used to solve this problem and tell about complexity analysis precisely , provide me an optimal solution 
+
 </div>
 </details>
