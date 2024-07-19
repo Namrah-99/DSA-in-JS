@@ -1174,13 +1174,353 @@ document.write("Diameter of tree is : " +(diameter - 1))
 
 
 ## Find all Leaf nodes
+Print all leaf nodes of the given binary tree from left to right. That is, the nodes should be printed in the order they appear from left to right in the given tree.
 
+The idea to do this is similar to `DFS algorithm`. Below is a step by step algorithm to do this: 
+
+- Check if the given node is null. If null, then return from the function.
+- Check if it is a leaf node. If the node is a leaf node, then print its data.
+- If in the above step, the node is not a leaf node then check if the left and right children of node exist. If yes then call the function for left and right child of the node recursively.
+### Recursive Method
+```javascript
+// Javascript program to print leaf nodes
+// from left to right 
+ 
+// A Binary Tree Node 
+class Node 
+{ 
+    constructor()
+    {
+        this.data = 0;
+        this.left = null;
+        this.right = null;
+    }
+}; 
+ 
+// Function to print leaf 
+// nodes from left to right 
+function printLeafNodes(root) 
+{ 
+     
+    // If node is null, return 
+    if (root == null) 
+        return; 
+     
+    // If node is leaf node, print its data     
+    if (root.left == null && 
+        root.right == null) 
+    { 
+        document.write(root.data + " ");
+        return; 
+    } 
+     
+    // If left child exists, check for leaf 
+    // recursively 
+    if (root.left != null) 
+        printLeafNodes(root.left); 
+         
+    // If right child exists, check for leaf 
+    // recursively 
+    if (root.right != null) 
+        printLeafNodes(root.right); 
+} 
+ 
+// Utility function to create a new tree node 
+function newNode(data) 
+{ 
+    var temp = new Node(); 
+    temp.data = data; 
+    temp.left = null;
+    temp.right = null; 
+    return temp; 
+} 
+ 
+// Driver code
+ 
+// Let us create binary tree shown in 
+// above diagram 
+var root = newNode(1); 
+root.left = newNode(2); 
+root.right = newNode(3); 
+root.left.left = newNode(4); 
+root.right.left = newNode(5); 
+root.right.right = newNode(8); 
+root.right.left.left = newNode(6); 
+root.right.left.right = newNode(7); 
+root.right.right.left = newNode(9); 
+root.right.right.right = newNode(10); 
+ 
+// Print leaf nodes of the given tree 
+printLeafNodes(root);
+```
+```css
+Output
+4 6 7 9 10 
+```
+- Time Complexity: `O(n)`, where `n` is the number of nodes in the binary tree. 
+- Auxiliary Space: `O(n)`
+
+### Stack-based iterative method
+
+- Create an empty stack ‘st’ and push the root node to stack.
+- Do the following while stack is not empty.
+  - Pop an item from the stack
+  - If the node is a leaf node then print it.
+  - Else:
+    - If the right node is not NULL
+      - push the right node into the stack
+    - If the left node is not NULL
+      - push the left node into the stack
+
+```javascript
+// Javascript program to print leaf nodes from left to right
+ 
+// A Binary Tree Node
+class Node {
+    constructor(data){
+        this.data=data;
+        this.left=null;
+        this.right=null;
+    }
+}
+ 
+// fun to print leaf nodes from left to right
+function printleafNodes(root)
+{
+    // base case
+    if (!root)
+        return;
+ 
+    // implement iterative preorder traversal and start
+    // storing leaf nodes.
+    let st=[];
+    st.push(root);
+ 
+    while (st.length>0) {
+        root = st[st.length-1];
+        st.pop();
+ 
+        // if node is leafnode, print its data
+        if (!root.left && !root.right)
+            document.write(root.data + " ");
+ 
+        if (root.right)
+            st.push(root.right);
+        if (root.left)
+            st.push(root.left);
+    }
+}
+ 
+// Driver program to test above functions
+// create a binary tree
+let root = new Node(1);
+root.left = new Node(2);
+root.right = new Node(3);
+root.left.left = new Node(4);
+root.right.left = new Node(5);
+root.right.right = new Node(8);
+root.right.left.left = new Node(6);
+root.right.left.right = new Node(7);
+root.right.right.left = new Node(9);
+root.right.right.right = new Node(10);
+ 
+// prints leaf nodes of the given tree
+printleafNodes(root);
+```
+```css
+Output
+4 6 7 9 10 
+```
+- Time Complexity: `O(n)`, where `n` is the number of nodes in the binary tree. 
+- Auxiliary Space: `O(n)`
 
 ## Find Siblings of a Node
+
+Print siblings of a given Node in N-ary Tree
+
+To improve the time complexity to `O(N)`, which is optimal for traversing and processing each node in an N-ary tree:
+
+- **Use Single Pass Traversal:** Instead of processing nodes multiple times, ensure each node and its children are processed only once.
+- **Avoid Nested Iterations:** Minimize or eliminate nested iterations where possible. For example, directly traverse through the tree with a single BFS or DFS pass, and use auxiliary data structures like arrays or queues to maintain necessary state and ensure nodes are processed efficiently.
+
+```javascript
+// Structure of a node of N-ary tree
+class Node {
+    constructor(key) {
+        this.child = [];
+        this.key = key;
+    }
+}
+
+// Function to find the siblings of the node value
+function findSiblings(root, value) {
+    if (!root) return;
+
+    let siblings = [];
+
+    // Helper function to perform BFS
+    function bfs(node) {
+        let queue = [node];
+        let found = false;
+
+        while (queue.length > 0 && !found) {
+            let current = queue.shift();
+
+            // Check if current node's children contain the target value
+            for (let child of current.child) {
+                if (child.key === value) {
+                    found = true;
+                } else {
+                    siblings.push(child.key);
+                }
+                queue.push(child);
+            }
+        }
+    }
+
+    // Perform BFS starting from the root
+    bfs(root);
+
+    // If siblings found, print them; otherwise, print "No siblings!!"
+    if (siblings.length > 0) {
+        console.log(`Siblings of ${value}: ${siblings.join(', ')}`);
+    } else {
+        console.log("No siblings!!");
+    }
+}
+
+// Constructing the tree
+function constructTree() {
+    let root = new Node(10);
+
+    root.child.push(new Node(20));
+    root.child.push(new Node(30));
+    root.child.push(new Node(40));
+
+    root.child[0].child.push(new Node(50));
+    root.child[0].child.push(new Node(60));
+
+    root.child[1].child.push(new Node(70));
+    root.child[1].child.push(new Node(80));
+
+    root.child[2].child.push(new Node(90));
+    root.child[2].child.push(new Node(100));
+    root.child[2].child.push(new Node(110));
+
+    return root;
+}
+
+// Driver code
+let root = constructTree();
+let X = 30;
+findSiblings(root, X); // Output: Siblings of 30: 20, 40
+
+// Example usage:
+// findSiblings(root, 80); // Output: Siblings of 80: 70
+```
+
+### Complexity Analysis
+- Time Complexity: `O(N)`, where `N` is the number of nodes in the tree. Each node and its children are processed exactly once using BFS, ensuring optimal traversal.
+- Space Complexity: `O(N)`, primarily due to the queue used for BFS and the siblings array to store sibling keys.
 
 
 ## Find Children of a Node
 
+### Approach
+- Initialize the number of children as 0.
+- For every node in the n-ary tree, check if its value is equal to x or not. If yes, then return the number of children.
+- If the value of x is not equal to the current node then, push all the children of current node in the queue.
+- Keep Repeating the above step until the queue becomes empty.
+
+```javascript
+// javascript program to find number
+// of children of given node
+ 
+// Represents a node of an n-ary tree
+class Node
+{
+    constructor(data)
+    {
+        this.key = data;
+        this.child = []
+    }
+};
+ 
+// Function to calculate number
+// of children of given node
+function numberOfChildren(root, x)
+{
+    // initialize the numChildren as 0
+    var numChildren = 0;
+ 
+    if (root == null)
+        return 0;
+ 
+    // Creating a queue and pushing the root
+    var q = [];
+    q.push(root);
+ 
+    while (q.length != 0)
+    {
+        var n = q.length;
+ 
+        // If this node has children
+        while (n > 0) 
+        {
+ 
+            // Dequeue an item from queue and
+            // check if it is equal to x
+            // If YES, then return number of children
+            var p = q[0];
+            q.shift();
+            if (p.key == x) 
+            {
+                numChildren = numChildren +
+                              p.child.length;
+                return numChildren;
+            }
+ 
+            // push all children of the dequeued item
+            for (var i = 0; i < p.child.length; i++)
+                q.push(p.child[i]);
+            n--;
+        }
+    }
+    return numChildren;
+}
+ 
+// Driver Code
+// Creating a generic tree
+var root = new Node(20);
+(root.child).push(new Node(2));
+(root.child).push(new Node(34));
+(root.child).push(new Node(50));
+(root.child).push(new Node(60));
+(root.child).push(new Node(70));
+(root.child[0].child).push(new Node(15));
+(root.child[0].child).push(new Node(20));
+(root.child[1].child).push(new Node(30));
+(root.child[2].child).push(new Node(40));
+(root.child[2].child).push(new Node(100));
+(root.child[2].child).push(new Node(20));
+(root.child[0].child[1].child).push(new Node(25));
+(root.child[0].child[1].child).push(new Node(50));
+ 
+// Node whose number of
+// children is to be calculated
+var x = 50;
+ 
+// Function calling
+document.write(numberOfChildren(root, x));
+```
+```css
+Output: 
+3
+```
+### Complexity Analysis:
+- Time Complexity : `O(N)`, where `N` is the number of nodes in tree. 
+- Auxiliary Space : `O(N)`, where `N` is the number of nodes in tree. 
 
 ## Tree Traversals (Inorder, Preorder and Postorder)
+
 
