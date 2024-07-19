@@ -394,9 +394,219 @@ Height : 1
 
 ## Level of a Given Node in Tree
 
+### Approach 01
+- The idea is to start from the root and level as 1. 
+- If the key matches with root’s data, return level. 
+- Else recursively call for left and right subtrees with level as level + 1. 
+
+```javascript
+    // Javascript program to Get Level of
+    // a node in a Binary Tree
+    /* A tree node structure */
+     
+    class Node
+    {
+        constructor(d) {
+              this.data = d;
+            this.left = null;
+            this.right = null;
+        }
+    }
+     
+    let root;
+  
+    /* Helper function for getLevel().
+       It returns level of
+       the data if data is present in tree,
+       otherwise returns
+       0.*/
+    function getLevelUtil(node, data, level)
+    {
+        if (node == null)
+            return 0;
+  
+        if (node.data == data)
+            return level;
+  
+        let downlevel
+            = getLevelUtil(node.left, data, level + 1);
+        if (downlevel != 0)
+            return downlevel;
+  
+        downlevel
+            = getLevelUtil(node.right, data, level + 1);
+        return downlevel;
+    }
+  
+    /* Returns level of given data value */
+    function getLevel(node, data)
+    {
+        return getLevelUtil(node, data, 1);
+    }
+     
+    /* Constructing tree given in the above figure */
+    root = new Node(3);
+    root.left = new Node(2);
+    root.right = new Node(5);
+    root.left.left = new Node(1);
+    root.left.right = new Node(4);
+    for (let x = 1; x <= 5; x++)
+    {
+      let level = getLevel(root, x);
+      if (level != 0)
+        document.write(
+          "Level of " + x + " is "
+          + getLevel(root, x) + "</br>");
+      else
+        document.write(
+          x + " is not present in tree");
+    }
+```
+```css
+Output
+Level of 1 is 3
+Level of 2 is 2
+Level of 3 is 1
+Level of 4 is 3
+Level of 5 is 2
+```
+- Time Complexity: `O(n)` where `n` is the number of nodes in the given Binary Tree.
+- Auxiliary Space: `O(n)`
+
+### Alternative Approach 02: 
+The given problem can be solved with the help of `level order traversal` of given binary tree.
+```javascript
+Javascript
+
+// JavaScript program to print level in which X is present in
+// binary tree
+ 
+class Node
+{
+    constructor(d) {
+        this.data = d;
+        this.left = null;
+        this.right = null;
+    }
+}
+ 
+let root;
+ 
+// Given a binary tree. Print its nodes in level order
+// using array for implementing queue.
+// Create a var represent current level of tree
+let currLevel = 1;
+ 
+function printLevelOrder(X){
+    // Create an empty queue for level order traversal
+    let queue = [root];
+    while(queue[0]){
+        let size = queue.length;
+        for(let i=0;i<size;i++){
+            let tempNode = queue.shift();
+            if(tempNode.data==X){
+                return currLevel;
+            }
+            /*Enqueue left child */
+            if(tempNode.left){
+                queue.push(tempNode.left);
+            }
+            /*Enqueue right child */
+            if(tempNode.right){
+                queue.push(tempNode.right);
+            }
+        }
+        currLevel+=1;
+    }
+    return root.data;
+}
+ 
+ 
+/* creating a binary tree and entering
+        the nodes */
+root = new Node(1);
+root.left = new Node(2);
+root.right = new Node(3);
+root.left.left = new Node(4);
+root.left.right = new Node(5);
+root.right.left = new Node(7);
+root.right.right = new Node(6);
+console.log(printLevelOrder(6));
+```
+```css
+Output
+3
+```
+- Time Complexity: `O(n)` where `n` is the number of nodes in the binary tree.
+- Auxiliary Space: `O(n)` where `n` is the number of nodes in the binary tree.
 
 ## Search a Node in Tree
+Given a Binary tree and a node. The task is to search and check if the given node exists in the binary tree or not. If it exists, print YES otherwise print NO.
 
+The idea is to use any of the tree traversals to traverse the tree and while traversing check if the current node matches with the given node. Print YES if any node matches with the given node and stop traversing further and if the tree is completely traversed and none of the node matches with the given node then print NO.
+
+```javascript
+// javascript program to check if a node exists 
+// in a binary tree     // Binary tree node
+     class Node {
+         
+         constructor(data) {
+            this.data = data;
+            this.left = this.right = null;
+        }
+    }
+ 
+    // Function to traverse the tree in preorder
+    // and check if the given node exists in it
+    function ifNodeExists(node , key) {
+        if (node == null)
+            return false;
+ 
+        if (node.data == key)
+            return true;
+ 
+        // then recur on left subtree /
+        var res1 = ifNodeExists(node.left, key);
+ 
+        // node found, no need to look further
+        if (res1)
+            return true;
+ 
+        // node is not found in left,
+        // so recur on right subtree /
+        var res2 = ifNodeExists(node.right, key);
+ 
+        return res2;
+    }
+ 
+    // Driver Code
+     
+var root = new Node(0);
+        root.left = new Node(1);
+        root.left.left = new Node(3);
+        root.left.left.left = new Node(7);
+        root.left.right = new Node(4);
+        root.left.right.left = new Node(8);
+        root.left.right.right = new Node(9);
+        root.right = new Node(2);
+        root.right.left = new Node(5);
+        root.right.right = new Node(6);
+ 
+        var key = 4;
+ 
+        if (ifNodeExists(root, key))
+            document.write("YES");
+        else
+            document.write("NO");
+
+``` 
+```css
+Output
+YES
+```
+### Complexity Analysis:
+- Time Complexity: `O(N)`, as we are using recursion to traverse `N` nodes of the tree.
+- Auxiliary Space: `O(N)`, we are not using any explicit extra space but as we are using recursion there will be extra space allocated for recursive stack.
 
 ## Find the Parent of a Node
 
