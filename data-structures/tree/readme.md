@@ -138,7 +138,259 @@ Output
 - Auxiliary Space: `O(n)`
 
 ## Height and Depth of Node
+### Examples:
+```css
+Input: K = 25, 
+          5
+      /      \
+   10       15
+  /   \      /   \
+20   25  30   35
+         \
+         45
+Output:
+Depth of node 25 = 2
+Height of node 25 = 1
+```
+Explanation:
+- The number of edges in the path from root node to the node 25 is 2. Therefore, depth of the node 25 is 2.
+- The number of edges in the longest path connecting the node 25 to any leaf node is 1. Therefore, height of the node 25 is 1.
+```css
+Input: K = 10, 
+          5
+      /      \
+   10       15
+  /   \      /   \
+20   25  30   35
+         \
+         45
+Output: 
+Depth of node 10 = 1
+Height of node 10 = 2
+```
+<details><summary><h2><b>Approach 01</b></h2></summary>
+<div>
 
+The problem can be solved based on the following observations:
+```css
+Depth of a node K (of a Binary Tree) = Number of edges in the path connecting the root to the node K = Number of ancestors of K (excluding K itself). 
+```
+### Steps: 
+- If the tree is empty, print -1.
+- Otherwise, perform the following steps:
+    - Initialize a variable, say dist as -1.
+    - Check if the node K is equal to the given node.
+    - Otherwise, check if it is present in either of the subtrees, by recursively checking for the left and right subtrees respectively.
+    - If found to be true, print the value of dist + 1.
+    - Otherwise, print dist.
+```css
+Height of a node K (of a Binary Tree) = Number of edges in the longest path connecting K to any leaf node. 
+```
+### Steps: 
+- If the tree is empty, print -1.
+- Otherwise, perform the following steps:
+    - Calculate the height of the left subtree recursively.
+    - Calculate the height of the right subtree recursively.
+    - Update height of the current node by adding 1 to the maximum of the two heights obtained in the previous step. Store the height in a variable, say ans.
+    - If the current node is equal to the given node K, print the value of ans as the required answer.
+
+### Implementation
+```javascript
+// JavaScript program for the above approach
+
+var height = -1;
+
+// Structure of a Binary Tree Node
+class Node 
+{
+    constructor()
+    {
+        this.data = 0;
+        this.left = null;
+        this.right = null;
+    }
+};
+
+// Utility function to create
+// a new Binary Tree Node
+function newNode(item)
+{
+    var temp = new Node();
+    temp.data = item;
+    temp.left = temp.right = null;
+    return temp;
+}
+
+// Function to find the depth of
+// a given node in a Binary Tree
+function findDepth(root, x)
+{
+    
+    // Base case
+    if (root == null)
+        return -1;
+
+    // Initialize distance as -1
+    var dist = -1;
+
+    // Check if x is current node=
+    if ((root.data == x)|| 
+    
+        // Otherwise, check if x is
+        // present in the left subtree
+        (dist = findDepth(root.left, x)) >= 0 || 
+        
+        // Otherwise, check if x is
+        // present in the right subtree
+        (dist = findDepth(root.right, x)) >= 0)
+
+        // Return depth of the node
+        return dist + 1;
+        
+    return dist;
+}
+
+// Helper function to find the height
+// of a given node in the binary tree
+function findHeightUtil(root, x)
+{
+    
+    // Base Case
+    if (root == null)
+    {
+        return -1;
+    }
+
+    // Store the maximum height of
+    // the left and right subtree
+    var leftHeight = findHeightUtil(root.left, x);
+
+    var rightHeight = findHeightUtil(root.right, x);
+
+    // Update height of the current node
+    var ans = Math.max(leftHeight, rightHeight) + 1;
+
+    // If current node is the required node
+    if (root.data == x)
+        height = ans;
+
+    return ans;
+}
+
+// Function to find the height of
+// a given node in a Binary Tree
+function findHeight(root, x)
+{
+    
+    // Stores height of the Tree
+    findHeightUtil(root, x);
+
+    // Return the height
+    return height;
+}
+
+// Driver Code
+// Binary Tree Formation
+var root = newNode(5);
+root.left = newNode(10);
+root.right = newNode(15);
+root.left.left = newNode(20);
+root.left.right = newNode(25);
+root.left.right.right = newNode(45);
+root.right.left = newNode(30);
+root.right.right = newNode(35);
+var k = 25;
+// Function call to find the
+// depth of a given node
+console.log("Depth: " + findDepth(root, k));
+// Function call to find the
+// height of a given node
+console.log("Height: " + findHeight(root, k));
+```
+```css
+Output
+Depth: 2
+Height: 1
+```
+- Time Complexity: `O(N)`
+- Auxiliary Space: `O(1)`
+</div>
+</details>
+<details><summary><h2><b>Approach 02</b></h2></summary>
+<div>
+
+## (Using Level Order Traversal): Simple and Easy to understand
+  
+#### Steps:
+1) Initialize height and depth variable with -1;
+2) Initialize a queue and a level variable with 0 and push the root in the queue.
+3) Perform level order traversal and if value of frontNode is equal to the target(K) node then value of depth will be equal to the level value and continue traversing.
+4) After completion we can calculate the value of height using height = level – depth – 1;
+5) Print the value of height and depth variable.
+
+```javascript
+class TreeNode {
+    constructor(value) {
+        this.data = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function findDepthAndHeight(root, k) {
+    if (root === null)
+        return;
+
+    let depth = -1;
+    let height = -1;
+
+    const queue = [];
+    queue.push(root);
+    let level = 0;
+
+    while (queue.length > 0) {
+        const n = queue.length;
+        for (let i = 0; i < n; i++) {
+            const frontNode = queue.shift();
+            if (frontNode.data === k)
+                depth = level;
+            if (frontNode.left !== null)
+                queue.push(frontNode.left);
+            if (frontNode.right !== null)
+                queue.push(frontNode.right);
+        }
+        level++;
+    }
+
+    height = level - depth - 1;
+    console.log("Depth: " + depth);
+    console.log("Height: " + height);
+}
+
+// Binary Tree Formation
+const root = new TreeNode(5);
+root.left = new TreeNode(10);
+root.right = new TreeNode(15);
+root.left.left = new TreeNode(20);
+root.left.right = new TreeNode(25);
+root.left.right.right = new TreeNode(45);
+root.right.left = new TreeNode(30);
+root.right.right = new TreeNode(35);
+
+const k = 25;
+
+findDepthAndHeight(root, k);
+```
+```css
+Output
+Depth : 2
+Height : 1
+```
+- Time Complexity: `O(N)`, where `N` is the number of nodes in a given binary tree.
+- Auxiliary Space: `O(N)` due to queue data structure.
+
+</div>
+</details>
 
 ## Level of a Given Node in Tree
 
