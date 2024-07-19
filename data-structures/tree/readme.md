@@ -1523,4 +1523,104 @@ Output:
 
 ## Tree Traversals (Inorder, Preorder and Postorder)
 
+Tree Traversal refers to the process of visiting or accessing each node of the tree exactly once in a certain order. Tree traversal algorithms help us to visit and process all the nodes of the tree. Since tree is not a linear data structure, there are multiple nodes which we can visit after visiting a certain node. There are multiple tree traversal techniques which decide the order in which the nodes of the tree are to be visited.
 
+A Tree Data Structure can be traversed in following ways:
+
+- Depth First Search or `DFS`
+  - Inorder Traversal
+  - Preorder Traversal
+  - Postorder Traversal
+- Level Order Traversal or Breadth First Search or `BFS`
+
+```markdown
+       1
+     /   \
+   2       3
+  / \     / \
+ 4   5   6   7
+
+InOrder Traversal          Left -> Root -> Right       4 , 2 , 5 , 1 , 6 , 3 , 7
+PreOrder Traversal         Root -> Left -> Right       1 , 2 , 4 , 5 , 3 , 6 , 7
+PostOrder Traversal        Left -> Right -> Root       4 , 5 , 2 , 6 , 7 , 3 , 1
+Level Order Traversal                                  1 , 2 , 3 , 4 , 5 , 6 , 7
+```
+
+InOrder Traversal
+```javascript
+// Given a binary tree, print its nodes in inorder
+function printInorder(node) {
+    if (node == null)
+        return;
+
+    // First recur on left child */
+    printInorder(node.left);
+
+    // Then print the data of node
+    console.log(node.key + " ");
+
+    // Now recur on right child
+    printInorder(node.right);
+}
+```
+PreOrder Traversal
+```javascript
+// Given a binary tree, print its nodes in preorder
+function printPreorder(node) {
+    if (node == null)
+        return;
+
+    // First print data of node
+    document.write(node.key + " ");
+
+    // Then recur on left subtree
+    printPreorder(node.left);
+
+    // Now recur on right subtree
+    printPreorder(node.right);
+}
+```
+PostOrder Traversal
+```javascript
+// Given a binary tree, print its nodes according 
+// to the "bottom-up" postorder traversal
+function printPostorder(node) {
+    if (node == null)
+        return;
+
+    // First recur on left subtree
+    printPostorder(node.left);
+
+    // Then recur on right subtree
+    printPostorder(node.right);
+
+    // Now deal with the node
+    console.log(node.key + " ");
+}
+```
+Level Order Traversal
+```javascript
+// Function to perform level order traversal of a binary tree
+function printLevelOrder(root) {
+    // Create a deque to store nodes for traversal
+    const queue = new Deque();
+    // Add the root node to the queue
+    queue.enqueue(root);
+    // Continue traversal until the queue is empty
+    while (!queue.isEmpty()) {
+        // Remove and get the first node from the queue
+        const tempNode = queue.dequeue();
+        // Print the data of the current node
+        console.log(tempNode.data + " ");
+
+        // Enqueue the left child if it exists
+        if (tempNode.left !== null) {
+            queue.enqueue(tempNode.left);
+        }
+        // Enqueue the right child if it exists
+        if (tempNode.right !== null) {
+            queue.enqueue(tempNode.right);
+        }
+    }
+}
+```
